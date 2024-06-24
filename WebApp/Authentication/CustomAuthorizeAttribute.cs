@@ -22,7 +22,7 @@ namespace ToolsApp.Authentication
             {
                 using (var _db = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
-                    var user_fun = _db.Users.FirstOrDefault(p => p.UserName == CurrentUser.UserName );
+                    var user_fun = _db.Users.FirstOrDefault(p => p.tenTaiKhoan == CurrentUser.tenTaiKhoan);
 
                     #region User Not Page
                     if (user_fun == null)
@@ -31,7 +31,7 @@ namespace ToolsApp.Authentication
                     }
                     #endregion
 
-                    var page = user_fun.User_Page.FirstOrDefault(p => p.Page.Controler + "/" + p.Page.Action == Function);
+                    var page = user_fun.UserAuthorizations.FirstOrDefault(p => p.Page.controllerName + "/" + p.Page.actionName == Function);
 
                     #region User Not Page
                     if (page == null)
