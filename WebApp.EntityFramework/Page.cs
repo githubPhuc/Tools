@@ -18,7 +18,6 @@ namespace ToolsApp.EntityFramework
         public Page()
         {
             this.Menus = new HashSet<Menu>();
-            this.Pages1 = new HashSet<Page>();
             this.UserAuthorizations = new HashSet<UserAuthorization>();
         }
     
@@ -35,13 +34,9 @@ namespace ToolsApp.EntityFramework
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
         public Nullable<bool> hieuLuc { get; set; }
-        public Nullable<int> parentId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Menu> Menus { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Page> Pages1 { get; set; }
-        public virtual Page Page1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAuthorization> UserAuthorizations { get; set; }
     }

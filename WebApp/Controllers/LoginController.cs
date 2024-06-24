@@ -113,7 +113,7 @@ namespace ToolsApp.Controllers
             {
                 FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
                          1,
-                         User.UserName,
+                         User.tenTaiKhoan,
                          DateTime.Now,
                          DateTime.Now.AddMinutes(-120),
                          false,

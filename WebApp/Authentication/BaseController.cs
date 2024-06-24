@@ -21,104 +21,108 @@ namespace ToolsApp.Authentication
             string httpMethod = context.HttpContext.Request.HttpMethod;
             string action = $"User accessed {httpMethod}/ {controllerName}/{actionName}";
             string ipAddress = context.HttpContext.Request.UserHostAddress;
-
-            using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
+            if(User!=null)
             {
-                var history = new LogHistory
+                using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
-                    idUser = User.UserId,
-                    moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu"),
-                    moTaChiTiet = action,
-                    ipUserHostAddress = ipAddress,
-                    ngayTao = DateTime.Now,
-                    nguoiTao = User.UserId,
-                    ngayCapNhat = DateTime.Now,
-                    nguoiCapNhat = User.UserId,
-                    ngayXoa = DateTime.Now,
-                    nguoiXoa = User.UserId,
-                    xacNhanXoa = false,
-                };
-                db_.LogHistorys.Add(history);
-                db_.SaveChanges();
-                if (controllerName != "Home")
-                {
-                    var page = db_.UserAuthorizations.Where(p => p.Page.controllerName == controllerName && p.idUser == User.UserId).FirstOrDefault();
-                    #region User Not Page
-                    if (page == null)
+                    var history = new LogHistory
                     {
-                        context.HttpContext.Response.Redirect("~/Home/PageNotFound");
-                        return;
-                    }
-                    else
+                        idUser = User.UserId,
+                        moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu"),
+                        moTaChiTiet = action,
+                        ipUserHostAddress = ipAddress,
+                        ngayTao = DateTime.Now,
+                        nguoiTao = User.UserId,
+                        ngayCapNhat = DateTime.Now,
+                        nguoiCapNhat = User.UserId,
+                        ngayXoa = DateTime.Now,
+                        nguoiXoa = User.UserId,
+                        xacNhanXoa = false,
+                    };
+                    db_.LogHistorys.Add(history);
+                    db_.SaveChanges();
+                    if (controllerName != "Home")
                     {
-                        switch (httpMethod)
+                        var page = db_.UserAuthorizations.Where(p => p.Page.controllerName == controllerName && p.idUser == User.UserId).FirstOrDefault();
+                        #region User Not Page
+                        if (page == null)
                         {
-                            case "GET":
-                                if (page.permissionGet == false)
-                                {
-                                    context.Result = new RedirectResult("~/Home/NotAuthentizace");
-                                    return;
-                                }
-                                break;
-                            case "POST":
-                                if (page.permissionPost == false)
-                                {
-                                    context.Result = new RedirectResult("/Home/NotAuthentizace");
-                                    return;
-                                }
-                                break;
-                            case "PUT":
-                                if (page.permissionPut == false)
-                                {
-                                    context.Result = new RedirectResult("~/Home/NotAuthentizace");
-                                    return;
-                                }
-                                break;
-                            case "DELETE":
-                                if (page.permissionDelete == false)
-                                {
-                                    context.Result = new RedirectResult("~/Home/NotAuthentizace");
-                                    return;
-                                }
-                                break;
-                            default:
-                                context.Result = new RedirectResult("~/Home/Index");
-                                return;
+                            context.HttpContext.Response.Redirect("~/Home/PageNotFound");
+                            return;
                         }
+                        else
+                        {
+                            switch (httpMethod)
+                            {
+                                case "GET":
+                                    if (page.permissionGet == false)
+                                    {
+                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                                        return;
+                                    }
+                                    break;
+                                case "POST":
+                                    if (page.permissionPost == false)
+                                    {
+                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                                        return;
+                                    }
+                                    break;
+                                case "PUT":
+                                    if (page.permissionPut == false)
+                                    {
+                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                                        return;
+                                    }
+                                    break;
+                                case "DELETE":
+                                    if (page.permissionDelete == false)
+                                    {
+                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                                        return;
+                                    }
+                                    break;
+                                default:
+                                    context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                                    return;
+                            }
 
+                        }
+                        #endregion
                     }
-                    #endregion
+
                 }
-
-            }
-
+            }    
             base.OnActionExecuting(context);
         }
         protected override void OnException(ExceptionContext filterContext)
         {
-            using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
+            if (User != null)
             {
-                var controllerName = filterContext.RouteData.Values["controller"].ToString();
-                var actionName = filterContext.RouteData.Values["action"].ToString();
-                string action = $" {controllerName}/{actionName}";
-                string ipAddress = filterContext.HttpContext.Request.UserHostAddress;
-                string httpMethod = filterContext.HttpContext.Request.HttpMethod;
-                var history = new LogHistory
+                using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
-                    idUser = User.UserId,
-                    moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu") + " gặp lỗi",
-                    moTaChiTiet = filterContext.Exception.Message,
-                    ipUserHostAddress = ipAddress,
-                    ngayTao = DateTime.Now,
-                    nguoiTao = User.UserId,
-                    ngayCapNhat = DateTime.Now,
-                    nguoiCapNhat = User.UserId,
-                    ngayXoa = DateTime.Now,
-                    nguoiXoa = User.UserId,
-                    xacNhanXoa = false,
-                };
-                db_.LogHistorys.Add(history);
-                db_.SaveChanges();
+                    var controllerName = filterContext.RouteData.Values["controller"].ToString();
+                    var actionName = filterContext.RouteData.Values["action"].ToString();
+                    string action = $" {controllerName}/{actionName}";
+                    string ipAddress = filterContext.HttpContext.Request.UserHostAddress;
+                    string httpMethod = filterContext.HttpContext.Request.HttpMethod;
+                    var history = new LogHistory
+                    {
+                        idUser = User.UserId,
+                        moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu") + " gặp lỗi",
+                        moTaChiTiet = filterContext.Exception.Message,
+                        ipUserHostAddress = ipAddress,
+                        ngayTao = DateTime.Now,
+                        nguoiTao = User.UserId,
+                        ngayCapNhat = DateTime.Now,
+                        nguoiCapNhat = User.UserId,
+                        ngayXoa = DateTime.Now,
+                        nguoiXoa = User.UserId,
+                        xacNhanXoa = false,
+                    };
+                    db_.LogHistorys.Add(history);
+                    db_.SaveChanges();
+                }
             }
         }
 

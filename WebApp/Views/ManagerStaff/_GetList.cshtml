@@ -15,7 +15,6 @@
             <th>Tên tài khoản</th>
             <th>Tên nhân viên</th>
             <th>Email</th>
-            <th>Loại tài khoản</th>
             <th>Số điện thoại</th>
             <th>Hồ sơ nhân viên</th>
         </tr>
@@ -33,11 +32,10 @@
                         <i class="fa-solid fa-key"></i> Mật khẩu
                     </a>
                 </td>
-                <td>@item.UserName</td>
-                <td>@item.HoNV @item.TenNV </td>
-                <td>@item.Email</td>
-                <td>@(item.AccoutType == "User"? "Nhân viên" : "Admin")</td>
-                <td>@item.SoDienThoai</td>
+                <td>@item.tenTaiKhoan</td>
+                <td>@item.hoVaTen </td>
+                <td>@item.email</td>
+                <td>@item.soDienThoai</td>
                 <td><button class="btn btn-primary" onclick=""><i class="fas fa-list"></i></button></td>
                
                

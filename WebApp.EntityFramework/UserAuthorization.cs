@@ -16,6 +16,7 @@ namespace ToolsApp.EntityFramework
     {
         public int Id { get; set; }
         public Nullable<int> idUser { get; set; }
+        public Nullable<int> idMenu { get; set; }
         public Nullable<bool> permissionGet { get; set; }
         public Nullable<bool> permissionPost { get; set; }
         public Nullable<bool> permissionPut { get; set; }
@@ -30,6 +31,7 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> hieuLuc { get; set; }
         public Nullable<int> idPage { get; set; }
     
+        public virtual Menu Menu { get; set; }
         public virtual Page Page { get; set; }
         public virtual User User { get; set; }
     }

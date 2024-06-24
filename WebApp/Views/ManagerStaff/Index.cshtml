@@ -260,13 +260,13 @@
 
         function Insert_Action() {
             var formData = {
-                fullName: $('#fullName').val().trim(),
-                username: $('#username').val().trim(),
-                email: $('#email').val().trim(),
-                phone: $('#username').val().trim(),
-                password: $('#password').val().trim(),
-                idDepartment: $('#idDepartment').val(),
-                accoutType: "User",
+                hoVaTen: $('#hoVaTen').val(),
+                tenTaiKhoan: $('#tenTaiKhoan').val().trim(),
+                matKhau: $('#matKhau').val().trim(),
+                email: $('#email').val().trim().trim(),
+                soDienThoai: $('#soDienThoai').val().trim(), 
+                dcThuongTru: $('#dcThuongTru').val(),
+                dcTamTru: $('#dcTamTru').val(),
             };
             console.log(formData.email)
             if (formData.fullName == '' || formData.username == '' || formData.password == '' || formData.email == '') {

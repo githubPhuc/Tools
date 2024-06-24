@@ -30,15 +30,15 @@
                 <td>
                     @STT
                 </td>
-                <td>@item.MenuName</td>
+                <td>@item.tenMenu</td>
                 <td>
-                    @(item.Menu2!=null ? item.Menu2.MenuName:"Root" )
+                    @(item.Menu1!=null ? item.Menu1.tenMenu:"Root" )
                 </td>
                 <td>
                     @(item.Page != null ? item.Page.Info:"" )
                 </td>
-                <td>@Html.Raw(item.Icon)</td>
-                <td>@item.OrderNo</td>
+                <td>@Html.Raw(item.iconMenu)</td>
+                <td>@item.sortOrder</td>
             </tr>
 
             STT++;

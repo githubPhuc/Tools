@@ -18,6 +18,7 @@ namespace ToolsApp.EntityFramework
         public Menu()
         {
             this.Menus1 = new HashSet<Menu>();
+            this.UserAuthorizations = new HashSet<UserAuthorization>();
         }
     
         public int Id { get; set; }
@@ -40,5 +41,7 @@ namespace ToolsApp.EntityFramework
         public virtual ICollection<Menu> Menus1 { get; set; }
         public virtual Menu Menu1 { get; set; }
         public virtual Page Page { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAuthorization> UserAuthorizations { get; set; }
     }
 }

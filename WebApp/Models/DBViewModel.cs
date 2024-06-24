@@ -236,6 +236,7 @@ namespace ToolsApp.Models
         public string Username { get; set; }
         public string Fullname { get; set; }
         public string Email { get; set; }
+        public string Pages { get; set; }
     }
     public partial class RegisterViewModel
     {

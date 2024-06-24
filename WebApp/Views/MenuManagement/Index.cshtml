@@ -128,11 +128,11 @@
 
                     var formData = {
                         Id: $("#Id").val(),
-                        MenuName: $("#MenuName").val().trim(),
-                        ParentId: $("#ParentId").val().trim(),
-                        PageId: $("#PageId").val(),
-                        Icon: $("#Icon").val().trim(),
-                        OrderNo: $("#OrderNo").val().trim()
+                        tenMenu: $("#tenMenu").val().trim(),
+                        parentId: $("#parentId").val().trim(),
+                        idPage: $("#idPage").val(),
+                        iconMenu: $("#iconMenu").val().trim(),
+                        sortOrder: $("#sortOrder").val().trim()
                 }
                     Action(formData.Id == "0" ? '@Url.Action("_InsertFun")' : '@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)
                     myModal.$modal.modal('hide');

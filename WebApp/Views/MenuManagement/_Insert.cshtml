@@ -10,24 +10,24 @@
 @Html.HiddenFor(model => model.Id)
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.MenuName)</label>
+    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.tenMenu)</label>
     <div class="col-md-12 col-sm-12 ten">
-        @Html.EditorFor(model => model.MenuName, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.MenuName, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.tenMenu, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.tenMenu, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-12 col-sm-12">Menus parent</label>
     <div class="col-md-12 col-sm-12 ten">
-        <select id="ParentId" name="ParentId" class="form-control chosen-select" style="width: 100%;">
+        <select id="parentId" name="parentId" class="form-control chosen-select" style="width: 100%;">
             <option value="0">
                 --Root--
             </option>
             @foreach (var item in Roots)
             {
                 <option value="@item.Id">
-                    @item.MenuName
+                    @item.tenMenu
                 </option>
             }
         </select>
@@ -37,14 +37,14 @@
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-12 col-sm-12">Page</label>
     <div class="col-md-12 col-sm-12 ten">
-        <select id="PageId" name="PageId" class="form-control chosen-select" style="width: 100%;">
+        <select id="idPage" name="idPage" class="form-control chosen-select" style="width: 100%;">
             <option value="0">
                 --Root--
             </option>
             @foreach (var item in Pages)
             {
                 <option value="@item.Id">
-                    @item.Code - @item.Info - @item.Controler/@item.Action
+                    @item.Code - @item.Info - @item.controllerName/@item.actionName
                 </option>
             }
         </select>
@@ -52,17 +52,17 @@
 </div>
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.Icon)</label>
+    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.iconMenu)</label>
     <div class="col-md-12 col-sm-12 ten">
-        @Html.EditorFor(model => model.Icon, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.iconMenu, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.iconMenu, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.OrderNo)</label>
+    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.sortOrder)</label>
     <div class="col-md-12 col-sm-12 ten">
-        @Html.EditorFor(model => model.OrderNo, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.sortOrder    , new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.sortOrder, "", new { @class = "text-danger" })
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 ﻿@model ToolsApp.Models.UserViewModel
 
 @{
-    var allUsers = ViewBag.allUsers as List<ToolsApp.EntityFramework.AspNetUser>;
+    var allUsers = ViewBag.allUsers as List<ToolsApp.EntityFramework.User>;
     var pages = ViewBag.pages as List<ToolsApp.EntityFramework.Page>;
 }
 
@@ -11,11 +11,11 @@
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">@Html.LabelFor(p => p.Username)</label>
     <div class="col-md-9 col-sm-9 ten">
-        <select id="Username" name="Username" class="form-control chosen-select" style="width: 100%;">
+        <select id="tenTaiKhoan" name="tenTaiKhoan" class="form-control chosen-select" style="width: 100%;">
             @foreach (var item in allUsers)
             {
-                <option value="@item.UserName">
-                    @item.UserName -  @item.Fullname -  @item.Email
+                <option value="@item.tenTaiKhoan">
+                    @item.tenTaiKhoan -  @item.hoVaTen
                 </option>
             }
         </select>
@@ -31,7 +31,7 @@
             @foreach (var item in pages)
             {
                 <option value="@item.Id">
-                    @item.Code. @item.Action/@item.Controler
+                    @item.Code. @item.actionName/@item.controllerName
                 </option>
             }
         </select>

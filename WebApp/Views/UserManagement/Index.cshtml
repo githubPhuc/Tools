@@ -122,11 +122,9 @@
             $("#btSave").click(function () {
                 var valuePages = $("#Pages").val();
                 var Pages = valuePages.join(", ")
-                console.log(Pages)
                 var formData = {
                     Id: $("#Id").val(),
-                    Username: $("#Username").val(),
-                    Roles: $("#Roles").val(),
+                    tenTaiKhoan: $("#tenTaiKhoan").val(),
                     Pages:Pages
                 }
                 Action('@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)

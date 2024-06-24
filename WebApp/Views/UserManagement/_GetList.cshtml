@@ -12,7 +12,6 @@
             <th>.No</th>
             <th>Tên đầy đủ</th>
             <th>Tên tài khoản</th>
-            <th>Loại tài khoản</th>
             <th>Chức năng</th>
             <th>Email</th>
         </tr>
@@ -21,7 +20,7 @@
         @{ var STT = 1; }
         @foreach (var item in List)
         {
-            var User_Page = db_.User_Page.Where(a => a.userId == item.Id ).ToList();
+            var User_Page = db_.UserAuthorizations.Where(a => a.idUser == item.Id ).ToList();
         <tr>
             <td style="width:100px!important">
                 <a onclick="Edit('@item.Id')" class="btn">
@@ -34,17 +33,15 @@
             <td>
                 @STT
             </td>
-            <td onclick="Edit('@item.Id')">@item.UserName</td>
-            <td onclick="Edit('@item.Id')">@item.HoNV @item.TenNV</td>
-            <td>@item.AccoutType</td>
-
+            <td onclick="Edit('@item.Id')">@item.tenTaiKhoan</td>
+            <td onclick="Edit('@item.Id')">@item.hoVaTen</td>
             <td onclick="Edit('@item.Id')">
                 @{
 
-                    if (item.User_Page != null)
+                    if (item.UserAuthorizations != null)
                     {
                         <ul>
-                            @foreach (var value in item.User_Page)
+                            @foreach (var value in item.UserAuthorizations)
                             {
                                 <li style="list-style-type: none;">
                                     <small class="badge badge-success"><i class="far fa-clock"></i> @value.Page.Code - @value.Page.Info </small>
@@ -54,7 +51,7 @@
                     }
                 }
             </td>
-            <td>@item.Email</td>
+            <td>@item.email</td>
         </tr>
 
             STT++;

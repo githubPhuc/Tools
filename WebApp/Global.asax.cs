@@ -38,11 +38,11 @@ namespace ToolsApp
                         CustomPrincipalSerializeModel serializeModel = JsonConvert.DeserializeObject<CustomPrincipalSerializeModel>(authTicket.UserData);
                         if (serializeModel!=null)
                         {
-                            CustomPrincipal newUser = new CustomPrincipal(serializeModel.UserName);
+                            CustomPrincipal newUser = new CustomPrincipal(serializeModel.tenTaiKhoan);
                             newUser.UserId = serializeModel.UserId;
-                            newUser.UserName = serializeModel.UserName;
-                            newUser.FullName = serializeModel.HoNV+" "+serializeModel.TenNV;
-                            newUser.Email = serializeModel.Email;
+                            newUser.tenTaiKhoan = serializeModel.tenTaiKhoan;
+                            newUser.hoVaTen = serializeModel.hoVaTen;
+                            newUser.email = serializeModel.email;
                             HttpContext.Current.User = newUser;
                         }                        
                     }

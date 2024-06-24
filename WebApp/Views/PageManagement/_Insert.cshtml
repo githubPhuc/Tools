@@ -18,16 +18,16 @@
     </div>
 </div>
 <div class="row mb-4" >
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.Controler)</label>
+    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.controllerName)</label>
     <div class="col-md-12 col-sm-12 ten">
-        @Html.EditorFor(model => model.Controler, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Controler, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.controllerName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.controllerName, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row mb-4">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.Action)</label>
+    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.actionName)</label>
     <div class="col-md-12 col-sm-12 ten">
-        @Html.EditorFor(model => model.Action, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.actionName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.actionName, "", new { @class = "text-danger" })
     </div>
 </div>

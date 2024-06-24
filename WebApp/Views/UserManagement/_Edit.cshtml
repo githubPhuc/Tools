@@ -6,7 +6,7 @@
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 @Html.HiddenFor(model => model.Id)
-@Html.HiddenFor(model => model.UserName)
+@Html.HiddenFor(model => model.tenTaiKhoan)
 
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-12 col-sm-12">Pages</label>
@@ -15,8 +15,8 @@
             @foreach (var item in pages)
             {
                 <option value="@item.Id"
-                        @(Model.User_Page != null && Model.User_Page.FirstOrDefault(p => p.PageId == item.Id) != null ? "selected=\"selected\"" : "")>
-                    @item.Code. @item.Action/@item.Controler
+                        @(Model.UserAuthorizations != null && Model.UserAuthorizations.FirstOrDefault(p => p.idPage == item.Id) != null ? "selected=\"selected\"" : "")>
+                    @item.Code. @item.actionName/@item.controllerName
                 </option>
             }
         </select>
