@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CRM_CustomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Configs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parentId" Type="int" />
+          <Property Name="code" Type="nvarchar(max)" />
+          <Property Name="MoTa" Type="nvarchar(max)" />
+          <Property Name="moTaChiTiet" Type="nvarchar(max)" />
+          <Property Name="ipUser" Type="int" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+        </EntityType>
+        <EntityType Name="LogHistorys">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUser" Type="int" />
+          <Property Name="moTa" Type="nvarchar(max)" />
+          <Property Name="moTaChiTiet" Type="nvarchar(max)" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+          <Property Name="ipUserHostAddress" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parentId" Type="int" />
+          <Property Name="tenMenu" Type="nvarchar(max)" />
+          <Property Name="moTaMenu" Type="nvarchar(max)" />
+          <Property Name="iconMenu" Type="varchar(max)" />
+          <Property Name="idPage" Type="int" />
+          <Property Name="sortOrder" Type="int" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+        </EntityType>
+        <EntityType Name="Pages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="controllerName" Type="nvarchar(max)" />
+          <Property Name="actionName" Type="nvarchar(max)" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="Info" Type="nvarchar(max)" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+          <Property Name="parentId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserAuthorizations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUser" Type="int" />
+          <Property Name="permissionGet" Type="bit" />
+          <Property Name="permissionPost" Type="bit" />
+          <Property Name="permissionPut" Type="bit" />
+          <Property Name="permissionDelete" Type="bit" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+          <Property Name="idPage" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tenTaiKhoan" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="matKhau" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="hoVaTen" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="soDienThoai" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="dcThuongTru" Type="nvarchar(max)" />
+          <Property Name="dcTamTru" Type="nvarchar(max)" />
+          <Property Name="thoiGianLamViec" Type="datetime" />
+          <Property Name="soTaiKhoan" Type="nvarchar(max)" />
+          <Property Name="codeNganHang" Type="nvarchar(max)" />
+          <Property Name="anhDaiDien" Type="nvarchar(max)" />
+          <Property Name="dangThuViec" Type="bit" />
+          <Property Name="ngayTao" Type="datetime" />
+          <Property Name="nguoiTao" Type="int" />
+          <Property Name="ngayCapNhat" Type="datetime" />
+          <Property Name="nguoiCapNhat" Type="int" />
+          <Property Name="ngayXoa" Type="datetime" />
+          <Property Name="nguoiXoa" Type="int" />
+          <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="hieuLuc" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Configs_Configs">
+          <End Role="Configs" Type="Self.Configs" Multiplicity="0..1" />
+          <End Role="Configs1" Type="Self.Configs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Configs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configs1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogHistorys_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="LogHistorys" Type="Self.LogHistorys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogHistorys">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Menus">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="Menus1" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menus1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Pages">
+          <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="idPage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pages_Pages">
+          <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
+          <End Role="Pages1" Type="Self.Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAuthorizations_Pages">
+          <End Role="Pages" Type="Self.Pages" Multiplicity="0..1" />
+          <End Role="UserAuthorizations" Type="Self.UserAuthorizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAuthorizations">
+              <PropertyRef Name="idPage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAuthorizations_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserAuthorizations" Type="Self.UserAuthorizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAuthorizations">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CRM_CustomsModelStoreContainer">
+          <EntitySet Name="Configs" EntityType="Self.Configs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogHistorys" EntityType="Self.LogHistorys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAuthorizations" EntityType="Self.UserAuthorizations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Configs_Configs" Association="Self.FK_Configs_Configs">
+            <End Role="Configs" EntitySet="Configs" />
+            <End Role="Configs1" EntitySet="Configs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogHistorys_Users" Association="Self.FK_LogHistorys_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LogHistorys" EntitySet="LogHistorys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Menus" Association="Self.FK_Menus_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Pages" Association="Self.FK_Menus_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pages_Pages" Association="Self.FK_Pages_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Pages1" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAuthorizations_Pages" Association="Self.FK_UserAuthorizations_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="UserAuthorizations" EntitySet="UserAuthorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAuthorizations_Users" Association="Self.FK_UserAuthorizations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAuthorizations" EntitySet="UserAuthorizations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CRM_CustomsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Config">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parentId" Type="Int32" />
+          <Property Name="code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="moTaChiTiet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ipUser" Type="Int32" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <NavigationProperty Name="Configs1" Relationship="Self.FK_Configs_Configs" FromRole="Configs" ToRole="Configs1" />
+          <NavigationProperty Name="Config1" Relationship="Self.FK_Configs_Configs" FromRole="Configs1" ToRole="Configs" />
+        </EntityType>
+        <EntityType Name="LogHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUser" Type="Int32" />
+          <Property Name="moTa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="moTaChiTiet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <Property Name="ipUserHostAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LogHistorys_Users" FromRole="LogHistorys" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parentId" Type="Int32" />
+          <Property Name="tenMenu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="moTaMenu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="iconMenu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idPage" Type="Int32" />
+          <Property Name="sortOrder" Type="Int32" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <NavigationProperty Name="Menus1" Relationship="Self.FK_Menus_Menus" FromRole="Menus" ToRole="Menus1" />
+          <NavigationProperty Name="Menu1" Relationship="Self.FK_Menus_Menus" FromRole="Menus1" ToRole="Menus" />
+          <NavigationProperty Name="Page" Relationship="Self.FK_Menus_Pages" FromRole="Menus" ToRole="Pages" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="controllerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="actionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <Property Name="parentId" Type="Int32" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Menus_Pages" FromRole="Pages" ToRole="Menus" />
+          <NavigationProperty Name="Pages1" Relationship="Self.FK_Pages_Pages" FromRole="Pages" ToRole="Pages1" />
+          <NavigationProperty Name="Page1" Relationship="Self.FK_Pages_Pages" FromRole="Pages1" ToRole="Pages" />
+          <NavigationProperty Name="UserAuthorizations" Relationship="Self.FK_UserAuthorizations_Pages" FromRole="Pages" ToRole="UserAuthorizations" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserAuthorization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUser" Type="Int32" />
+          <Property Name="permissionGet" Type="Boolean" />
+          <Property Name="permissionPost" Type="Boolean" />
+          <Property Name="permissionPut" Type="Boolean" />
+          <Property Name="permissionDelete" Type="Boolean" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <Property Name="idPage" Type="Int32" />
+          <NavigationProperty Name="Page" Relationship="Self.FK_UserAuthorizations_Pages" FromRole="UserAuthorizations" ToRole="Pages" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserAuthorizations_Users" FromRole="UserAuthorizations" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tenTaiKhoan" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="matKhau" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hoVaTen" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="soDienThoai" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dcThuongTru" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dcTamTru" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thoiGianLamViec" Type="DateTime" Precision="3" />
+          <Property Name="soTaiKhoan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="codeNganHang" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="anhDaiDien" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dangThuViec" Type="Boolean" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="hieuLuc" Type="Boolean" />
+          <NavigationProperty Name="LogHistorys" Relationship="Self.FK_LogHistorys_Users" FromRole="Users" ToRole="LogHistorys" />
+          <NavigationProperty Name="UserAuthorizations" Relationship="Self.FK_UserAuthorizations_Users" FromRole="Users" ToRole="UserAuthorizations" />
+        </EntityType>
+        <Association Name="FK_Configs_Configs">
+          <End Role="Configs" Type="Self.Config" Multiplicity="0..1" />
+          <End Role="Configs1" Type="Self.Config" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Configs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Configs1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogHistorys_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="LogHistorys" Type="Self.LogHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogHistorys">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Menus">
+          <End Role="Menus" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Menus1" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menus1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menus_Pages">
+          <End Role="Pages" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="Menus" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="idPage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pages_Pages">
+          <End Role="Pages" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="Pages1" Type="Self.Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAuthorizations_Pages">
+          <End Role="Pages" Type="Self.Page" Multiplicity="0..1" />
+          <End Role="UserAuthorizations" Type="Self.UserAuthorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAuthorizations">
+              <PropertyRef Name="idPage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAuthorizations_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserAuthorizations" Type="Self.UserAuthorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAuthorizations">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="crmcustomscontext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Configs" EntityType="Self.Config" />
+          <EntitySet Name="LogHistorys" EntityType="Self.LogHistory" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="Pages" EntityType="Self.Page" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="UserAuthorizations" EntityType="Self.UserAuthorization" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Configs_Configs" Association="Self.FK_Configs_Configs">
+            <End Role="Configs" EntitySet="Configs" />
+            <End Role="Configs1" EntitySet="Configs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogHistorys_Users" Association="Self.FK_LogHistorys_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LogHistorys" EntitySet="LogHistorys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Menus" Association="Self.FK_Menus_Menus">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menus_Pages" Association="Self.FK_Menus_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pages_Pages" Association="Self.FK_Pages_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Pages1" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAuthorizations_Pages" Association="Self.FK_UserAuthorizations_Pages">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="UserAuthorizations" EntitySet="UserAuthorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAuthorizations_Users" Association="Self.FK_UserAuthorizations_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserAuthorizations" EntitySet="UserAuthorizations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CRM_CustomsModelStoreContainer" CdmEntityContainer="crmcustomscontext">
+          <EntitySetMapping Name="Configs">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.Config">
+              <MappingFragment StoreEntitySet="Configs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="moTaChiTiet" ColumnName="moTaChiTiet" />
+                <ScalarProperty Name="ipUser" ColumnName="ipUser" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogHistorys">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.LogHistory">
+              <MappingFragment StoreEntitySet="LogHistorys">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="moTa" ColumnName="moTa" />
+                <ScalarProperty Name="moTaChiTiet" ColumnName="moTaChiTiet" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+                <ScalarProperty Name="ipUserHostAddress" ColumnName="ipUserHostAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.Menu">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="tenMenu" ColumnName="tenMenu" />
+                <ScalarProperty Name="moTaMenu" ColumnName="moTaMenu" />
+                <ScalarProperty Name="iconMenu" ColumnName="iconMenu" />
+                <ScalarProperty Name="idPage" ColumnName="idPage" />
+                <ScalarProperty Name="sortOrder" ColumnName="sortOrder" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pages">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.Page">
+              <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="controllerName" ColumnName="controllerName" />
+                <ScalarProperty Name="actionName" ColumnName="actionName" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAuthorizations">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.UserAuthorization">
+              <MappingFragment StoreEntitySet="UserAuthorizations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="permissionGet" ColumnName="permissionGet" />
+                <ScalarProperty Name="permissionPost" ColumnName="permissionPost" />
+                <ScalarProperty Name="permissionPut" ColumnName="permissionPut" />
+                <ScalarProperty Name="permissionDelete" ColumnName="permissionDelete" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+                <ScalarProperty Name="idPage" ColumnName="idPage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="tenTaiKhoan" ColumnName="tenTaiKhoan" />
+                <ScalarProperty Name="matKhau" ColumnName="matKhau" />
+                <ScalarProperty Name="hoVaTen" ColumnName="hoVaTen" />
+                <ScalarProperty Name="soDienThoai" ColumnName="soDienThoai" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="dcThuongTru" ColumnName="dcThuongTru" />
+                <ScalarProperty Name="dcTamTru" ColumnName="dcTamTru" />
+                <ScalarProperty Name="thoiGianLamViec" ColumnName="thoiGianLamViec" />
+                <ScalarProperty Name="soTaiKhoan" ColumnName="soTaiKhoan" />
+                <ScalarProperty Name="codeNganHang" ColumnName="codeNganHang" />
+                <ScalarProperty Name="anhDaiDien" ColumnName="anhDaiDien" />
+                <ScalarProperty Name="dangThuViec" ColumnName="dangThuViec" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="hieuLuc" ColumnName="hieuLuc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
