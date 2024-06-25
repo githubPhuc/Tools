@@ -86,7 +86,7 @@ namespace ToolsApp.Models
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
         public Nullable<bool> hieuLuc { get; set; }
-        public Nullable<int> parentId { get; set; } 
+     
     }
     public partial class QLKTPRoleViewModel
     {

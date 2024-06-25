@@ -28,7 +28,7 @@ namespace ToolsApp.Authentication
                     var history = new LogHistory
                     {
                         idUser = User.UserId,
-                        moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu"),
+                        moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dữ liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dữ liệu"),
                         moTaChiTiet = action,
                         ipUserHostAddress = ipAddress,
                         ngayTao = DateTime.Now,

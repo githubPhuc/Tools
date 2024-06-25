@@ -57,6 +57,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaiViet.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChinhSach.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Config.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
@@ -75,10 +81,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>crmcustomscontext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="HinhAnh.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HinhAnhBaiViet.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KetCau.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
     <Compile Include="LogHistory.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Luong.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NhomBaiViet.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
     <Compile Include="Page.cs">
@@ -92,6 +113,9 @@
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
     <Compile Include="UserAuthorization.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLuong.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
   </ItemGroup>

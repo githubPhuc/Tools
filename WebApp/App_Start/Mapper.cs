@@ -52,7 +52,6 @@ namespace ToolsApp.App_Start
                                 .ForMember(dto => dto.nguoiTao, opt => opt.MapFrom(src => src.nguoiTao))
                                 .ForMember(dto => dto.ngayTao, opt => opt.MapFrom(src => src.ngayTao))
                                 .ForMember(dto => dto.xacNhanXoa, opt => opt.MapFrom(src => src.xacNhanXoa))
-                                .ForMember(dto => dto.parentId, opt => opt.MapFrom(src => src.parentId))
                                 .ForMember(dto => dto.nguoiXoa, opt => opt.MapFrom(src => src.nguoiXoa))
                                 .ForMember(dto => dto.ngayXoa, opt => opt.MapFrom(src => src.ngayXoa));
 
@@ -62,7 +61,6 @@ namespace ToolsApp.App_Start
                                 .ForMember(dto => dto.actionName, opt => opt.MapFrom(src => src.actionName))
                                 .ForMember(dto => dto.Code, opt => opt.MapFrom(src => src.Code))
                                 .ForMember(dto => dto.Info, opt => opt.MapFrom(src => src.Info))
-                                 .ForMember(dto => dto.parentId, opt => opt.MapFrom(src => src.parentId))
                                 .ForMember(dto => dto.ngayCapNhat, opt => opt.MapFrom(src => src.ngayCapNhat))
                                 .ForMember(dto => dto.nguoiCapNhat, opt => opt.MapFrom(src => src.nguoiCapNhat))
                                 .ForMember(dto => dto.nguoiTao, opt => opt.MapFrom(src => src.nguoiTao))

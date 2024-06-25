@@ -31,6 +31,14 @@ namespace ToolsApp.EntityFramework
         public virtual DbSet<Page> Pages { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserAuthorization> UserAuthorizations { get; set; }
+        public virtual DbSet<BaiViet> BaiViets { get; set; }
+        public virtual DbSet<ChinhSach> ChinhSaches { get; set; }
+        public virtual DbSet<HinhAnh> HinhAnhs { get; set; }
+        public virtual DbSet<HinhAnhBaiViet> HinhAnhBaiViets { get; set; }
+        public virtual DbSet<KetCau> KetCaus { get; set; }
+        public virtual DbSet<Luong> Luongs { get; set; }
+        public virtual DbSet<NhomBaiViet> NhomBaiViets { get; set; }
+        public virtual DbSet<UserLuong> UserLuongs { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }
