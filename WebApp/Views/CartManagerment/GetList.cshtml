@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "GetList";
+    var data = ViewBag.data as List<ToolsApp.EntityFramework.BaiViet>;
+}
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Khách hàng</th>
+            <th>Tình trạng</th>
+            <th>Địa chỉ</th>
+            <th>Giá</th>
+            <th>Thông tin nhà</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var STT = 1; }
+        @{
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    <tr>
+                        <td style="max-width:40px!important">
+                            <a onclick="Edit('@item.id')" class="btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a onclick="Delete('@item.id')" class="btn">
+                                <i class="far fa-trash-alt"></i> Delete
+                            </a>
+                        </td>
+                        <td>
+                            @STT
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    STT++;
+                }
+            }
+           
+        }
+
+        </tbody>
+    </table>

@@ -4,18 +4,29 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ToolsApp.Authentication;
+using ToolsApp.EntityFramework;
 
 namespace ToolsApp.Controllers
 {
+    [Authorize]
     public class CartManagermentController : BaseController
     {
         // GET: CartManagerment
+        crmcustomscontext db_ = new crmcustomscontext();
         public ActionResult Index()
         {
+          
             return View();
+        }
+        public ActionResult GetList()
+        {
+            var data = db_.BaiViets.ToList();
+            ViewBag.danhSachBaiViet = data;
+            return PartialView();
         }
         public ActionResult Insert()
         {
+           
             return View();
         }
         public ActionResult Edit()
