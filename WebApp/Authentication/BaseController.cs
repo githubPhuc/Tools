@@ -38,6 +38,7 @@ namespace ToolsApp.Authentication
                         ngayXoa = DateTime.Now,
                         nguoiXoa = User.UserId,
                         xacNhanXoa = false,
+                        hieuLuc = true,
                     };
                     db_.LogHistorys.Add(history);
                     db_.SaveChanges();
@@ -45,49 +46,49 @@ namespace ToolsApp.Authentication
                     {
                         var page = db_.UserAuthorizations.Where(p => p.Page.controllerName == controllerName && p.idUser == User.UserId).FirstOrDefault();
                         #region User Not Page
-                        if (page == null)
-                        {
-                            context.HttpContext.Response.Redirect("~/Home/PageNotFound");
-                            return;
-                        }
-                        else
-                        {
-                            switch (httpMethod)
-                            {
-                                case "GET":
-                                    if (page.permissionGet == false)
-                                    {
-                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
-                                        return;
-                                    }
-                                    break;
-                                case "POST":
-                                    if (page.permissionPost == false)
-                                    {
-                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
-                                        return;
-                                    }
-                                    break;
-                                case "PUT":
-                                    if (page.permissionPut == false)
-                                    {
-                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
-                                        return;
-                                    }
-                                    break;
-                                case "DELETE":
-                                    if (page.permissionDelete == false)
-                                    {
-                                        context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
-                                        return;
-                                    }
-                                    break;
-                                default:
-                                    context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
-                                    return;
-                            }
+                        //if (page == null)
+                        //{
+                        //    context.HttpContext.Response.Redirect("~/Home/PageNotFound");
+                        //    return;
+                        //}
+                        //else
+                        //{
+                        //    switch (httpMethod)
+                        //    {
+                        //        case "GET":
+                        //            if (page.permissionGet == false)
+                        //            {
+                        //                context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                        //                return;
+                        //            }
+                        //            break;
+                        //        case "POST":
+                        //            if (page.permissionPost == false)
+                        //            {
+                        //                context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                        //                return;
+                        //            }
+                        //            break;
+                        //        case "PUT":
+                        //            if (page.permissionPut == false)
+                        //            {
+                        //                context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                        //                return;
+                        //            }
+                        //            break;
+                        //        case "DELETE":
+                        //            if (page.permissionDelete == false)
+                        //            {
+                        //                context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                        //                return;
+                        //            }
+                        //            break;
+                        //        default:
+                        //            context.HttpContext.Response.Redirect("~/Home/NotAuthentizace");
+                        //            return;
+                        //    }
 
-                        }
+                        //}
                         #endregion
                     }
 
@@ -119,6 +120,7 @@ namespace ToolsApp.Authentication
                         ngayXoa = DateTime.Now,
                         nguoiXoa = User.UserId,
                         xacNhanXoa = false,
+                        hieuLuc = false,
                     };
                     db_.LogHistorys.Add(history);
                     db_.SaveChanges();

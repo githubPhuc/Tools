@@ -3201,6 +3201,8 @@
     <Compile Include="Authentication\CustomAuthorizeAttribute.cs" />
     <Compile Include="Authentication\CustomPrincipal.cs" />
     <Compile Include="Authentication\User_RoleAuthentication.cs" />
+    <Compile Include="Controllers\LichSuNguoiDungController.cs" />
+    <Compile Include="Controllers\DanhMucKetCauController.cs" />
     <Compile Include="Controllers\CartManagermentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -3268,6 +3270,16 @@
     <Content Include="Views\CartManagerment\ThongTinKhachHang_View.cshtml" />
     <Content Include="Views\CartManagerment\hinhAnh_View.cshtml" />
     <Content Include="Views\CartManagerment\GetList.cshtml" />
+    <Content Include="Views\DanhMucKetCau\Edit.cshtml" />
+    <Content Include="Views\DanhMucKetCau\GetList.cshtml" />
+    <Content Include="Views\DanhMucKetCau\Index.cshtml" />
+    <Content Include="Views\DanhMucKetCau\Insert.cshtml" />
+    <Content Include="Views\LichSuNguoiDung\GetList.cshtml" />
+    <Content Include="Views\LichSuNguoiDung\Index.cshtml" />
+    <Content Include="Views\DanhMucKetCau - Copy %282%29\Edit.cshtml" />
+    <Content Include="Views\DanhMucKetCau - Copy %282%29\GetList.cshtml" />
+    <Content Include="Views\DanhMucKetCau - Copy %282%29\Index.cshtml" />
+    <Content Include="Views\DanhMucKetCau - Copy %282%29\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

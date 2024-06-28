@@ -44,7 +44,11 @@
                             @foreach (var value in item.UserAuthorizations)
                             {
                                 <li style="list-style-type: none;">
-                                    <small class="badge badge-success"><i class="far fa-clock"></i> @value.Page.Code - @value.Page.Info </small>
+                                    <small class="badge badge-success"><i class="far fa-clock"></i> @value.Page.Info </small>
+                                    @*@Html.Raw(value.permissionGet == true ? "<small class=\" badge-success\"><i class=\"far fa-clock\"></i> Xem </small>" : "")
+                                    @Html.Raw(value.permissionPost == true ? "<small class=\" badge-success\"><i class=\"far fa-clock\"></i> Thêm </small>" : "")
+                                    @Html.Raw(value.permissionPut == true ? "<small class=\" badge-success\"><i class=\"far fa-clock\"></i> Cậ nhật </small>" : "")
+                                    @Html.Raw(value.permissionDelete == true ? "<small class=\" badge-success\"><i class=\"far fa-clock\"></i> xoá </small>" : "")*@
                                 </li>
                             }
                         </ul>

@@ -14,9 +14,9 @@
         <select id="Pages" name="Pages" multiple="multiple" class="form-control chosen-select" style="width: 100%;">
             @foreach (var item in pages)
             {
-                <option value="@item.Id"
-                        @(Model.UserAuthorizations != null && Model.UserAuthorizations.FirstOrDefault(p => p.idPage == item.Id) != null ? "selected=\"selected\"" : "")>
+                <option value="@item.Id" @(Model.UserAuthorizations != null && Model.UserAuthorizations.FirstOrDefault(p => p.idPage == item.Id) != null ? "selected=\"selected\"" : "")>
                     @item.Code. @item.actionName/@item.controllerName
+
                 </option>
             }
         </select>
