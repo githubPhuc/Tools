@@ -1,4 +1,20 @@
-﻿
+﻿/*Root*/
+:root {
+    --colorPrimaryNormal: #00b3bb;
+    --colorPrimaryDark: #00979f;
+    --colorPrimaryGlare: #00cdd7;
+    --colorPrimaryHalf: #80d9dd;
+    --colorPrimaryQuarter: #bfecee;
+    --colorPrimaryEighth: #dff5f7;
+    --colorPrimaryPale: #f3f5f7;
+    --colorPrimarySeparator: #f3f5f7;
+    --colorPrimaryOutline: #dff5f7;
+    --colorButtonNormal: #00b3bb;
+    --colorButtonHover: #00cdd7;
+    --colorLinkNormal: #00979f;
+    --colorLinkHover: #00cdd7;
+}
+
 /*Sidebar css*/
 .layout-fixed .main-sidebar {
     width: 280px;
@@ -452,7 +468,7 @@ legend.scheduler-border {
 }
 
 .card-body h6 {
-    font-weight: 500
+    font-weight: 600
 }
 
 .gender-group {
