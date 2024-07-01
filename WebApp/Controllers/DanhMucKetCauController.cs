@@ -22,7 +22,7 @@ namespace ToolsApp.Controllers
           
             return View();
         }
-        public async Task<ActionResult> GetList(string tenKetCauSearch,string ngayTaoSearch)
+        public async Task<ActionResult> GetList(string tenKetCauSearch)
         {
             var _KetCaus = db_.KetCaus.AsNoTracking();
             var _Users = db_.Users.AsNoTracking();

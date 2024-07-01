@@ -1,7 +1,7 @@
 ﻿@model ToolsApp.Models.UserViewModel
 
 @{
-    var allUsers = ViewBag.allUsers as List<ToolsApp.EntityFramework.User>;
+    var allUsers = ViewBag.dataAccountType as List<ToolsApp.EntityFramework.User>;
     var pages = ViewBag.pages as List<ToolsApp.EntityFramework.Page>;
 }
 
@@ -11,15 +11,7 @@
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">@Html.LabelFor(p => p.Username)</label>
     <div class="col-md-9 col-sm-9 ten">
-        <select id="tenTaiKhoan" name="tenTaiKhoan" class="form-control chosen-select" style="width: 100%;">
-            @foreach (var item in allUsers)
-            {
-                <option value="@item.tenTaiKhoan">
-                    @item.tenTaiKhoan -  @item.hoVaTen
-                </option>
-            }
-        </select>
-        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+        
     </div>
 </div>
 
@@ -27,7 +19,7 @@
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Pages</label>
     <div class="col-md-9 col-sm-9 ten">
-        <select id="Pages" name="Pages" multiple="multiple" class="form-control chosen-select" style="width: 100%;">
+        @*<select id="Pages" name="Pages" multiple="multiple" class="form-control chosen-select" style="width: 100%;">
             @foreach (var item in pages)
             {
                 <option value="@item.Id">
@@ -35,7 +27,7 @@
                 </option>
             }
         </select>
-        @Html.ValidationMessageFor(model => model.Pages, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.Pages, "", new { @class = "text-danger" })*@
     </div>
 </div>
 

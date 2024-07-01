@@ -50,6 +50,8 @@
           <Property Name="ngayXoa" Type="datetime" />
           <Property Name="nguoiXoa" Type="int" />
           <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="tungDo" Type="float" />
+          <Property Name="viDo" Type="float" />
         </EntityType>
         <EntityType Name="ChinhSach">
           <Key>
@@ -798,7 +800,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserLuong" EntitySet="UserLuongs" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="BaiViet">
           <Key>
             <PropertyRef Name="id" />
@@ -847,6 +849,8 @@
           <NavigationProperty Name="KetCau" Relationship="CRM_CustomsModel.FK_BaiViet_KetCau" FromRole="BaiViet" ToRole="KetCau" />
           <NavigationProperty Name="NhomBaiViet" Relationship="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" FromRole="BaiViet" ToRole="NhomBaiViet" />
           <NavigationProperty Name="HinhAnhBaiViets" Relationship="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" FromRole="BaiViet" ToRole="HinhAnhBaiViet" />
+          <Property Name="tungDo" Type="Double" />
+          <Property Name="viDo" Type="Double" />
           <NavigationProperty Name="User" Relationship="CRM_CustomsModel.FK_BaiViet_Users" FromRole="BaiViet" ToRole="User" />
         </EntityType>
         <EntityType Name="ChinhSach">
@@ -1115,7 +1119,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1236,6 +1240,8 @@
           <EntitySetMapping Name="BaiViets">
             <EntityTypeMapping TypeName="CRM_CustomsModel.BaiViet">
               <MappingFragment StoreEntitySet="BaiViet">
+                <ScalarProperty Name="viDo" ColumnName="viDo" />
+                <ScalarProperty Name="tungDo" ColumnName="tungDo" />
                 <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
                 <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
                 <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />

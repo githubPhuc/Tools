@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ToolsApp.App_Start;
@@ -35,24 +36,11 @@ namespace ToolsApp.Areas.Admin.Controllers
             ViewBag.List = List;
             return PartialView(new UserViewModel());
         }
-        public ActionResult _Insert(int Id)
+        public async Task<ActionResult> _Insert()
         {
-            var users = db_.Users.Select(p => p.tenTaiKhoan).ToList();
-            #region Load user from DKSH db
-            var allUsers = db_.Users.Where(p => p.hieuLuc == true &&
-                !users.Contains(p.tenTaiKhoan)
-            ).ToList();
-            #endregion
-
-            ViewBag.allUsers = allUsers;
-
-
-            #region Load page
-            var pages = db_.Pages.ToList();
-            ViewBag.pages = pages;
-            #endregion            
-
-            return PartialView(new UserViewModel { Id = 0 });
+            var dataAccountType = db_.Configs.AsNoTracking().Where(a => a.parentId == 1).ToListAsync();
+            ViewBag.dataAccountType = dataAccountType;
+            return PartialView();
         }
         public ActionResult _Edit(int Id)
         {

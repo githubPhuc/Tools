@@ -58,6 +58,7 @@ namespace ToolsApp.Controllers
                         serializeModel.email = user.email;
                         serializeModel.soDienThoai = user.soDienThoai;
                         serializeModel.anhDaiDien = user.anhDaiDien;
+                        serializeModel.capDoTaiKhoan = user.capDoTaiKhoan??5;
 
                         try
                         {

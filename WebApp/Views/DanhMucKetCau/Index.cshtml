@@ -21,11 +21,19 @@
                                     <input class="form-control form-control-md" type="text" autocomplete="off" id="tenKetCauSearch" name="tenKetCauSearch" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            @*<div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ngày tạo</label>
-                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="ngayTaoSearch" name="ngayTaoSearch" />
+                                    <input value="@DateTime.Now.AddDays(-7).ToString("dd/MM/yyyy")"
+                                           class="form-control" type="text" autocomplete="off"
+                                           id="ngayTaoSearch" name="ngayTaoSearch" />
                                 </div>
+                            </div>*@
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <button id="btnSearch" type="button" class="btn bg-gradient-primary"><i class="fa fa-search"></i>&nbsp;Tìm kiếm</button>
                             </div>
                         </div>
                     </div>
@@ -91,7 +99,14 @@
 
 @section scripts{
     <script>
-
+        //$("#ngayTaoSearch").datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    changeYear: true,
+        //    changeMonth: true,
+        //    onClose: function (selectedDate) {
+        //        //$("#FromDate").datepicker("option", "minDate", selectedDate);
+        //    }
+        //});
         var myModal = {
              $modal : $('#myModal'),
             $myModalContent : $("#myModalContent"),
@@ -100,7 +115,7 @@
           var paramsLoadData = [
             true,
             '@Url.Action("GetList")',
-              '#tenKetCauSearch', '#ngayTaoSearch',
+              '#tenKetCauSearch', /*'#ngayTaoSearch',*/
         ];
 
         function Delete(id_) {

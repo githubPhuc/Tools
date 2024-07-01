@@ -55,6 +55,11 @@
                     </div>
                     <div class="card-body pad">
                         <div class="row">
+                            <div class="col-md-4">
+                                <button id="btnCreate" type="button" class="btn bg-gradient-success"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12 mt-4 table-body table-responsive">
 
                             </div>
@@ -133,6 +138,10 @@
 
             })
         });
+         $("#btnCreate").click(function () {
+                     loadModal('Thêm tài khoản', '@Url.Action("Insert")', myModal, {Id:0})
+
+                 });
         function Delete(id_) {
             var formData = {
                 Id: id_

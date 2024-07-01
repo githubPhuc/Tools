@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ToolsApp.EntityFramework;
 
 namespace ToolsApp.Authentication
 {
@@ -23,7 +24,6 @@ namespace ToolsApp.Authentication
                 using (var _db = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
                     var user_fun = _db.Users.FirstOrDefault(p => p.tenTaiKhoan == CurrentUser.tenTaiKhoan);
-
                     #region User Not Page
                     if (user_fun == null)
                     {

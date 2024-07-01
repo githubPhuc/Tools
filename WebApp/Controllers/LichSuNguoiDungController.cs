@@ -18,14 +18,31 @@ namespace ToolsApp.Controllers
     {
         // GET: CartManagerment
         crmcustomscontext db_ = new crmcustomscontext();
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-          
+            var data = db_.Users.AsNoTracking();
+            var dataUser = await data.Where(a => a.Id == User.UserId).FirstOrDefaultAsync();
+            var dataUserDanhMuc = await data.Where(a => a.Id != User.UserId && a.capDoTaiKhoan < dataUser.capDoTaiKhoan).ToListAsync();
+            ViewBag.dataUser = dataUser;
+            ViewBag.dataUserDanhMuc = dataUserDanhMuc;
             return View();
         }
-        public async Task<ActionResult> GetList(string tenNhanVien,string Controller, string action)
+        public async Task<ActionResult> GetList(int nguoiDungSearch, string ngayBatDauSearch, string ngayKetThucSearch)
         {
+       
+            var data = await db_.LogHistorys.Where(a=>
+                (a.Id == nguoiDungSearch || nguoiDungSearch == 0 || nguoiDungSearch == null)//&&
+               // (a.ngayTao >= ngayBatDauSearch)
+                ).AsNoTracking().ToListAsync();
+            if (User.capDoTaiKhoan == 5)
+            {
+                data = await db_.LogHistorys.AsNoTracking().Where(a => a.idUser == User.UserId).ToListAsync();
+            }
+
+            ViewBag.data= data;
             
+
+
             return PartialView();
         }
     
