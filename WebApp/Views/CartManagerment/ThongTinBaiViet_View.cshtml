@@ -1,7 +1,297 @@
-﻿
+﻿﻿
 @{
-    ViewBag.Title = "ThongTinBaiViet_View";
+    @*var baiviet = ViewBag.user as ToolsApp.EntityFramework.BaiViet;*@
+    @*var token = ViewData["token"];*@
 }
+<style>
 
-<h2>ThongTinBaiViet_View</h2>
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-body info">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="mb-4 ">Thông tin tài sản</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Chiều ngang</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="chieuNgang" name="chieuNgang">
+                                <hr>
+                            </div>
 
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Chiều dài</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="chieuDai" name="chieuDai">
+                                <hr>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Diện tích đất</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="dienTichDat" name="dienTichDat">
+                                <hr>
+                            </div>
+
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Diện tích xây dựng</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="dienTichXayDung" name="dienTichXayDung">
+                                <hr>
+                            </div>
+
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Diện tích sử dụng</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="dienTichSuDung" name="dienTichSuDung">
+                                <hr>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Địa chỉ tài sản</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="" class="form-control" type="text" id="diaChiTaiSan" name="diaChiTaiSan">
+                                <hr />
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h6 class="mb-0 text-success">Tỉnh thành</h6>
+                            </div>
+                                <div class="col-md-10 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <select class=" form-control chosen-select" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">
+                                                <option value="">Thành Phố</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class=" form-control chosen-select" style="width: 100%" id="idQuanHuyen" name="idQuanHuyen" aria-label=".form-select-md">
+                                                <option value="">Quận/Huyện</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class=" form-control chosen-select" style="width: 100%" id="idPhuongXa" name="idPhuongXa" aria-label=".form-select-md">
+                                                <option value="">Phường Xã</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+
+                            </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-danger">Giá bán</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-4 d-flex flex-column">
+                                       <i class="">Giá</i>
+                                        <input value="" class="form-control " type="text" id="giaBan" name="giaBan">
+                                        <span class=" text-danger font-weight-bold mt-2">Đơn giá: Tỷ đồng (VNĐ)</span>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <i>Ghi chú giá bán</i>
+                                        <textarea class="form-control"></textarea>
+                                    </div>
+                                </div>
+                        
+                            </div>
+                          
+                        </div>
+             
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Vị trí</h6>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="d-flex">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="viTriMatTien" name="viTri" value="matTien" checked>
+                                        <label class="form-check-label" for="viTriMatTien">Mặt tiền</label>
+                                    </div>
+                                    <div class="form-check ml-3">
+                                        <input class="form-check-input" type="radio" id="viTriHem" name="viTri" value="hem">
+                                        <label class="form-check-label" for="viTriHem">Hẻm</label>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0">Mô tả vị trí</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <textarea rows="2" value="" class="form-control" id="moTaViTri" name="moTaViTri"></textarea>
+                                <hr>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Kết cấu</h6>
+                            </div>
+                            <div class="col-sm-10 ">
+                                <select class=" form-control chosen-select" style="width: 100%" id="" name="idKetCau" aria-label=".form-select-md">
+                                    <option value="">Nhà cấp 4</option>
+
+                                </select>
+                                <hr>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 ">Mô tả kết cấu</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <textarea rows="3" cols="50" value="" class="form-control" id="moTaViTri" name="moTaViTri"></textarea>
+                                <hr />
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Hướng</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <select class="form-control chosen-select" style="width: 100%" id="huong" name="huong" aria-label=".form-select-md">
+                                    <option value="bac">Bắc</option>
+                                    <option value="dongbac">Đông Bắc</option>
+                                    <option value="dong">Đông</option>
+                                    <option value="dongnam">Đông Nam</option>
+                                    <option value="nam">Nam</option>
+                                    <option value="taynam">Tây Nam</option>
+                                    <option value="tay">Tây</option>
+                                    <option value="taybac">Tây Bắc</option>
+                                </select>
+                                <hr>
+                            </div>
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class="col-sm-10">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="mb-0 text-center font-weight-bold">Thông tin thêm</h6>
+                                        <hr />
+                                        <div class="row text-center">
+                                            <div class="col-lg-4">
+                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> đất</p>
+                                                <i class="font-weight-bold">0đ</i>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> xây dựng</p>
+                                                <i class="font-weight-bold">0đ</i>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> sử dụng</p>
+                                                <i class="font-weight-bold">0đ</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                              
+                                    </div>
+
+
+                                </div>
+                                <div class="button-group">
+                                    <button type="button" onclick="SaveInfo()" class="btn-shadow btn-save btn btn-info btn-success ">
+                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+                                            <i class="fa fa-save"></i>
+                                        </span>
+                                        Lưu
+                                    </button>
+                                    <button type="button" onclick="Cancel('info')" style="margin-left:20px" class="btn-shadow btn-cancel btn btn-info btn-danger">
+                                        <span class="btn-icon-wrapper pr-2 opacity-7">
+
+                                            <i class="fa fa-close"></i>
+                                        </span>
+                                        Hủy
+                                    </button>
+                                </div>
+
+                            </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': { allow_single_deselect: true },
+        '.chosen-select-no-single': { disable_search_threshold: 10 },
+        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+        '.chosen-select-width': { width: "95%" },
+        'search_contains': true
+    }
+    for (var selector in config) {
+        $(selector).chosen(config);
+    }
+    var idThanhPho = document.getElementById("idThanhPho");
+    var placeOfBirt = document.getElementById("placeOfBirt");
+    var subAdministrativeArea = document.getElementById("subAdministrativeArea");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+
+            var a = idThanhPho.options[idThanhPho.options.length] = new Option(x.Name, x.Name);
+        }
+        //administrativeArea.onchange = function () {
+        //    subAdministrativeArea.length = 1;
+        //    if (this.value != "") {
+        //        const result = data.filter(n => n.Name === this.value);
+
+        //    }
+        //};
+    }
+</script>

@@ -39,6 +39,7 @@ namespace ToolsApp.Controllers
         }
         public ActionResult ThongTinBaiViet_View()
         {
+     
             return PartialView();
         }
         public ActionResult ThongTinKhachHang_View()
