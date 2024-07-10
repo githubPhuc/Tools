@@ -2,12 +2,14 @@
 @{
     ViewBag.Title = "Insert";
 }
+<style>
+</style>
 <div class="container">
     <div class="main-body">
         <div class="row">
-                <div class="col-md-12 mt-4 table-body-HinhAnh table-responsive">
+            <div class="col-md-12 mt-4 table-body-HinhAnh table-responsive">
 
-                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12 mt-4 table-body-ThongTinBaiViet table-responsive">
@@ -29,7 +31,6 @@
             $('#codeBank').select2();
             loadHinhAnh();
             loadThongTinBaiViet()
-            loadThongTinKhachHang();
         });
        function loadHinhAnh() {
             var Id = $("#Id").val();
@@ -61,25 +62,6 @@
                     },
                     success: function (response) {
                         $('.table-body-ThongTinBaiViet').html(response);
-                    },
-                    error: function (message) {
-                        $(".divLoading").removeClass("loading");
-                    }
-                });
-            } catch (e) {
-            }
-        }
-        function loadThongTinKhachHang() {
-            var Id = $("#Id").val();
-            try {
-                $.ajax({
-                    url: '@Url.Action("ThongTinKhachHang_View")',
-                    timeout: 2000000,
-                    data: {
-                        Id: Id
-                    },
-                    success: function (response) {
-                        $('.table-body-ThongTinKhachHang').html(response);
                     },
                     error: function (message) {
                         $(".divLoading").removeClass("loading");

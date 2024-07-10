@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Quản lý rổ hàng";
     var user = ViewBag.user as ToolsApp.EntityFramework.User;
+    var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
+    var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
 }
 <style>
     .dropzone {
@@ -55,70 +57,234 @@
             line-height: 0px;
             margin: 0px 8px;
         }
+    .tab-getlist  {
+        cursor:pointer
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary border-no-color card-outline">
-                    <div class="card-header">
+                    @*<div class="card-header">
                         <h3 class="card-title">
                             <b>TÌM KIẾM THEO TỪ KHÓA</b>
                         </h3>
-                    </div>
+                    </div>*@
                     <div class="card-body pad">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-2 col-sm-4">
                                 <div class="form-group">
-                                    <label>Tên tài khoản</label>
+                                    <label>Tên tài sản</label>
                                     <input class="form-control form-control-md" type="text" autocomplete="off" id="UsernameSearch" name="UsernameSearch" />
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label>Tên nhân viên</label>
-                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="FullnameSearch" name="FullnameSearch" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Loại tài khoản</label>
-                                    <select id="AccountType" name="AccountType" class="form-control chosen-select" style="width: 100%;">
-                                        <option value="">-- All --</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="User">User</option>
+                                    <label>Loại bài đăng</label>
+                                    <select id="nhomBaiVietSearch" name="nhomBaiVietSearch" class="form-control chosen-select" style="width: 100%;">
+                                        @if (nhomBaiViets != null)
+                                        {
+                                            <option value="all">Tất cả</option>
+                                            foreach (var item in nhomBaiViets)
+                                            {
+                                                <option value="@item.id">@item.tenNhom</option>
+                                            }
+
+                                        }
                                     </select>
                                 </div>
                             </div>
-                            <!-- /.col -->
-                            <div class="col-md-12">
-                                <!-- /.form-group -->
-                                <div class="form-group">
-                                    <button id="btnSearch" type="button" class="btn bg-gradient-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
 
+                            <div class="col-md-2">
+                                <label class="col-md-12 ">Thành phố</label>
+                                <div class="col-md-12 col-sm-12 ten">
+                                    <select class=" form-control chosen-select" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">
+                                        <option value="">Vui lòng chọn thành phố</option>
+                                    </select>
                                 </div>
-                                <!-- /.form-group -->
                             </div>
-                            <!-- /.col -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-sm-12">Quận huyện  </label>
+                                    <div class="col-md-12 col-sm-12 ten">
+                                        <select class="form-control chosen-select" style="width: 100%;" id="idQuanHuyen" name="idQuanHuyen" aria-label=".form-select-md">
+                                            <option value="">Quận / Huyện</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-sm-12">Phường xã  </label>
+                                    <div class="col-md-12 col-sm-12 ten">
+                                        <select class="form-control chosen-select" style="width: 100%;" id="idPhuongXa" name="idPhuongXa" aria-label=".form-select-md">
+                                            <option value="">Phường / Xã</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Vị trí</label>
+                                    <select id="giaBanSearch" name="AccountType" class="form-control chosen-select" style="width: 100%;">
+                                        <option value="all">Tất cả</option>
+                                        <option value="true">Mặt tiền</option>
+                                        <option value="false">Hẻm</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="dienTichSearch">Diện tích</label>
+                                <div class="d-flex">
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Từ">
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Đến">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 border-left">
+                                <label for="dienTichSearch">Giá thành</label>
+                                <div class="d-flex">
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Từ">
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Đến">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 border-left">
+                                <label for="dienTichSearch">Chiều dài</label>
+                                <div class="d-flex">
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Từ">
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Đến">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 border-left">
+                                <label for="dienTichSearch">Chiều ngang</label>
+                                <div class="d-flex">
+
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Từ">
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input type="number" class="form-control" id="dienTichTu" placeholder="Đến">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 border-left">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-12 col-sm-12">Kết cấu  </label>
+                                            <div class="col-md-12 col-sm-12 ten">
+                                                <select class="form-control chosen-select" style="width: 100%;" id="ketCau" name="ketCau" aria-label=".form-select-md">
+                                                    @if (ketCaus != null)
+                                                    {
+                                                        <option value="all">Tất cả</option>
+                                                        foreach (var item in ketCaus)
+                                                        {
+                                                            <option value="@item.id">@item.tenKetCau</option>
+                                                        }
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-12 col-sm-12">Số phòng</label>
+                                            <div class="col-md-12 col-sm-12 ten">
+                                                <select class="form-control chosen-select" style="width: 100%;" id="soPhong" name="soPhong" aria-label=".form-select-md">
+                                                    <option value="all">Tất cả</option>
+                                                    <option value="1-2">1 đến 2 phòng</option>
+                                                    <option value="1-2">3 đến 4 phòng</option>
+                                                    <option value="1-2">5 đến 6 phòng</option>
+                                                    <option value="1-2">7 đến 9 phòng</option>
+                                                    <option value="1-2">Trên 10 phòng</option>
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-1 border-left">
+                                <div class="form-group">
+                                    <label class="col-md-12 col-sm-12">Hướng  </label>
+                                    <div class="col-md-12 col-sm-12 ten">
+                                        <select class="form-control chosen-select" style="width: 100%;" id="huong" name="huong" aria-label=".form-select-md">
+                                            <option value="all">Tất cả</option>
+                                            <option value="bac">Bắc</option>
+                                            <option value="dongbac">Đông Bắc</option>
+                                            <option value="dong">Đông</option>
+                                            <option value="dongnam">Đông Nam</option>
+                                            <option value="nam">Nam</option>
+                                            <option value="taynam">Tây Nam</option>
+                                            <option value="tay">Tây</option>
+                                            <option value="taybac">Tây Bắc</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <button id="btnSearch" type="button" class="btn bg-gradient-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+
+                            </div>
+                            <!-- /.form-group -->
                         </div>
                     </div>
-                    <!-- /.card -->
+               
                 </div>
+              
             </div>
-            <!-- /.col -->
+            
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">
-                            <b>KẾT QUẢ</b>
-                        </h3>
+                        <div class="card-title">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item tab-getlist" >
+                                    <a class="nav-link text-success font-weight-bold active"  aria-current="page">Tất cả bài đăng</a>
+                                </li>
+                                @foreach (var item in nhomBaiViets)
+                                {
+                                    <li class="nav-item tab-getlist ">
+                                        <a class="nav-link text-success font-weight-bold" data-id="@item.id">@item.tenNhom</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                     </div>
                     <div class="card-body pad">
                         <div class="row">
                             <div class="col-md-4">
-                                <a href="@Url.Action("Insert")" class="btn bg-gradient-success">
+                                <a href="@Url.Action("Insert")" id="btnAdd" class="btn bg-gradient-success">
                                     <i class="fa fa-plus"></i>&nbsp;Thêm
                                 </a>
                             </div>
@@ -133,11 +299,94 @@
             </div>
             <!-- /.col -->
         </div>
-    </div><!-- /.container-fluid -->
+        <!-- /.col -->
+    </div>
+
 </section>
 
 @section scripts {
+
     <script>
+        $(document).ready(function () {
+            var citis = document.getElementById("idThanhPho");
+            var districts = document.getElementById("idQuanHuyen");
+            var wards = document.getElementById("idPhuongXa");
+            $("#idThanhPho").select2();
+            $("#idQuanHuyen").select2();
+            $("#idPhuongXa").select2();
+            $("#giaBanSearch").select2();
+            $("#nhomBaiVietSearch").select2();
+            $("#dienTichSearch").select2();
+            $("#soPhong").select2();
+            $("#huong").select2();
+            $("#idKetCau").select2();
+
+            var Parameter = {
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "application/json",
+            };
+            var promise = axios(Parameter);
+            promise.then(function (result) {
+                renderCity(result.data);
+            });
+
+            function renderCity(data) {
+                console.log(data)
+                for (const x of data) {
+                    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+
+                }
+                citis.onchange = function () {
+                    districts.length = 1;
+                    if (this.value != "") {
+                        const result = data.filter(n => n.Id === this.value);
+                        for (const k of result[0].Districts) {
+                            districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                        }
+                        if (districts.options.length > 1) {
+                            districts.selectedIndex = 1;
+                            districts.onchange();
+                        }
+                    }
+                };
+                districts.onchange = function () {
+                    wards.length = 1;
+                    const dataCity = data.filter((n) => n.Id === citis.value);
+                    if (this.value != "") {
+                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                        for (const w of dataWards) {
+                            wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                        }
+                        if (wards.options.length > 1) {
+                            wards.selectedIndex = 1;
+                            wards.onchange();
+                        }
+                    }
+                };
+            }
+            $('#btnAdd').click(function (e) {
+                e.preventDefault(); // Ngăn chặn hành động mặc định của nút "Thêm"
+
+                // Gọi AJAX để gọi action ClearSession
+                $.ajax({
+                    url: '@Url.Action("ClearSession")',
+                    type: 'POST',
+                    success: function (data) {
+                        console.log('Session cleared successfully');
+                        window.location.href = '@Url.Action("Insert")';
+                    },
+                    error: function (xhr, status, error) {
+                        // Xử lý khi gọi AJAX thất bại (nếu cần)
+                        console.error('Failed to clear session:', error);
+                    }
+                });
+            })
+        })
+    </script>
+    <script>
+
+
         var myModal = {
             $modal: $('#myModal'),
             $myModalContent: $("#myModalContent"),
@@ -150,7 +399,7 @@
 
 
       ];
-      $(document).ready(function () {
+        $(document).ready(function () {
             loadData(...paramsLoadData);
 
             $("#myModal").on("hidden.bs.modal", function () {
@@ -160,8 +409,85 @@
             $("#btnSearch").click(function () {
                 loadData(...paramsLoadData);
             });
+            $('.nav-link').click(function (event) {
+                event.preventDefault();
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+                var idNhomBaiViet = $(this).data('id');
+                try {
+                    $.ajax({
+                        url: '@Url.Action("GetList")',
+                        timeout: 2000000,
+                        data: { idNhomBaiViet: idNhomBaiViet },
+                        beforeSend: function () {
+                            $(".divLoading").addClass("loading");
+                        },
+                        success: function (response) {
+                            $(".divLoading").removeClass("loading");
+                            $('.table-body').html(response);
+                            $("#myTable").DataTable({
 
-        });
+                                destroy: true,
+                                "order": [[1, "desc"]],
+                                "language": {
+                                    "sProcessing": "Đang xử lý...",
+                                    "sLengthMenu": " Hiển thị _MENU_ dữ liệu",
+                                    "sZeroRecords": "Không tìm thấy kết quả",
+                                    "sEmptyTable": "Không có dữ liệu",
+                                    "sInfo": "Hiển thị _START_ tới _END_ của _TOTAL_ dữ liệu",
+                                    "sInfoEmpty": "Hiển thị 0 tới 0 của 0 dữ liệu",
+                                    "sInfoFiltered": "(được lọc từ _MAX_ dữ liệu)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Tìm kiếm:",
+                                    "sUrl": "",
+                                    "sInfoThousands": ",",
+                                    "sLoadingRecords": "Đang tải...",
+                                    "oPaginate": {
+                                        "sFirst": "Đầu tiên",
+                                        "sLast": "Cuối cùng",
+                                        "sNext": "Sau",
+                                        "sPrevious": "Trước"
+                                    },
+                                    "oAria": {
+                                        "sSortAscending": ":Sắp xếp thứ tự tăng dần",
+                                        "sSortDescending": ": Sắp xếp thứ tự giảm dần"
+                                    }
+                                },
+                                "lengthMenu": [5, 10, 25, 50, 75, 100],
+                                "columnDefs": [
+                                    {
+                                        "targets": [0,],
+                                        orderable: false
+                                    },
+                                ],
+                                "info": false,
+                                "processing": false,
+                                "serverSide": false,
+                                "bFilter": true,
+                                "bPaginate": true,
+                                "bLengthChange": true,
+                                "bInfo": true,
+                                "responsive": true,
+                                "lengthChange": true,
+                                "autoWidth": false,
+                                "stateSave": true,
+                                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                                "initComplete": function (oSettings) {
 
+                                }
+                            })
+                        },
+                        error: function (message) {
+                            $(".divLoading").removeClass("loading");
+                        }
+                    });
+                } catch (e) {
+
+                }
+
+            });
+
+        })
+      
     </script>
 }

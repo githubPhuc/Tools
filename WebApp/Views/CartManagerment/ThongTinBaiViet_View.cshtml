@@ -1,114 +1,140 @@
-﻿﻿
-@{
-    @*var baiviet = ViewBag.user as ToolsApp.EntityFramework.BaiViet;*@
-    @*var token = ViewData["token"];*@
-}
-<style>
+﻿@model ToolsApp.EntityFramework.BaiViet
+@{ var nhomBaiViet = ViewBag.nhomBaiViet as ToolsApp.EntityFramework.NhomBaiViet;
+    var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
+    var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
+    var donGia = 1000000;
+  }
 
-</style>
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-body info">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h4 class="mb-4 ">Thông tin tài sản</h4>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <h4 class="mb-4 ">Thông tin tài sản @Model.id</h4>
+                            </div>
+                            <div class="col-lg-2 ">
+                                <div class="quickEdit">
+                                    <select class=" form-control chosen-select" data-id="@Model.id" style="width: 100%" id="idNhomBaiViet" name="idNhomBaiViet" aria-label=".form-select-md">
+                                     
+                                        @foreach (var item in nhomBaiViets)
+                                        {
+                                         <option value="@item.id" @(item.id == Model.idNhomBaiViet ? "selected" : "")>@item.tenNhom</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Địa chỉ tài sản</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <input value="@Model.diaChiTaiSan" data-id="@Model.id" class="form-control quickEdit" type="text" id="diaChiTaiSan" name="diaChiTaiSan">
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Địa chỉ đầy đủ</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="diaChiDayDu" name="diaChiDayDu" aria-label=".form-select-md">
+                                    <option value="">Thành phố - Quận / Huyện - Phường / Xã </option>
+                                </select>
+                                <hr />
+                            </div>
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-md-2">
+                                <h6 class="mb-0 text-success">Tỉnh thành</h6>
+                            </div>
+                            <div class="col-md-10 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">-->
+                                            @*<option value="">Thành Phố</option>*@
+                                            <!--<option value="">Thành Phố</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idQuanHuyen" name="idQuanHuyen" aria-label=".form-select-md">
+                                            <option value="">Quận/Huyện</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idPhuongXa" name="idPhuongXa" aria-label=".form-select-md">
+                                            <option value="">Phường Xã</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+
+
+                        </div>-->
+
+                        <div class="row">
+                            <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Chiều ngang</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="chieuNgang" name="chieuNgang">
+                                <input value="@Model.chieuNgang" class="form-control quickEdit" data-id="@Model.id" min=0.01 step=0.01 onkeypress="return event.charCode != 45" type="number" id="chieuNgang" name="chieuNgang">
                                 <hr>
                             </div>
 
                         </div>
-                      
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Chiều dài</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="chieuDai" name="chieuDai">
+                                <input value="@Model.chieuDai" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id"  id="chieuDai" name="chieuDai">
                                 <hr>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Diện tích đất</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="dienTichDat" name="dienTichDat">
+                                <input value="@Model.dienTichDat" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichDat" name="dienTichDat">
                                 <hr>
                             </div>
 
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Diện tích xây dựng</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="dienTichXayDung" name="dienTichXayDung">
+                                <input value="@Model.dienTichXayDung" class="form-control quickEdit" data-id="@Model.id" min=0.01 step=0.01 onkeypress="return event.charCode != 45" type="number" id="dienTichXayDung" name="dienTichXayDung">
                                 <hr>
                             </div>
 
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Diện tích sử dụng</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="dienTichSuDung" name="dienTichSuDung">
+                                <input value="@Model.dienTichSuDung" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichSuDung" name="dienTichSuDung">
+
                                 <hr>
                             </div>
                         </div>
-                       
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0 text-success">Địa chỉ tài sản</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12">
-                                <input value="" class="form-control" type="text" id="diaChiTaiSan" name="diaChiTaiSan">
-                                <hr />
-                            </div>
-                        </div>
-                       
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h6 class="mb-0 text-success">Tỉnh thành</h6>
-                            </div>
-                                <div class="col-md-10 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-3">
-                                            <select class=" form-control chosen-select" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">
-                                                <option value="">Thành Phố</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class=" form-control chosen-select" style="width: 100%" id="idQuanHuyen" name="idQuanHuyen" aria-label=".form-select-md">
-                                                <option value="">Quận/Huyện</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class=" form-control chosen-select" style="width: 100%" id="idPhuongXa" name="idPhuongXa" aria-label=".form-select-md">
-                                                <option value="">Phường Xã</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                               
-
-                            </div>
-
-                        <hr>
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Giá bán</h6>
@@ -116,20 +142,30 @@
                             <div class="col-md-10 col-sm-12">
                                 <div class="row">
                                     <div class="col-lg-4 d-flex flex-column">
-                                       <i class="">Giá</i>
-                                        <input value="" class="form-control " type="text" id="giaBan" name="giaBan">
-                                        <span class=" text-danger font-weight-bold mt-2">Đơn giá: Tỷ đồng (VNĐ)</span>
+                                        <i class="">Giá</i>
+                                        <input value="@Model.giaBan" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
+                                        <span id="donGiaLabel" class=" text-danger font-weight-bold mt-2">
+                                            @if (Model.idNhomBaiViet == 1 || Model.idNhomBaiViet == 3)
+                                            {
+                                                donGia = 1000000000;
+                                                @:Đơn giá: Tỷ đồng (VNĐ)
+                                            }
+                                            else
+                                            {
+                                                @:Đơn giá: Triệu đồng (VNĐ)
+                                            }
+                                        </span>
                                     </div>
                                     <div class="col-lg-8">
                                         <i>Ghi chú giá bán</i>
-                                        <textarea class="form-control"></textarea>
+                                        <textarea class="form-control quickEdit" name="moTaGia" data-id="@Model.id">@Model.moTaGia</textarea>
                                     </div>
                                 </div>
-                        
+
                             </div>
-                          
+
                         </div>
-             
+
 
                     </div>
                     <div class="col-lg-6">
@@ -139,71 +175,88 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="d-flex">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="viTriMatTien" name="viTri" value="matTien" checked>
+                                    <div class="form-check ">
+                                        <input class="form-check-input quickEdit" type="radio" id="viTriMatTien" name="viTri"  data-id="@Model.id" value="true" @(Model.viTri.HasValue && Model.viTri.Value ? "checked" : "")>
                                         <label class="form-check-label" for="viTriMatTien">Mặt tiền</label>
                                     </div>
                                     <div class="form-check ml-3">
-                                        <input class="form-check-input" type="radio" id="viTriHem" name="viTri" value="hem">
+                                        <input class="form-check-inpu quickEdit" type="radio" id="viTriHem" name="viTri"  data-id="@Model.id" value="false" @(Model.viTri.HasValue && !Model.viTri.Value ? "checked" : "")>
                                         <label class="form-check-label" for="viTriHem">Hẻm</label>
                                     </div>
                                 </div>
                                 <hr>
                             </div>
                         </div>
-                      
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0">Mô tả vị trí</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <textarea rows="2" value="" class="form-control" id="moTaViTri" name="moTaViTri"></textarea>
+                                <textarea rows="2" class="form-control quickEdit" data-id="@Model.id" id="moTaViTri" name="moTaViTri">@Model.moTaViTri</textarea>
                                 <hr>
                             </div>
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-success">Kết cấu</h6>
                             </div>
                             <div class="col-sm-10 ">
-                                <select class=" form-control chosen-select" style="width: 100%" id="" name="idKetCau" aria-label=".form-select-md">
-                                    <option value="">Nhà cấp 4</option>
+                                <select class="form-control chosen-select" data-id="@Model.id" style="width: 100%" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
+                                    @foreach (var item in ketCaus)
+                                    {
+                                        <option value="@item.id" @(item.id == Model.idKetCau ? "selected" : "")>@item.tenKetCau</option>
+                                    }
 
                                 </select>
                                 <hr>
                             </div>
                         </div>
-                       
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h6 class="mb-0 text-success">Số phòng</h6>
+                            </div>
+                            <div class="col-sm-10 ">
+                                <select class="form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="soPhong" name="soPhong" aria-label=".form-select-md">
+                                    @*<option value="1-2" @(Model.soPhong == "1-2" ? "selected" : "")>1 đến 2 phòng</option>
+                                    <option value="3-4" @(Model.soPhong == "3-4" ? "selected" : "")>3 đến 4 phòng</option>
+                                    <option value="5-6" @(Model.soPhong == "5-6" ? "selected" : "")>5 đến 6 phòng</option>
+                                    <option value="7-9" @(Model.soPhong == "7-9" ? "selected" : "")>7 đến 9 phòng</option>
+                                    <option value="10+" @(Model.soPhong == "10+" ? "selected" : "")>Trên 10 phòng</option>*@
+                                </select>
+                                <hr>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 ">Mô tả kết cấu</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <textarea rows="3" cols="50" value="" class="form-control" id="moTaViTri" name="moTaViTri"></textarea>
+                                <textarea rows="2" cols="50" value="" class="form-control quickEdit" data-id="@Model.id" id="moTaViTri" name="moTaViTri">@Model.moTaViTri</textarea>
                                 <hr />
                             </div>
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-success">Hướng</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <select class="form-control chosen-select" style="width: 100%" id="huong" name="huong" aria-label=".form-select-md">
-                                    <option value="bac">Bắc</option>
-                                    <option value="dongbac">Đông Bắc</option>
-                                    <option value="dong">Đông</option>
-                                    <option value="dongnam">Đông Nam</option>
-                                    <option value="nam">Nam</option>
-                                    <option value="taynam">Tây Nam</option>
-                                    <option value="tay">Tây</option>
-                                    <option value="taybac">Tây Bắc</option>
+                                <select class="form-control chosen-select quickEdit" style="width: 100%"  data-id="@Model.id"  id="huong" name="huong" aria-label=".form-select-md">
+                                    <option value="Bắc">Bắc</option>
+                                    <option value="Đông Bắc">Đông Bắc</option>
+                                    <option value="Đông">Đông</option>
+                                    <option value="Đông Nam">Đông Nam</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Tây Nam">Tây Nam</option>
+                                    <option value="Tây">Tây</option>
+                                    <option value="Tây Bắc">Tây Bắc</option>
                                 </select>
                                 <hr>
                             </div>
                         </div>
-                      
+
                         <div class="row">
                             <div class="col-lg-2"></div>
                             <div class="col-sm-10">
@@ -214,84 +267,289 @@
                                         <div class="row text-center">
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> đất</p>
-                                                <i class="font-weight-bold">0đ</i>
+                                                <i class="font-weight-bold" id="giaM2Dat"> @String.Format("{0:0,0 đ}", @Model.giaM2Dat)</i>
+                                               
                                             </div>
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> xây dựng</p>
-                                                <i class="font-weight-bold">0đ</i>
+                                                <i class="font-weight-bold" id="giaM2XayDung"> @String.Format("{0:0,0 đ}", @Model.giaM2XayDung)</i>
+                                                
                                             </div>
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> sử dụng</p>
-                                                <i class="font-weight-bold">0đ</i>
+                                                <i class="font-weight-bold" id="giaM2SuDung"> @String.Format("{0:0,0 đ}", @Model.giaM2SuDung)</i>
                                             </div>
                                         </div>
                                     </div>
-                                 </div>
-                              
-                                    </div>
-
-
-                                </div>
-                                <div class="button-group">
-                                    <button type="button" onclick="SaveInfo()" class="btn-shadow btn-save btn btn-info btn-success ">
-                                        <span class="btn-icon-wrapper pr-2 opacity-7">
-                                            <i class="fa fa-save"></i>
-                                        </span>
-                                        Lưu
-                                    </button>
-                                    <button type="button" onclick="Cancel('info')" style="margin-left:20px" class="btn-shadow btn-cancel btn btn-info btn-danger">
-                                        <span class="btn-icon-wrapper pr-2 opacity-7">
-
-                                            <i class="fa fa-close"></i>
-                                        </span>
-                                        Hủy
-                                    </button>
                                 </div>
 
                             </div>
-                </div>
 
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body info">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="mb-4 ">Thông tin khách hàng</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h6>Thông tin liên hệ</h6>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input value="@Model.tenKh" class="form-control quickEdit" data-id="@Model.id" placeholder="Tên khách hàng" type="text" id="tenKh" name="tenKh">
+                            </div>
+                            <div class="col-lg-6">
+                                <input value="@Model.sdtKh" placeholder="Số điện thoại" class="form-control quickEdit"  data-id="@Model.id" type="number" id="sdtKh" name="sdtKh">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input value="@Model.diachiKh" class="form-control quickEdit"  data-id="@Model.id" placeholder="Địa chỉ" type="text" id="diachiKh" name="diachiKh">
+                            </div>
+                            <div class="col-lg-6">
+                                <input value="@Model.emailKh"  data-id="@Model.id" class="form-control quickEdit" type="email" placeholder="Email" id="emailKh" name="emailKh">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <h6>Thông tin cá nhân</h6>
+                            <div class="col-md-12 col-sm-12">
+                                <input value="@Model.CCCDKh"  data-id="@Model.id" placeholder="Nhập số CCCD / Chứng minh thư" class="form-control quickEdit" type="text" id="CCCDKh" name="CCCDKh">
+                            </div>
+
+                        </div>
+                        <hr>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <img src="~/Content/images/noImage.png" alt="Admin" class="rounded-circle" width="200">
+                    <div class="mt-3">
+                        <h4>@Model.tenKh</h4>
+                        <p class="text-secondary mb-1">@Model.sdtKh</p>
+                        <p class="text-muted font-size-sm">@Model.diachiKh</p>
+                        <p class="text-muted font-size-sm">@Model.emailKh</p>
+                        <button class="btn btn-primary" onclick="updateCustomerInfomation()">Cập nhật chi tiết hồ sơ khách hàng </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    var config = {
-        '.chosen-select': {},
-        '.chosen-select-deselect': { allow_single_deselect: true },
-        '.chosen-select-no-single': { disable_search_threshold: 10 },
-        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
-        '.chosen-select-width': { width: "95%" },
-        'search_contains': true
-    }
-    for (var selector in config) {
-        $(selector).chosen(config);
-    }
-    var idThanhPho = document.getElementById("idThanhPho");
-    var placeOfBirt = document.getElementById("placeOfBirt");
-    var subAdministrativeArea = document.getElementById("subAdministrativeArea");
-    var Parameter = {
-        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
 
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-        renderCity(result.data);
-    });
+    $(document).ready(function () {
 
-    function renderCity(data) {
-        for (const x of data) {
+        //Map auto fill
+        $('#diaChiTaiSan').on('blur', function () {
+            var address = $(this).val();
+            if (address) {
+                geocodeAddress(address);
+            }
+        });
+        function geocodeAddress(address) {
+            var url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&accept-language=vi`;
+            $.getJSON(url, function (data) {
+                if (data.length > 0) {
+                    var $diaChiDayDu = $("#diaChiDayDu");
+                    $diaChiDayDu.empty(); // Xóa các option cũ nếu có
 
-            var a = idThanhPho.options[idThanhPho.options.length] = new Option(x.Name, x.Name);
+                    data.forEach(function (result) {
+                        var displayName = result.display_name;
+                        $diaChiDayDu.append(new Option(displayName, displayName));
+                    });
+                } else {
+                    alert('Không tìm thấy địa chỉ');
+                }
+            });
         }
-        //administrativeArea.onchange = function () {
-        //    subAdministrativeArea.length = 1;
-        //    if (this.value != "") {
-        //        const result = data.filter(n => n.Name === this.value);
+        //Áp dụng select2
+        $("select").each(function () {
+            $(this).select2()
+        })
+        @*var citis = document.getElementById("idThanhPho");
+        var districts = document.getElementById("idQuanHuyen");
+        var wards = document.getElementById("idPhuongXa");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
 
-        //    }
-        //};
-    }
+        function renderCity(data) {
+            console.log(data)
+            for (const x of data) {
+               citis.options[citis.options.length] = new Option(x.Name, x.Id);
+
+            }
+            // xứ lý khi thay đổi tỉnh thành thì sẽ hiển thị ra quận huyện thuộc tỉnh thành đó
+            citis.onchange = function () {
+                districts.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+            };
+
+            // xứ lý khi thay đổi quận huyện thì sẽ hiển thị ra phường xã thuộc quận huyện đó
+            districts.onchange = function () {
+                wards.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+            };
+        }*@
+        var giaTien = true;
+        $('#idNhomBaiViet').change(function () {
+            var selectedValue = parseInt($(this).val()); // Lấy giá trị đã chọn
+            var donGiaLabel = $('#donGiaLabel');
+
+            // Cập nhật nội dung cho đơn giá tương ứng
+            if (selectedValue == 1 || selectedValue == 3) {
+                donGiaLabel.text('Đơn giá: Tỷ đồng (VNĐ)');
+                giaTien = true;
+            } else {
+                donGiaLabel.text('Đơn giá: triệu đồng (VNĐ)');
+                giaTien = false;
+            }
+        });
+        $('#giaBan').on('blur', function () {
+            var id = $(this).data("id")
+            var giaBan = parseFloat($(this).val());
+            var donGia;
+            if (giaTien == true) {
+                donGia = 1000000000;
+            }
+            else {
+                donGia = 1000000
+            }
+            if (giaBan != NaN) {
+                console.log(donGia)
+                var giaM2Dat = giaBan * donGia / @(Model.dienTichDat);
+                var giaM2XayDung = giaBan * donGia / @(Model.dienTichXayDung)
+                 var giaM2SuDung = giaBan * donGia / @(Model.dienTichSuDung)
+                $('#giaM2Dat').text(giaM2Dat.toLocaleString('en-US') + ' VNĐ');
+                $('#giaM2XayDung').text(giaM2XayDung.toLocaleString('en-US') + ' VNĐ');
+                $('#giaM2SuDung').text(giaM2SuDung.toLocaleString('en-US') + ' VNĐ');
+                var data = {
+                    id:id,
+                    giaM2Dat: giaM2Dat,
+                    giaM2SuDung: giaM2SuDung,
+                    giaM2XayDung: giaM2XayDung
+                }
+                try {
+                    $.ajax({
+                        url: '@Url.Action("QuickUpdateBaiViet")',
+                        type: 'POST',
+                        data: data,
+                        success: function (response) {
+                        },
+                        error: function (error) {
+                            // Handle the error response
+                            notify('Có lỗi xảy ra khi lưu thông tin thêm');
+                        },
+                        complete: function () {
+                        }
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+        })
+
+        //quickUpdate select2
+            // Handle select2 change event
+            $("select").on('change', function () {
+                var $this = $(this);
+                var idBaiViet = $this.data('id'); // Ensure data-id is properly set on the input element
+                var newValue = $this.val();
+                var inputName = $this.attr('name');
+                var data = {
+                    id: idBaiViet
+                };
+                data[inputName] = newValue; // Dynamically add the property to the data object
+
+                // Optionally, log the data object for debugging
+                console.log(data);
+
+                // Send AJAX request to update the server
+                $.ajax({
+                    url: '@Url.Action("QuickUpdateBaiViet")', // Replace with your server endpoint
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        if (response.success == true) {
+                            console.log(newValue)
+                            $this.val(newValue)
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        notify('Có lỗi xảy ra');
+                    }
+                });
+            });
+        //QuickUpdate
+            $('.quickEdit').on('blur', function () {
+            var $this = $(this);
+            var idBaiViet = $this.data('id');
+            var newValue = $this.val();
+            var inputName = $this.attr('name');
+            var data = {
+                id: idBaiViet,
+            };
+            data[inputName] = newValue; //
+            $.ajax({
+                url: '@Url.Action("QuickUpdateBaiViet")',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    if (response.success == true) {
+                        console.log(newValue)
+                        $this.val(newValue)
+                    }
+
+                },
+                error: function (error) {
+                    // Handle the error response
+                    notify('Có lỗi xảy ra');
+                },
+                complete: function () {
+                }
+            });
+        });
+        $('.quickEdit').on('keydown', function (event) {
+            if (event.key === 'Enter') {
+                $(this).blur();
+            }
+        });
+    })
+
 </script>

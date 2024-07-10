@@ -1093,6 +1093,8 @@
     <Content Include="Content\images\logo-blue.png" />
     <Content Include="Content\images\logo-white.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logoHDP-removebg-preview.png" />
+    <Content Include="Content\images\logoHDP.png" />
     <Content Include="Content\images\logo_dksh.gif" />
     <Content Include="Content\images\logo_to.png" />
     <Content Include="Content\images\logo_tt1.png" />
@@ -3267,7 +3269,6 @@
     <Content Include="Views\CartManagerment\Insert.cshtml" />
     <Content Include="Views\CartManagerment\Edit.cshtml" />
     <Content Include="Views\CartManagerment\ThongTinBaiViet_View.cshtml" />
-    <Content Include="Views\CartManagerment\ThongTinKhachHang_View.cshtml" />
     <Content Include="Views\CartManagerment\hinhAnh_View.cshtml" />
     <Content Include="Views\CartManagerment\GetList.cshtml" />
     <Content Include="Views\DanhMucKetCau\Edit.cshtml" />
