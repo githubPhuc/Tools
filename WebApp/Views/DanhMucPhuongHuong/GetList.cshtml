@@ -1,17 +1,14 @@
 ﻿
 @{
     ViewBag.Title = "GetList";
-    var data = ViewBag.data as List<ToolsApp.EntityFramework.KetCau>;
+    var data = ViewBag.data as List<ToolsApp.EntityFramework.Config>;
 }
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
             <th></th>
-            <th>Tên kết cấu</th>
+            <th>Tên phương hướng</th>
             <th>Tình trạng</th>
-            <th>Nguời tạo</th>
-            <th>Ngày tạo</th>
-            <th>Nguời cập nhật</th>
         </tr>
     </thead>
     <tbody>
@@ -23,20 +20,15 @@
                 {
                     <tr>
                         <td style="max-width:40px!important">
-                            <a onclick="Edit('@item.id')" class="btn">
+                            <a onclick="Edit('@item.Id')" class="btn">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a onclick="Delete('@item.id')" class="btn">
+                            <a onclick="Delete('@item.Id')" class="btn">
                                 <i class="far fa-trash-alt"></i> Delete
                             </a>
                         </td>
-                        <td>
-                            @STT
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>@item.MoTa</td>
+                        <td>@item.hieuLuc</td>
                     </tr>
 
                     STT++;

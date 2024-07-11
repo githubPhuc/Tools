@@ -1,54 +1,77 @@
-﻿@model ToolsApp.Models.UserViewModel
-
+﻿
 @{
-    var allUsers = ViewBag.allUsers as List<ToolsApp.EntityFramework.User>;
-    var pages = ViewBag.pages as List<ToolsApp.EntityFramework.Page>;
+    var dataAccountType = ViewBag.dataAccountType as List<ToolsApp.EntityFramework.Config>;
+    //var pages = ViewBag.pages as List<ToolsApp.EntityFramework.Page>;
 }
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-@Html.HiddenFor(model => model.Id)
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-3 col-sm-3">@Html.LabelFor(p => p.Username)</label>
+    <label class="col-md-3 col-sm-3">Tên tài khoản</label>
     <div class="col-md-9 col-sm-9 ten">
-        <select id="tenTaiKhoan" name="tenTaiKhoan" class="form-control chosen-select" style="width: 100%;">
-            @foreach (var item in allUsers)
-            {
-                <option value="@item.tenTaiKhoan">
-                    @item.tenTaiKhoan -  @item.hoVaTen
-                </option>
-            }
-        </select>
-        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+        <input value="" class="form-control" type="text" id="tenTaiKhoan" name="tenTaiKhoan" oninput="formatInput(this)"/>
     </div>
 </div>
-
-
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-3 col-sm-3">Pages</label>
+    <label class="col-md-3 col-sm-3">Mật khẩu</label>
     <div class="col-md-9 col-sm-9 ten">
-        <select id="Pages" name="Pages" multiple="multiple" class="form-control chosen-select" style="width: 100%;">
-            @foreach (var item in pages)
+        <input value="" class="form-control" type="text" id="matKhau" name="matKhau" oninput="formatInput(this)"/>
+    </div>
+</div>
+<div class="row" style="margin-bottom:5px">
+    <label class="col-md-3 col-sm-3">Họ và tên</label>
+    <div class="col-md-9 col-sm-9 ten">
+        <input value="" class="form-control" type="text" id="hoVaTen" name="hoVaTen" />
+    </div>
+</div>
+<div class="row" style="margin-bottom:5px">
+    <label class="col-md-3 col-sm-3">Số điện thoại</label>
+    <div class="col-md-9 col-sm-9 ten">
+        <input value="" class="form-control" type="tel" id="soDienThoai" name="soDienThoai"oninput="validatePhoneNumber(this)" />
+    </div>
+</div>
+<div class="row" style="margin-bottom:5px">
+    <label class="col-md-3 col-sm-3">email</label>
+    <div class="col-md-9 col-sm-9 ten">
+        <input value="" class="form-control" type="email" id="email" name="email" />
+    </div>
+</div>
+<div class="row" style="margin-bottom:5px">
+    <label class="col-md-3 col-sm-3">Quyền tài khoản</label>
+    <div class="col-md-9 col-sm-9 ten">
+        <select id="capDoTaiKhoan" name="capDoTaiKhoan" class="form-control form-control-md chosen-select" style="width: 100%;">
+            <option value="">--select--</option>
+            @foreach (var item in dataAccountType)
             {
-                <option value="@item.Id">
-                    @item.Code. @item.actionName/@item.controllerName
-                </option>
+                <option value="@item.Id">@item.MoTa</option>
             }
         </select>
-        @Html.ValidationMessageFor(model => model.Pages, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <script type="text/javascript">
-    var config = {
-        '.chosen-select': {},
-        '.chosen-select-deselect': { allow_single_deselect: true },
-        '.chosen-select-no-single': { disable_search_threshold: 10 },
-        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
-        '.chosen-select-width': { width: "95%" },
-        'search_contains': true
-    }
-    for (var selector in config) {
-        $(selector).chosen(config);
+    //var config = {
+    //    '.chosen-select': {},
+    //    '.chosen-select-deselect': { allow_single_deselect: true },
+    //    '.chosen-select-no-single': { disable_search_threshold: 10 },
+    //    '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+    //    '.chosen-select-width': { width: "95%" },
+    //    'search_contains': true
+    //}
+    //for (var selector in config) {
+    //    $(selector).chosen(config);
+    //}
+    function formatInput(input) {
+        var value = input.value;
+        value = value.toLowerCase();
+        value = value.replace(/[^\w\s]/gi, '');
+        input.value = value;
+    } function validatePhoneNumber(input) {
+        var phoneNumber = input.value;
+        if (isNaN(phoneNumber)) {
+            notify('Số điện thoại không hợp lệ: ' + phoneNumber, "error");
+        }
+        if (phoneNumber.length >10) {
+            notify('Số điện thoại phải là 10 ký tự: ' + phoneNumber, "error");
+        }
     }
 </script>

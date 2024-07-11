@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ToolsApp.App_Start;
@@ -35,24 +36,11 @@ namespace ToolsApp.Areas.Admin.Controllers
             ViewBag.List = List;
             return PartialView(new UserViewModel());
         }
-        public ActionResult _Insert(int Id)
+        public async Task<ActionResult> _Insert(int? id)
         {
-            var users = db_.Users.Select(p => p.tenTaiKhoan).ToList();
-            #region Load user from DKSH db
-            var allUsers = db_.Users.Where(p => p.hieuLuc == true &&
-                !users.Contains(p.tenTaiKhoan)
-            ).ToList();
-            #endregion
-
-            ViewBag.allUsers = allUsers;
-
-
-            #region Load page
-            var pages = db_.Pages.ToList();
-            ViewBag.pages = pages;
-            #endregion            
-
-            return PartialView(new UserViewModel { Id = 0 });
+            var dataAccountType =await db_.Configs.AsNoTracking().Where(a => a.parentId == 1).ToListAsync();
+            ViewBag.dataAccountType = dataAccountType;
+            return PartialView();
         }
         public ActionResult _Edit(int Id)
         {
@@ -64,6 +52,78 @@ namespace ToolsApp.Areas.Admin.Controllers
 
             return PartialView(model);
         }
+        [ValidateInput(false)]
+        [HttpPost]
+        public JsonResult _InsertFun(string tenTaiKhoan, string matKhau, string hoVaTen, string soDienThoai, string email, int capDoTaiKhoan)
+        {
+           
+            try
+            {
+                if(string.IsNullOrEmpty(tenTaiKhoan))
+                {
+                    return Json(new { status = -1, title = "", text = "Tên tài khoản không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+                if(string.IsNullOrEmpty(matKhau))
+                {
+                    return Json(new { status = -1, title = "", text = "Mật khẩu không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+                if(string.IsNullOrEmpty(hoVaTen))
+                {
+                    return Json(new { status = -1, title = "", text = "Họ và tên không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+                if(string.IsNullOrEmpty(soDienThoai))
+                {
+                    return Json(new { status = -1, title = "", text = "Số điện thoại không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+                if(string.IsNullOrEmpty(email))
+                {
+                    return Json(new { status = -1, title = "", text = "Email không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+                if(capDoTaiKhoan ==0)
+                {
+                    return Json(new { status = -1, title = "", text = "Vui lòng chọn loại tài khoản@@", obj = "" }, JsonRequestBehavior.AllowGet);
+                }
+                var checkUser = db_.Users.Where(a=>a.tenTaiKhoan == tenTaiKhoan).FirstOrDefault();
+                if(checkUser != null)
+                {
+                    return Json(new { status = -1, title = "", text = "Tên tài khoản đã tồn tại!!", obj = "" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var data = new User()
+                    {
+                        tenTaiKhoan = tenTaiKhoan,
+                        matKhau = matKhau,
+                        hoVaTen = hoVaTen,
+                        email = email,
+                        soDienThoai = soDienThoai,
+                        capDoTaiKhoan = capDoTaiKhoan,
+                        hieuLuc = true,
+                        ngayTao = DateTime.Now,
+                        nguoiTao = User.UserId,
+                        ngayCapNhat = DateTime.Now,
+                        nguoiCapNhat = User.UserId,
+                        ngayXoa = DateTime.Now,
+                        nguoiXoa = User.UserId,
+                        xacNhanXoa = false,
+                    };
+                    db_.Users.Add(data);
+                    db_.SaveChanges();
+                    return Json(new { status = 1, title = "", text = "Tạo tài khoản thành công!!", obj = "" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = -1, title = "", text = ex.Message, obj = "" }, JsonRequestBehavior.AllowGet);
+            }
+         
+        }
+
         //Edit role
         [ValidateInput(false)]
         [HttpPost]

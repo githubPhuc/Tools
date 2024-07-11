@@ -3203,6 +3203,8 @@
     <Compile Include="Authentication\CustomAuthorizeAttribute.cs" />
     <Compile Include="Authentication\CustomPrincipal.cs" />
     <Compile Include="Authentication\User_RoleAuthentication.cs" />
+    <Compile Include="Controllers\DanhMucLoaiTaiKhoanController.cs" />
+    <Compile Include="Controllers\DanhMucPhuongHuongController.cs" />
     <Compile Include="Controllers\LichSuNguoiDungController.cs" />
     <Compile Include="Controllers\DanhMucKetCauController.cs" />
     <Compile Include="Controllers\CartManagermentController.cs" />
@@ -3277,10 +3279,14 @@
     <Content Include="Views\DanhMucKetCau\Insert.cshtml" />
     <Content Include="Views\LichSuNguoiDung\GetList.cshtml" />
     <Content Include="Views\LichSuNguoiDung\Index.cshtml" />
-    <Content Include="Views\DanhMucKetCau - Copy %282%29\Edit.cshtml" />
-    <Content Include="Views\DanhMucKetCau - Copy %282%29\GetList.cshtml" />
-    <Content Include="Views\DanhMucKetCau - Copy %282%29\Index.cshtml" />
-    <Content Include="Views\DanhMucKetCau - Copy %282%29\Insert.cshtml" />
+    <Content Include="Views\DanhMucLoaiTaiKhoan\Edit.cshtml" />
+    <Content Include="Views\DanhMucLoaiTaiKhoan\GetList.cshtml" />
+    <Content Include="Views\DanhMucLoaiTaiKhoan\Index.cshtml" />
+    <Content Include="Views\DanhMucLoaiTaiKhoan\Insert.cshtml" />
+    <Content Include="Views\DanhMucPhuongHuong\Edit.cshtml" />
+    <Content Include="Views\DanhMucPhuongHuong\GetList.cshtml" />
+    <Content Include="Views\DanhMucPhuongHuong\Index.cshtml" />
+    <Content Include="Views\DanhMucPhuongHuong\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

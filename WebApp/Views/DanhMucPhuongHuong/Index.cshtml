@@ -17,8 +17,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Tên Kết Cấu</label>
-                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="tenKetCauSearch" name="tenKetCauSearch" />
+                                    <label>Tên phương hướng</label>
+                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="tenPhuongHuongSearch" name="tenPhuongHuongSearch" />
                                 </div>
                             </div>
                             @*<div class="col-md-4">
@@ -115,7 +115,7 @@
           var paramsLoadData = [
             true,
             '@Url.Action("GetList")',
-              '#tenKetCauSearch', /*'#ngayTaoSearch',*/
+              '#tenPhuongHuongSearch', /*'#ngayTaoSearch',*/
         ];
 
         function Delete(id_) {
@@ -139,7 +139,7 @@
 
                 var formData = {
                     id: $("#id").val(),
-                    tenKetCau: $("#tenKetCau").val().trim(),
+                    tenPhuongHuong: $("#MoTa").val().trim(),
                 }
                 console.log(formData);
                 Action(formData.id == "0" ? '@Url.Action("_InsertFun")' : '@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)

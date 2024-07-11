@@ -26,6 +26,7 @@ namespace ToolsApp.Authentication
         public string hoVaTen { get; set; }
         public string soDienThoai { get; set; }
         public string email { get; set; }
+        public int capDoTaiKhoan { get; set; }
     }
 
     public class CustomPrincipalSerializeModel
@@ -36,5 +37,6 @@ namespace ToolsApp.Authentication
         public string hoVaTen { get; set; }
         public string soDienThoai { get; set; }
         public string email { get; set; }
+        public int capDoTaiKhoan { get; set; }
     }
 }

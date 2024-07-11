@@ -17,8 +17,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Tên Kết Cấu</label>
-                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="tenKetCauSearch" name="tenKetCauSearch" />
+                                    <label>Tên loại tài khoản</label>
+                                    <input class="form-control form-control-md" type="text" autocomplete="off" id="MoTaSearch" name="MoTaSearch" />
                                 </div>
                             </div>
                             @*<div class="col-md-4">
@@ -51,11 +51,11 @@
                         </h3>
                     </div>
                     <div class="card-body pad">
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-md-4">
                                 <button id="btnCreate" type="button" class="btn bg-gradient-success"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="row">
                             <div class="col-md-12 mt-4 table-body table-responsive">
                             </div>
@@ -115,7 +115,7 @@
           var paramsLoadData = [
             true,
             '@Url.Action("GetList")',
-              '#tenKetCauSearch', /*'#ngayTaoSearch',*/
+              '#MoTaSearch', /*'#ngayTaoSearch',*/
         ];
 
         function Delete(id_) {
@@ -139,7 +139,8 @@
 
                 var formData = {
                     id: $("#id").val(),
-                    tenKetCau: $("#tenKetCau").val().trim(),
+                    MoTa: $("#MoTa").val(),
+                    moTaChiTiet: $("#moTaChiTiet").val(),
                 }
                 console.log(formData);
                 Action(formData.id == "0" ? '@Url.Action("_InsertFun")' : '@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)

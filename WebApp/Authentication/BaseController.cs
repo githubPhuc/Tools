@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ToolsApp.EntityFramework;
@@ -9,10 +11,10 @@ namespace ToolsApp.Authentication
 {
     public class BaseController : Controller
     {
-        protected virtual new CustomPrincipal User
-        {
-            get { return HttpContext.User as CustomPrincipal; }
-        }
+            protected new CustomPrincipal User
+            { 
+                get {return HttpContext.User as CustomPrincipal; }
+            }
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
             bool UserHasPermission = false;
@@ -21,7 +23,7 @@ namespace ToolsApp.Authentication
             string httpMethod = context.HttpContext.Request.HttpMethod;
             string action = $"User accessed {httpMethod}/ {controllerName}/{actionName}";
             string ipAddress = context.HttpContext.Request.UserHostAddress;
-            if(User!=null)
+            if (User != null)
             {
                 using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
@@ -31,11 +33,11 @@ namespace ToolsApp.Authentication
                         moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dữ liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dữ liệu"),
                         moTaChiTiet = action,
                         ipUserHostAddress = ipAddress,
-                        ngayTao = DateTime.Now,
+                        ngayTao = DateTime.UtcNow.AddHours(7),
                         nguoiTao = User.UserId,
-                        ngayCapNhat = DateTime.Now,
+                        ngayCapNhat = DateTime.UtcNow.AddHours(7),
                         nguoiCapNhat = User.UserId,
-                        ngayXoa = DateTime.Now,
+                        ngayXoa = DateTime.UtcNow.AddHours(7),
                         nguoiXoa = User.UserId,
                         xacNhanXoa = false,
                         hieuLuc = true,
@@ -93,7 +95,7 @@ namespace ToolsApp.Authentication
                     }
 
                 }
-            }    
+            }
             base.OnActionExecuting(context);
         }
         protected override void OnException(ExceptionContext filterContext)
@@ -110,14 +112,14 @@ namespace ToolsApp.Authentication
                     var history = new LogHistory
                     {
                         idUser = User.UserId,
-                        moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu") + " gặp lỗi",
-                        moTaChiTiet = filterContext.Exception.Message,
+                        moTa = "Lỗi hệ thống",
+                        moTaChiTiet = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dử liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dũ liệu") + " gặp lỗi"+ filterContext.Exception.Message,
                         ipUserHostAddress = ipAddress,
-                        ngayTao = DateTime.Now,
+                        ngayTao = DateTime.UtcNow.AddHours(7),
                         nguoiTao = User.UserId,
-                        ngayCapNhat = DateTime.Now,
+                        ngayCapNhat = DateTime.UtcNow.AddHours(7),
                         nguoiCapNhat = User.UserId,
-                        ngayXoa = DateTime.Now,
+                        ngayXoa = DateTime.UtcNow.AddHours(7),
                         nguoiXoa = User.UserId,
                         xacNhanXoa = false,
                         hieuLuc = false,

@@ -13,40 +13,19 @@ using ToolsApp.Utilities;
 namespace ToolsApp.Controllers
 {
     [Authorize]
-    public class DanhMucKetCauController : BaseController
+    public class DanhMucLoaiTaiKhoanController : BaseController
     {
-        // GET: CartManagerment
+        static int Direction = 1;
         crmcustomscontext db_ = new crmcustomscontext();
         public ActionResult Index()
         {
           
             return View();
         }
-        public async Task<ActionResult> GetList(string tenKetCauSearch)
+        public async Task<ActionResult> GetList(string MoTaSearch)
         {
-            var _KetCaus = db_.KetCaus.AsNoTracking();
-            var _Users = db_.Users.AsNoTracking();
-            var data = await(from a in _KetCaus
-                        join b in _Users on a.nguoiTao equals b.Id
-                        join c in _Users on a.nguoiCapNhat equals c.Id
-                        where a.xacNhanXoa == false
-                        where a.tenKetCau.ToLower().Contains(tenKetCauSearch.ToLower()) || string.IsNullOrEmpty(tenKetCauSearch)
-                        select new KetCauModels
-                        {
-                            id = a.id,
-                            tenKetCau = a.tenKetCau,
-                            tenNguoiTao = b.hoVaTen,
-                            tenNguoiCapNhat = c.hoVaTen,
-                            trangThai = a.trangThai,
-                            ngayTao = a.ngayTao,
-                            nguoiTao = a.nguoiTao,
-                            ngayCapNhat = a.ngayCapNhat,
-                            nguoiCapNhat = a.nguoiCapNhat,
-                            ngayXoa = a.ngayXoa,
-                            nguoiXoa = a.nguoiXoa,
-                            xacNhanXoa = a.xacNhanXoa,
-                        }).ToListAsync();
-            ViewBag.KetCaus = data;
+            var data = db_.Configs.Where(a=>a.parentId == Direction && a.xacNhanXoa ==false &&(string.IsNullOrEmpty(MoTaSearch) ==true || a.MoTa.ToUpper().Contains(MoTaSearch.ToUpper()))).ToList();
+            ViewBag.data = data;
             return PartialView();
         }
         public ActionResult Insert()
@@ -56,26 +35,27 @@ namespace ToolsApp.Controllers
         }
         public ActionResult Edit(int id)
         {
-            var data = db_.KetCaus.Where(a=>a.id==id).FirstOrDefault();
+            var data = db_.Configs.Where(a=>a.Id==id && a.parentId == Direction).FirstOrDefault();
             ViewBag.data = data;
             return PartialView();
         }
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult _InsertFun(string tenKetCau)
+        public JsonResult _InsertFun(string tenPhuongHuong)
         {
          
             try
             {
 
-                if (tenKetCau == "" || tenKetCau == null)
+                if (tenPhuongHuong == "" || tenPhuongHuong == null)
                 {
-                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên kết cấu", obj = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên phương hướng", obj = "" }, JsonRequestBehavior.AllowGet);
 
                 }
-                var model_copy = new KetCau();
-                model_copy.tenKetCau = tenKetCau;
-                model_copy.trangThai = true;
+                var model_copy = new Config();
+                model_copy.parentId = Direction;
+                model_copy.MoTa = tenPhuongHuong;
+                model_copy.moTaChiTiet = tenPhuongHuong;
                 model_copy.ngayTao = DateTime.Now;
                 model_copy.nguoiTao = User.UserId;
                 model_copy.ngayCapNhat = DateTime.Now;
@@ -83,8 +63,9 @@ namespace ToolsApp.Controllers
                 model_copy.ngayXoa = DateTime.Now;
                 model_copy.nguoiXoa = User.UserId;
                 model_copy.xacNhanXoa = false;
+                model_copy.hieuLuc = true;
 
-                db_.KetCaus.Add(model_copy);
+                db_.Configs.Add(model_copy);
                 db_.SaveChanges();
 
                 return Json(new { status = 1, title = "", text = "Tạo thành công", obj = "" }, JsonRequestBehavior.AllowGet);
@@ -97,22 +78,22 @@ namespace ToolsApp.Controllers
         }
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult _EditFun(int id,string tenKetCau)
+        public JsonResult _EditFun(int id,string MoTa,string moTaChiTiet)
         {
          
             try
             {
 
-                if (tenKetCau == "" || tenKetCau == null)
+                if (MoTa == "" || MoTa == null)
                 {
-                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên kết cấu", obj = "" }, JsonRequestBehavior.AllowGet);
-
+                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên loại tài khoản", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
-                var data = db_.KetCaus.Find(id);
+                var data = db_.Configs.Where(a=>a.Id==id && a.xacNhanXoa == false && a.parentId ==Direction).FirstOrDefault();
                 if(data != null)
                 {
-                    data.tenKetCau = tenKetCau;
-                    data.trangThai = true;
+                    data.MoTa = MoTa;
+                    data.moTaChiTiet = moTaChiTiet;
+                    data.hieuLuc = true;
                     data.ngayCapNhat = DateTime.Now;
                     data.nguoiCapNhat = User.UserId;
 
@@ -141,8 +122,8 @@ namespace ToolsApp.Controllers
          
             try
             {
-                var data = db_.KetCaus.Find(id);
-                if(data != null)
+                var data = db_.Configs.Where(a => a.Id == id  && a.parentId == Direction).FirstOrDefault();
+                if (data != null)
                 {
                     data.ngayXoa = DateTime.Now;
                     data.nguoiXoa = User.UserId;
