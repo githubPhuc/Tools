@@ -1,7 +1,75 @@
 ﻿
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Cập nhật bài viết";
+    var id = ViewData["id"];
 }
+<div class="container">
+    <input value="@id" id="Id" name="Id" class="displayN"/>
+    <div class="main-body">
+        <div class="row">
+            <div class="col-md-12 mt-4 table-body-HinhAnh table-responsive">
 
-<h2>Edit</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-4 table-body-ThongTinBaiViet table-responsive">
 
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mt-4 table-body-ThongTinKhachHang table-responsive">
+
+        </div>
+
+    </div>
+
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#codeBank').select2();
+            loadThongTinBaiViet()
+            loadHinhAnh();
+        });
+       function loadHinhAnh() {
+            var Id = $("#Id").val();
+            try {
+                $.ajax({
+                    url: '@Url.Action("hinhAnh_View")',
+                    timeout: 2000000,
+                    data: {
+                        Id: Id
+                    },
+                    success: function (response) {
+                        $('.table-body-HinhAnh').html(response);
+                    },
+                    error: function (message) {
+                        $(".divLoading").removeClass("loading");
+                    }
+                });
+            } catch (e) {
+            }
+        }
+        function loadThongTinBaiViet() {
+            var Id = $("#Id").val();
+            try {
+                $.ajax({
+                    url: '@Url.Action("ThongTinBaiViet_View")',
+                    timeout: 2000000,
+                    data: {
+                        Id: Id
+                    },
+                    success: function (response) {
+                        $('.table-body-ThongTinBaiViet').html(response);
+                    },
+                    error: function (message) {
+                        $(".divLoading").removeClass("loading");
+                    }
+                });
+            } catch (e) {
+            }
+        }
+    </script>
+}

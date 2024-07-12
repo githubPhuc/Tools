@@ -12,6 +12,8 @@ namespace ToolsApp.EntityFramework
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class crmcustomscontext : DbContext
     {
@@ -40,5 +42,26 @@ namespace ToolsApp.EntityFramework
         public virtual DbSet<NhomBaiViet> NhomBaiViets { get; set; }
         public virtual DbSet<UserLuong> UserLuongs { get; set; }
         public virtual DbSet<User> Users { get; set; }
+    
+        public virtual int insert_loghistory(Nullable<int> idUser, string ipUserHostAddress, string moTa, string moTaChiTiet)
+        {
+            var idUserParameter = idUser.HasValue ?
+                new ObjectParameter("idUser", idUser) :
+                new ObjectParameter("idUser", typeof(int));
+    
+            var ipUserHostAddressParameter = ipUserHostAddress != null ?
+                new ObjectParameter("ipUserHostAddress", ipUserHostAddress) :
+                new ObjectParameter("ipUserHostAddress", typeof(string));
+    
+            var moTaParameter = moTa != null ?
+                new ObjectParameter("moTa", moTa) :
+                new ObjectParameter("moTa", typeof(string));
+    
+            var moTaChiTietParameter = moTaChiTiet != null ?
+                new ObjectParameter("moTaChiTiet", moTaChiTiet) :
+                new ObjectParameter("moTaChiTiet", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_loghistory", idUserParameter, ipUserHostAddressParameter, moTaParameter, moTaChiTietParameter);
+        }
     }
 }

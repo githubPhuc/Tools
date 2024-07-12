@@ -23,15 +23,35 @@ namespace ToolsApp.Authentication
             string httpMethod = context.HttpContext.Request.HttpMethod;
             string action = $"User accessed {httpMethod}/ {controllerName}/{actionName}";
             string ipAddress = context.HttpContext.Request.UserHostAddress;
+            var postData = context.HttpContext.Request.Form;
             if (User != null)
             {
                 using (var db_ = new ToolsApp.EntityFramework.crmcustomscontext())
                 {
+                    string log = "Người dùng thực hiện action ";
+                    log += actionName + " ";
+                    if(httpMethod=="POST")
+                    {
+                        foreach (var keyObj in postData.Keys)
+                        {
+                            string key = keyObj.ToString();
+                            string value = "";
+                            try
+                            {
+                                value = postData[key].ToString();
+                                log += key + " " + value +", ";
+                            }
+                            catch (Exception e)
+                            {
+                                continue;
+                            }
+                        }
+                    }    
                     var history = new LogHistory
                     {
                         idUser = User.UserId,
                         moTa = "Người dùng thực hiện action" + (httpMethod == "POST" ? " thêm dữ liệu" : httpMethod == "PUT" ? " cập nhật dữ liệu" : httpMethod == "DELETE" ? " xóa dữ liệu" : " xem hoặc tìm kiếm dữ liệu"),
-                        moTaChiTiet = action,
+                        moTaChiTiet = log,
                         ipUserHostAddress = ipAddress,
                         ngayTao = DateTime.UtcNow.AddHours(7),
                         nguoiTao = User.UserId,

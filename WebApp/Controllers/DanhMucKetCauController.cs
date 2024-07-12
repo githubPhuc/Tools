@@ -64,10 +64,9 @@ namespace ToolsApp.Controllers
         [HttpPost]
         public JsonResult _InsertFun(string tenKetCau)
         {
-         
+            
             try
             {
-
                 if (tenKetCau == "" || tenKetCau == null)
                 {
                     return Json(new { status = -1, title = "", text = "Vui lòng nhập tên kết cấu", obj = "" }, JsonRequestBehavior.AllowGet);
@@ -115,7 +114,6 @@ namespace ToolsApp.Controllers
                     data.trangThai = true;
                     data.ngayCapNhat = DateTime.Now;
                     data.nguoiCapNhat = User.UserId;
-
                     db_.Entry(data).State = EntityState.Modified;
                     db_.SaveChanges();
                     return Json(new { status = 1, title = "", text = "Cập nhật thành công", obj = "" }, JsonRequestBehavior.AllowGet);

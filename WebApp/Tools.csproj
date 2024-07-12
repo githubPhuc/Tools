@@ -3203,6 +3203,8 @@
     <Compile Include="Authentication\CustomAuthorizeAttribute.cs" />
     <Compile Include="Authentication\CustomPrincipal.cs" />
     <Compile Include="Authentication\User_RoleAuthentication.cs" />
+    <Compile Include="Controllers\CheckCartController.cs" />
+    <Compile Include="Controllers\DanhMucChinhSachController.cs" />
     <Compile Include="Controllers\DanhMucLoaiTaiKhoanController.cs" />
     <Compile Include="Controllers\DanhMucPhuongHuongController.cs" />
     <Compile Include="Controllers\LichSuNguoiDungController.cs" />
@@ -3287,6 +3289,14 @@
     <Content Include="Views\DanhMucPhuongHuong\GetList.cshtml" />
     <Content Include="Views\DanhMucPhuongHuong\Index.cshtml" />
     <Content Include="Views\DanhMucPhuongHuong\Insert.cshtml" />
+    <Content Include="Views\CheckCart\Edit.cshtml" />
+    <Content Include="Views\CheckCart\GetList.cshtml" />
+    <Content Include="Views\CheckCart\hinhAnh_View.cshtml" />
+    <Content Include="Views\CheckCart\Index.cshtml" />
+    <Content Include="Views\CheckCart\Insert.cshtml" />
+    <Content Include="Views\CheckCart\ThongTinBaiViet_View.cshtml" />
+    <Content Include="Views\DanhMucChinhSach\GetList.cshtml" />
+    <Content Include="Views\DanhMucChinhSach\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

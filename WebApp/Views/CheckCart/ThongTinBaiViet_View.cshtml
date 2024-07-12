@@ -1,10 +1,10 @@
 ﻿@model ToolsApp.EntityFramework.BaiViet
-@{ 
+@{
     var nhomBaiViet = ViewBag.nhomBaiViet as ToolsApp.EntityFramework.NhomBaiViet;
     var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
     var donGia = 1000000;
-  }
+}
 
 <div class="row">
     <div class="col-md-12">
@@ -20,10 +20,10 @@
                                 <div class="quickEdit d-flex align-items-center">
                                     <h6 class="mr-2 cm-tw-underline">Nhóm</h6>
                                     <select class=" form-control chosen-select" data-id="@Model.id" style="width: 100%" id="idNhomBaiViet" name="idNhomBaiViet" aria-label=".form-select-md">
-                                     
+
                                         @foreach (var item in nhomBaiViets)
                                         {
-                                         <option value="@item.id" @(item.id == Model.idNhomBaiViet ? "selected" : "")>@item.tenNhom</option>
+                                            <option value="@item.id" @(item.id == Model.idNhomBaiViet ? "selected" : "")>@item.tenNhom</option>
                                         }
                                     </select>
                                 </div>
@@ -62,8 +62,8 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">-->
-                                            @*<option value="">Thành Phố</option>*@
-                                            <!--<option value="">Thành Phố</option>
+                        @*<option value="">Thành Phố</option>*@
+                        <!--<option value="">Thành Phố</option>
 
                                         </select>
                                     </div>
@@ -100,7 +100,7 @@
                                 <h6 class="mb-0 text-danger">Chiều dài</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="@Model.chieuDai" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id"  id="chieuDai" name="chieuDai">
+                                <input value="@Model.chieuDai" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" id="chieuDai" name="chieuDai">
                                 <hr>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                 <h6 class="mb-0 text-danger">Diện tích đất</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="@Model.dienTichDat" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichDat" name="dienTichDat">
+                                <input value="@Model.dienTichDat" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichDat" name="dienTichDat">
                                 <hr>
                             </div>
 
@@ -145,7 +145,7 @@
                                 <div class="row">
                                     <div class="col-lg-4 d-flex flex-column">
                                         <i class="">Giá</i>
-                                        <input value="@Model.giaBan" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
+                                        <input value="@Model.giaBan" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
                                         <span id="donGiaLabel" class=" text-danger font-weight-bold mt-2">
                                             @if (Model.idNhomBaiViet == 1 || Model.idNhomBaiViet == 3)
                                             {
@@ -178,11 +178,11 @@
                             <div class="col-sm-10">
                                 <div class="d-flex">
                                     <div class="form-check ">
-                                        <input class="form-check-input quickEdit" type="radio" id="viTriMatTien" name="viTri"  data-id="@Model.id" value="true" @(Model.viTri.HasValue && Model.viTri.Value ? "checked" : "")>
+                                        <input class="form-check-input quickEdit" type="radio" id="viTriMatTien" name="viTri" data-id="@Model.id" value="true" @(Model.viTri.HasValue && Model.viTri.Value ? "checked" : "")>
                                         <label class="form-check-label" for="viTriMatTien">Mặt tiền</label>
                                     </div>
                                     <div class="form-check ml-3">
-                                        <input class="form-check-inpu quickEdit" type="radio" id="viTriHem" name="viTri"  data-id="@Model.id" value="false" @(Model.viTri.HasValue && !Model.viTri.Value ? "checked" : "")>
+                                        <input class="form-check-inpu quickEdit" type="radio" id="viTriHem" name="viTri" data-id="@Model.id" value="false" @(Model.viTri.HasValue && !Model.viTri.Value ? "checked" : "")>
                                         <label class="form-check-label" for="viTriHem">Hẻm</label>
                                     </div>
                                 </div>
@@ -222,10 +222,10 @@
                             <div class="col-sm-10 ">
                                 <select class="form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="soPhong" name="soPhong" aria-label=".form-select-md">
                                     @*<option value="1-2" @(Model.soPhong == "1-2" ? "selected" : "")>1 đến 2 phòng</option>
-                                    <option value="3-4" @(Model.soPhong == "3-4" ? "selected" : "")>3 đến 4 phòng</option>
-                                    <option value="5-6" @(Model.soPhong == "5-6" ? "selected" : "")>5 đến 6 phòng</option>
-                                    <option value="7-9" @(Model.soPhong == "7-9" ? "selected" : "")>7 đến 9 phòng</option>
-                                    <option value="10+" @(Model.soPhong == "10+" ? "selected" : "")>Trên 10 phòng</option>*@
+                                        <option value="3-4" @(Model.soPhong == "3-4" ? "selected" : "")>3 đến 4 phòng</option>
+                                        <option value="5-6" @(Model.soPhong == "5-6" ? "selected" : "")>5 đến 6 phòng</option>
+                                        <option value="7-9" @(Model.soPhong == "7-9" ? "selected" : "")>7 đến 9 phòng</option>
+                                        <option value="10+" @(Model.soPhong == "10+" ? "selected" : "")>Trên 10 phòng</option>*@
                                 </select>
                                 <hr>
                             </div>
@@ -245,7 +245,7 @@
                                 <h6 class="mb-0 text-success">Hướng</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <select class="form-control chosen-select quickEdit" style="width: 100%"  data-id="@Model.id"  id="huong" name="huong" aria-label=".form-select-md">
+                                <select class="form-control chosen-select quickEdit" style="width: 100%" data-id="@Model.id" id="huong" name="huong" aria-label=".form-select-md">
                                     <option value="Bắc">Bắc</option>
                                     <option value="Đông Bắc">Đông Bắc</option>
                                     <option value="Đông">Đông</option>
@@ -270,12 +270,12 @@
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> đất</p>
                                                 <i class="font-weight-bold" id="giaM2Dat"> @String.Format("{0:0,0 đ}", @Model.giaM2Dat)</i>
-                                               
+
                                             </div>
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> xây dựng</p>
                                                 <i class="font-weight-bold" id="giaM2XayDung"> @String.Format("{0:0,0 đ}", @Model.giaM2XayDung)</i>
-                                                
+
                                             </div>
                                             <div class="col-lg-4">
                                                 <p class="font-weight-bold text-danger">Giá m<sup>2</sup> sử dụng</p>
@@ -294,7 +294,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-3">
@@ -312,23 +312,23 @@
                                 <input value="@Model.tenKh" class="form-control quickEdit" data-id="@Model.id" placeholder="Tên khách hàng" type="text" id="tenKh" name="tenKh">
                             </div>
                             <div class="col-lg-6">
-                                <input value="@Model.sdtKh" placeholder="Số điện thoại" class="form-control quickEdit"  data-id="@Model.id" type="number" id="sdtKh" name="sdtKh">
+                                <input value="@Model.sdtKh" placeholder="Số điện thoại" class="form-control quickEdit" data-id="@Model.id" type="number" id="sdtKh" name="sdtKh">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-lg-6">
-                                <input value="@Model.diachiKh" class="form-control quickEdit"  data-id="@Model.id" placeholder="Địa chỉ" type="text" id="diachiKh" name="diachiKh">
+                                <input value="@Model.diachiKh" class="form-control quickEdit" data-id="@Model.id" placeholder="Địa chỉ" type="text" id="diachiKh" name="diachiKh">
                             </div>
                             <div class="col-lg-6">
-                                <input value="@Model.emailKh"  data-id="@Model.id" class="form-control quickEdit" type="email" placeholder="Email" id="emailKh" name="emailKh">
+                                <input value="@Model.emailKh" data-id="@Model.id" class="form-control quickEdit" type="email" placeholder="Email" id="emailKh" name="emailKh">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <h6>Thông tin cá nhân</h6>
                             <div class="col-md-12 col-sm-12">
-                                <input value="@Model.CCCDKh"  data-id="@Model.id" placeholder="Nhập số CCCD / Chứng minh thư" class="form-control quickEdit" type="text" id="CCCDKh" name="CCCDKh">
+                                <input value="@Model.CCCDKh" data-id="@Model.id" placeholder="Nhập số CCCD / Chứng minh thư" class="form-control quickEdit" type="text" id="CCCDKh" name="CCCDKh">
                             </div>
 
                         </div>
@@ -339,7 +339,7 @@
             </div>
         </div>
     </div>
-   
+
 </div>
 <script>
 

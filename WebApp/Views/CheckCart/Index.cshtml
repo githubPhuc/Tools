@@ -57,8 +57,9 @@
             line-height: 0px;
             margin: 0px 8px;
         }
-    .tab-getlist  {
-        cursor:pointer
+
+    .tab-getlist {
+        cursor: pointer
     }
 </style>
 <section class="content">
@@ -67,10 +68,10 @@
             <div class="col-md-12">
                 <div class="card card-primary border-no-color card-outline">
                     @*<div class="card-header">
-                        <h3 class="card-title">
-                            <b>TÌM KIẾM THEO TỪ KHÓA</b>
-                        </h3>
-                    </div>*@
+                            <h3 class="card-title">
+                                <b>TÌM KIẾM THEO TỪ KHÓA</b>
+                            </h3>
+                        </div>*@
                     <div class="card-body pad">
                         <div class="row">
                             <div class="col-md-2 col-sm-4">
@@ -257,11 +258,11 @@
                             <!-- /.form-group -->
                         </div>
                     </div>
-               
+
                 </div>
-              
+
             </div>
-            
+
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -269,8 +270,8 @@
                     <div class="card-header">
                         <div class="card-title">
                             <ul class="nav nav-tabs">
-                                <li class="nav-item tab-getlist" >
-                                    <a class="nav-link nhomBaiViet text-success font-weight-bold active"  aria-current="page">Tất cả bài đăng</a>
+                                <li class="nav-item tab-getlist">
+                                    <a class="nav-link nhomBaiViet text-success font-weight-bold active" aria-current="page">Tất cả bài đăng</a>
                                 </li>
                                 @foreach (var item in nhomBaiViets)
                                 {
@@ -365,7 +366,7 @@
                 };
             }
             $('#btnAdd').click(function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
                 $.ajax({
                     url: '@Url.Action("ClearSession")',
                     type: 'POST',
@@ -484,6 +485,6 @@
             });
 
         })
-      
+
     </script>
 }

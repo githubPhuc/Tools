@@ -262,7 +262,7 @@ namespace ToolsApp.Models
         public Nullable<bool> xacNhanXoa { get; set; }
         public Nullable<bool> hieuLuc { get; set; }
     }
-    
+
     public class KetCauModels
     {
         public int id { get; set; }
@@ -327,6 +327,41 @@ namespace ToolsApp.Models
         public NhomBaiViet NhomBaiViet { get; set; }
         public ICollection<HinhAnhBaiViet> HinhAnhBaiViets { get; set; }
         public User User { get; set; }
+    }
+    public class HinhAnhViewModel
+    {
+        public int id { get; set; }
+        public string urlPath { get; set; }
+        public bool? trangThai { get; set; }
+        public DateTime? ngayTao { get; set; }
+        public int? nguoiTao { get; set; }
+        public DateTime? ngayCapNhat { get; set; }
+        public int? nguoiCapNhat { get; set; }
+        public DateTime? ngayXoa { get; set; }
+        public int? nguoiXoa { get; set; }
+        public bool? xacNhanXoa { get; set; }
+    }
+    public class HinhAnhBaiVietViewModel
+    {
+        public int id { get; set; }
+        public int? idBaiViet { get; set; }
+        public int? idHinhAnh { get; set; }
+        public bool? trangThai { get; set; }
+        public DateTime? ngayTao { get; set; }
+        public int? nguoiTao { get; set; }
+        public DateTime? ngayCapNhat { get; set; }
+        public int? nguoiCapNhat { get; set; }
+        public DateTime? ngayXoa { get; set; }
+        public int? nguoiXoa { get; set; }
+        public bool? xacNhanXoa { get; set; }
+
+        public virtual BaiViet BaiViet { get; set; }
+        public virtual HinhAnh HinhAnh { get; set; }
+    }
+    public class HinhAnhBaiVietDto
+    {
+        public int Id { get; set; }
+        public string UrlPath { get; set; }
     }
 
 }

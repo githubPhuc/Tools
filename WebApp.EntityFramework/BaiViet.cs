@@ -61,6 +61,10 @@ namespace ToolsApp.EntityFramework
         public Nullable<System.DateTime> ngayXoa { get; set; }
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
+        public Nullable<double> tungDo { get; set; }
+        public Nullable<double> viDo { get; set; }
+        public string diaChiDayDu { get; set; }
+        public Nullable<int> soPhong { get; set; }
     
         public virtual KetCau KetCau { get; set; }
         public virtual NhomBaiViet NhomBaiViet { get; set; }

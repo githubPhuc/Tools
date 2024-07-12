@@ -51,6 +51,7 @@ namespace ToolsApp.Controllers
                     else
                     {
                         #region Session + Cookies
+                        string userIpAddress = HttpContext.Request.UserHostAddress;
                         CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
                         serializeModel.UserId = user_ol.Id;
                         serializeModel.tenTaiKhoan = user.tenTaiKhoan;
@@ -58,6 +59,7 @@ namespace ToolsApp.Controllers
                         serializeModel.email = user.email;
                         serializeModel.soDienThoai = user.soDienThoai;
                         serializeModel.anhDaiDien = user.anhDaiDien;
+                        serializeModel.ipUserHostAddress = userIpAddress;
 
                         try
                         {

@@ -21,18 +21,18 @@
           <Property Name="idThanhPho" Type="int" />
           <Property Name="idQuanHuyen" Type="int" />
           <Property Name="idPhuongXa" Type="int" />
-          <Property Name="dienTichDat" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="dienTichXayDung" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="dienTichSuDung" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="chieuNgang" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="chieuDai" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="dienTichDat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichXayDung" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichSuDung" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="chieuNgang" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="chieuDai" Type="decimal" Precision="18" Scale="2" />
           <Property Name="viTri" Type="bit" />
           <Property Name="moTaViTri" Type="nvarchar(max)" />
-          <Property Name="giaBan" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="giaBan" Type="decimal" Precision="18" Scale="2" />
           <Property Name="moTaGia" Type="nvarchar(max)" />
-          <Property Name="giaM2Dat" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="giaM2XayDung" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="giaM2SuDung" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="giaM2Dat" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2XayDung" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2SuDung" Type="decimal" Precision="18" Scale="2" />
           <Property Name="note" Type="nvarchar(max)" />
           <Property Name="trangThaiGoiDien" Type="bit" />
           <Property Name="thoiGianGoiDien" Type="datetime" />
@@ -50,6 +50,10 @@
           <Property Name="ngayXoa" Type="datetime" />
           <Property Name="nguoiXoa" Type="int" />
           <Property Name="xacNhanXoa" Type="bit" />
+          <Property Name="tungDo" Type="float" />
+          <Property Name="viDo" Type="float" />
+          <Property Name="diaChiDayDu" Type="nvarchar(max)" />
+          <Property Name="soPhong" Type="int" />
         </EntityType>
         <EntityType Name="ChinhSach">
           <Key>
@@ -471,6 +475,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="insert_loghistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUser" Type="int" Mode="In" />
+          <Parameter Name="ipUserHostAddress" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="moTa" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="moTaChiTiet" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <EntityContainer Name="CRM_CustomsModelStoreContainer">
           <EntitySet Name="BaiViet" EntityType="Self.BaiViet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChinhSach" EntityType="Self.ChinhSach" Schema="dbo" store:Type="Tables" />
@@ -798,6 +808,12 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserLuong" EntitySet="UserLuongs" />
           </AssociationSet>
+          <FunctionImport Name="insert_loghistory">
+            <Parameter Name="idUser" Mode="In" Type="Int32" />
+            <Parameter Name="ipUserHostAddress" Mode="In" Type="String" />
+            <Parameter Name="moTa" Mode="In" Type="String" />
+            <Parameter Name="moTaChiTiet" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="BaiViet">
           <Key>
@@ -815,18 +831,18 @@
           <Property Name="idThanhPho" Type="Int32" />
           <Property Name="idQuanHuyen" Type="Int32" />
           <Property Name="idPhuongXa" Type="Int32" />
-          <Property Name="dienTichDat" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="dienTichXayDung" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="dienTichSuDung" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="chieuNgang" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="chieuDai" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="dienTichDat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichXayDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichSuDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="chieuNgang" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="chieuDai" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="viTri" Type="Boolean" />
           <Property Name="moTaViTri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="giaBan" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="giaBan" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="moTaGia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="giaM2Dat" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="giaM2XayDung" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="giaM2SuDung" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="giaM2Dat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2XayDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2SuDung" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="trangThaiGoiDien" Type="Boolean" />
           <Property Name="thoiGianGoiDien" Type="DateTime" Precision="3" />
@@ -848,6 +864,10 @@
           <NavigationProperty Name="NhomBaiViet" Relationship="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" FromRole="BaiViet" ToRole="NhomBaiViet" />
           <NavigationProperty Name="HinhAnhBaiViets" Relationship="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" FromRole="BaiViet" ToRole="HinhAnhBaiViet" />
           <NavigationProperty Name="User" Relationship="CRM_CustomsModel.FK_BaiViet_Users" FromRole="BaiViet" ToRole="User" />
+          <Property Name="tungDo" Type="Double" />
+          <Property Name="viDo" Type="Double" />
+          <Property Name="diaChiDayDu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="soPhong" Type="Int32" />
         </EntityType>
         <EntityType Name="ChinhSach">
           <Key>
@@ -1236,6 +1256,10 @@
           <EntitySetMapping Name="BaiViets">
             <EntityTypeMapping TypeName="CRM_CustomsModel.BaiViet">
               <MappingFragment StoreEntitySet="BaiViet">
+                <ScalarProperty Name="soPhong" ColumnName="soPhong" />
+                <ScalarProperty Name="diaChiDayDu" ColumnName="diaChiDayDu" />
+                <ScalarProperty Name="viDo" ColumnName="viDo" />
+                <ScalarProperty Name="tungDo" ColumnName="tungDo" />
                 <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
                 <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
                 <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
@@ -1434,6 +1458,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="insert_loghistory" FunctionName="CRM_CustomsModel.Store.insert_loghistory" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

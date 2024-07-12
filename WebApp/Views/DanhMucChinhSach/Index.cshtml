@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Danh mục chính sách";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary border-no-color card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <b>TÌM KIẾM THEO TỪ KHÓA</b>
+                        </h3>
+                    </div>
+                    <div class="card-body pad">
+                        <div class="row">
+                            @*@if (dataUser.capDoTaiKhoan != 5)
+                            {
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Người dùng</label>
+                                        <select class="form-control form-control-md" id="nguoiDungSearch" name="nguoiDungSearch">
+                                            <option value="">--select--</option>
+                                            @foreach (var item in dataUserDanhMuc)
+                                            {
+                                                <option value="@item.Id">@item.hoVaTen</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                            }*@
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Ngày bắt đầu</label>
+                                    <input value="@DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy")"
+                                           class="form-control" type="text" autocomplete="off"
+                                           id="ngayBatDauSearch" name="ngayBatDauSearch" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Ngày kết thúc</label>
+                                    <input value="@DateTime.Now.ToString("dd/MM/yyyy")"
+                                           class="form-control" type="text" autocomplete="off"
+                                           id="ngayKetThucSearch" name="ngayKetThucSearch" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <b>KẾT QUẢ</b>
+                        </h3>
+                    </div>
+                    <div class="card-body pad">
+                        @*<div class="row">
+                                <div class="col-md-4">
+                                    <a href="@Url.Action("Insert")" class="btn bg-gradient-success">
+                                        <i class="fa fa-plus"></i>&nbsp;Thêm
+                                    </a>
+                                </div>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-md-12 mt-4 table-body table-responsive">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+@section scripts {
+    <script>
+        $("#ngayBatDauSearch").datepicker({
+            format: 'dd/mm/yyyy',
+            changeYear: true,
+            changeMonth: true,
+            onClose: function (selectedDate) {
+                //$("#FromDate").datepicker("option", "minDate", selectedDate);
+            }
+        });
+        $("#ngayKetThucSearch").datepicker({
+            format: 'dd/mm/yyyy',
+            changeYear: true,
+            changeMonth: true,
+            onClose: function (selectedDate) {
+                //$("#FromDate").datepicker("option", "minDate", selectedDate);
+            }
+        });
+        var myModal = {
+              $modal : $('#myModal'),
+             $myModalContent : $("#myModalContent"),
+             $myModalTitle: $("#myModalTitle")
+         }
+           var paramsLoadData = [
+             true,
+             '@Url.Action("GetList")',
+               '#nguoiDungSearch', '#ngayBatDauSearch', '#ngayKetThucSearch',
+         ];
+      $(document).ready(function () {
+            loadData(...paramsLoadData);
+
+            $("#myModal").on("hidden.bs.modal", function () {
+                loadData(false);
+            });
+
+            $("#btnSearch").click(function () {
+                loadData(...paramsLoadData);
+            });
+
+        });
+
+    </script>
+}

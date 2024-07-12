@@ -5,64 +5,53 @@
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
 
 }
+@functions { public string GetHouseNumber(string diaChiTaiSan)
+    {
+        diaChiTaiSan = diaChiTaiSan.Trim();
+        if (string.IsNullOrWhiteSpace(diaChiTaiSan))
+        {
+            return string.Empty;
+        }
+        var parts = diaChiTaiSan.Split(' ');
+        return parts.Length > 0 ? parts[0] : string.Empty;
+    }
+
+    public string GetStreetName(string diaChiTaiSan)
+    {
+        if (string.IsNullOrWhiteSpace(diaChiTaiSan))
+        {
+            return string.Empty;
+        }
+        var parts = diaChiTaiSan.Split(' ');
+        return parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : string.Empty;
+    } }
 <style>
     hr {
-        margin:0;
+        margin: 0;
     }
+
     span {
         padding: 0 2px
     }
-    .editable {
-        cursor: pointer;
-        position: relative;
+
+    .editable:hover::after {
+        display: block;
     }
-        .editable:hover {
-            color: #007bff;
 
-        }
-        @*.editable::after {
-            content: "Click 2 lần để sửa";
-            position: absolute;
-            left: 0;
-            bottom: -18px;
-            font-size: 10px;
-            color: red;
-            display: none;
-        }*@
-
-        .editable:hover::after {
-            display: block;
-        }
     .btn-custom {
-        padding:3px !important
+        padding: 3px !important
     }
-    .quickEdit {
-        width:50px;
-        border-radius:4px;
-        border: none;
-    }
-        .quickEdit:focus {
-            outline: 1px solid #007bff;
-        }
-        .quickSelect {
-            border: 1px solid #ccc;
-            width: 80%;
-            background: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(20%, #fff), color-stop(50%, #f6f6f6), color-stop(52%, #eee), color-stop(100%, #f4f4f4));
-        }
-        .quickTextarea {
-            width: 100%;
-        }
-        .w-100 {
-           width:100%;
-        }
-        .w-80 {
-            width:80%;
-        }
+
     .func-menu a {
-        font-size:6px !important
+        font-size: 6px !important
     }
+
     .func-menu i {
-        font-size:6px !important
+        font-size: 6px !important
+    }
+
+    .showHomeNumber {
+        cursor: pointer;
     }
 </style>
 <table id="myTable" class="table table-bordered table-striped">
@@ -87,11 +76,11 @@
             {
                 foreach (var item in data)
                 {
-                   
+
                     <tr>
-                                <td>
-                                    @STT
-                                </td>
+                        <td>
+                            @STT
+                        </td>
 
                         <td>
                             <div class="d-flex flex-column">
@@ -124,9 +113,9 @@
                                         </div>
                                     }
                                 </div>
-                              
-                               
-                              
+
+
+
                             </div>
 
                         </td>
@@ -160,17 +149,18 @@
                                     <option value="">Đã cho thuê không bán nữa</option>
                                 </select>
                             </div>
-                           
+
                         </td>
                         <td>
-                            <div class="editable" data-id="@item.id">
-                                <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.diaChiTaiSan) ? "Địa chỉ" : item.diaChiTaiSan)</span>
-                                <input type="text" id="diaChiTaiSan" name="diaChiTaiSan" placeholder="Nhập số nhà và tên đường" value="@item.diaChiTaiSan"  class="quickEdit displayN w-100" />
-                            </div>
-                            <hr />
-                            <div class="editable" data-id="@item.id">
-                                <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.moTaViTri) ? "Mô tả vị trí" : item.moTaViTri)</span>
-                                <input type="text" id="moTaViTri" name="moTaViTri"  value="@item.moTaViTri" class="quickEdit displayN w-100" />
+                            <div class="editable" data-id="@item.id" data-house-number="@GetHouseNumber(item.diaChiTaiSan)" data-street-name="@GetStreetName(item.diaChiTaiSan)">
+                                <i class="fa-solid fa-house"></i>
+                                <a class="showHomeNumber" href="javascript:void(0);">Số nhà</a>
+                                <span class="displayValue">
+                                    @(string.IsNullOrWhiteSpace(item.diaChiTaiSan) ? "Địa chỉ" : GetStreetName(item.diaChiTaiSan))
+                                </span>
+                                <span class="houseNumber displayN" style="display:none;">
+                                    @GetHouseNumber(item.diaChiTaiSan)
+                                </span>
                             </div>
                         </td>
                         <td>
@@ -179,7 +169,7 @@
                                     @if (item.idNhomBaiViet == 1 || item.idNhomBaiViet == 3)
                                     {
                                         <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
-                                        <input type="text" name="giaBan"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" value="@item.giaBan" class="quickEdit displayN" />
+                                        <input type="text" name="giaBan" min=0.01 step=0.01 onkeypress="return event.charCode != 45" value="@item.giaBan" class="quickEdit displayN" />
                                         <span class="text-success font-weight-bold">tỷ</span>
                                     }
                                     else
@@ -192,7 +182,7 @@
                                 </div>
                             </div>
                             <hr />
-                            <div class="editable"  data-id="@item.id">
+                            <div class="editable" data-id="@item.id">
                                 <i class="displayValue">@(string.IsNullOrWhiteSpace(item.moTaGia) ? "Mô tả giá" : item.moTaGia)</i>
                                 <input type="text" name="moTaGia" value="@item.moTaGia" placeholder="Nhập mô tả" class="quickEdit displayN w-100" />
                             </div>
@@ -204,14 +194,14 @@
                                     <div class="editable" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
                                         <span class="displayValue">@item.chieuNgang</span>
-                                        <input type="text"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuNgang" name="chieuNgang" value="@item.chieuNgang" class="quickEdit displayN" />
+                                        <input type="text" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuNgang" name="chieuNgang" value="@item.chieuNgang" class="quickEdit displayN" />
                                         <span>m</span>
-                                        
+
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-up-down"></i>
                                         <span class="displayValue">@item.chieuDai</span>
-                                        <input type="number"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuDai" name="chieuDai"  value="@item.chieuDai" class="quickEdit displayN" />
+                                        <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuDai" name="chieuDai" value="@item.chieuDai" class="quickEdit displayN" />
                                         <span>m</span>
 
                                     </div>
@@ -230,25 +220,25 @@
                                                 <option value="Tây Bắc">Tây Bắc</option>
                                             </select>
                                         </div>
-                                       
+
                                     </div>
                                     <div class="">
-                                       
+
                                         @if (item.KetCau != null)
                                         {
 
-                                        <div class="editable d-inline" data-id="@item.id">
-                                            <i class="fa-solid fa-city"></i>
-                                            <span class="displayValue"> @item.KetCau.tenKetCau</span>
-                                            <select class="chosen-select quickEdit displayN quickSelect" id="idKetCau"  name="idKetCau" aria-label=".form-select-md">
-                                                @foreach (var kc in ketCaus)
-                                                {
-                                                    <option value="@kc.id">@kc.tenKetCau</option>
-                                                }
+                                            <div class="editable d-inline" data-id="@item.id">
+                                                <i class="fa-solid fa-city"></i>
+                                                <span class="displayValue"> @item.KetCau.tenKetCau</span>
+                                                <select class="chosen-select quickEdit displayN quickSelect" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
+                                                    @foreach (var kc in ketCaus)
+                                                    {
+                                                        <option value="@kc.id">@kc.tenKetCau</option>
+                                                    }
 
-                                                }
-                                            </select>
-                                        </div>
+                                                    }
+                                                </select>
+                                            </div>
                                             <div class="editable" data-id="@item.id">
                                                 <i class="fa-solid fa-building"></i>
                                                 <i class="displayValue">@item.motaKetCau</i> -
@@ -264,15 +254,15 @@
                                         <i class="font-weight-bold displayValue">
                                             @item.dienTichDat
                                         </i>
-                                        <input type="number" id="dienTichDat"  min=0.01 step=0.01 onkeypress="return event.charCode != 45"  name="dienTichDat" value="@item.dienTichDat" class="quickEdit displayN" /> m<sup>2</sup>
+                                        <input type="number" id="dienTichDat" min=0.01 step=0.01 onkeypress="return event.charCode != 45" name="dienTichDat" value="@item.dienTichDat" class="quickEdit displayN" /> m<sup>2</sup>
 
                                     </div>
                                     <div class="editable" data-id="@item.id">
-                                            <span>DT sử dụng:</span>
-                                            <i class="font-weight-bold displayValue">
-                                                @item.dienTichSuDung
-                                            </i>
-                                            <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="dienTichSuDung" name="dienTichSuDung" value="@item.dienTichSuDung" class="quickEdit displayN" /> m<sup>2</sup>
+                                        <span>DT sử dụng:</span>
+                                        <i class="font-weight-bold displayValue">
+                                            @item.dienTichSuDung
+                                        </i>
+                                        <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="dienTichSuDung" name="dienTichSuDung" value="@item.dienTichSuDung" class="quickEdit displayN" /> m<sup>2</sup>
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT xây dựng:</span>
@@ -286,18 +276,18 @@
                         </td>
                         <td>
 
-                                <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-warning">
-                                    <i class="fas fa-share"></i> Share
-                                </a>
-                                <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-success">
-                                    <i class="fas fa-image"></i> Ảnh
-                                </a>
-                                <a href='@Url.Action("Edit", new { id = item.id })' target="_blank" class="btn btn-custom btn-secondary">
-                                    <i class="far fa-edit"></i> Sửa
-                                </a>
-                                <a onclick="Delete('@item.id')" class="btn btn-custom btn-danger">
-                                    <i class="far fa-trash-alt"></i> Xóa
-                                </a>
+                            <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-warning">
+                                <i class="fas fa-share"></i> Share
+                            </a>
+                            <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-success">
+                                <i class="fas fa-image"></i> Ảnh
+                            </a>
+                            <a href='@Url.Action("Edit", new { id = item.id })' target="_blank" class="btn btn-custom btn-secondary">
+                                <i class="far fa-edit"></i> Sửa
+                            </a>
+                            <a onclick="Delete('@item.id')" class="btn btn-custom btn-danger">
+                                <i class="far fa-trash-alt"></i> Xóa
+                            </a>
                         </td>
                     </tr>
 
@@ -333,88 +323,34 @@
 </div>
 <script>
     $(document).ready(function () {
-
+        $('.showHomeNumber').click(function () {
+            var parent = $(this).closest('.editable');
+            var houseNumber = parent.data('house-number');
+            var streetName = parent.data('street-name');
+            $(this).hide()
+            if (houseNumber && streetName) {
+                parent.find('.displayValue').text(houseNumber + " " + streetName);
+            } else if (!houseNumber && streetName) {
+                parent.find('.displayValue').text(streetName);
+            } else if (houseNumber && !streetName) {
+                parent.find('.displayValue').text(houseNumber);
+            } else {
+                parent.find('.displayValue').text("Chưa có thông tin");
+            }
+        });
         //chinh sửa nhanh
-        @*$('.editable').on('dblclick', function () {
-            var $this = $(this);
-            var $displayValue = $this.find('.displayValue');
-            var $quickEdit = $this.find('.quickEdit');
-            $displayValue.hide();
-            if ($quickEdit.is('input') || $quickEdit.is('textarea') ) {
-                $quickEdit.show().focus().get(0).setSelectionRange($quickEdit.val().length, $quickEdit.val().length);
-            }
-            else {
-                $quickEdit.show()
-            }
-        });*@
-        //chinh sửa nhanh
-        $(document).on('dblclick', '.editable', function () {
-            var $this = $(this);
-            var $displayValue = $this.find('.displayValue');
-            var $quickEdit = $this.find('.quickEdit');
-            $displayValue.hide();
-            if ($quickEdit.is('input') || $quickEdit.is('textarea')) {
-                $quickEdit.show().focus().get(0).setSelectionRange($quickEdit.val().length, $quickEdit.val().length);
-            }
-            else {
-                $quickEdit.show()
-            }
+        $('.call-button').on('click', function () {
+            $(this).closest('.call-container').find('.call-confirm').toggle();
         });
-        $(document).on('blur','.quickEdit', function () {
-            var $this = $(this);
-            var $editable = $this.closest('.editable');
-            var idBaiViet = $editable.data('id');
-            var $displayValue = $this.siblings('.displayValue');
-            var newValue = $this.val();
-            var inputName = $this.attr('name'); // Get the name attribute
-            var data = {
-                id: idBaiViet, // Truyền idBaiViet vào dữ liệu gửi đi
-            };
-            data[inputName] = newValue; //
-            $.ajax({
-                url: '@Url.Action("QuickUpdateBaiViet")', // Change to your server endpoint
-                type: 'POST',
-                data: data,
-                success: function (response) {
-                    if (response.success == true) {
-                        if ($this.is('select')) {
-                            notify("Cập nhật thành công", "success")
-                            var selectedText = $this.find('option:selected').text();
-                            $displayValue.text(selectedText);
-                        } else {
-                            notify("Cập nhật thành công", "success")
-                            $displayValue.text(newValue);
-                        }
-                    }
-
-                },
-                error: function (error) {
-                    // Handle the error response
-                    notify('Có lỗi xảy ra');
-                },
-                complete: function () {
-                    $this.hide();
-                    $displayValue.show();
-                }
-            });
-        });
-        $('.quickEdit').on('keydown', function (event) {
-            if (event.key === 'Enter') {
-                $(this).blur();
-            }
-        });
-    });
-    $('.call-button').on('click', function () {
-        $(this).closest('.call-container').find('.call-confirm').toggle();
-    });
-    function saveNote(itemId) {
-        $('#callConfirmModel').modal('show');
-        var noteValue = $('#note-' + itemId).val();
-        console.log(noteValue)
-        var noteContent = $("#noteContent");
-        console.log(noteContent)
-        noteContent.text(noteValue)
-        $("#saveNoteConfirm").on('click', function () {
+    })
+        function saveNote(itemId) {
+            $('#callConfirmModel').modal('show');
+            var noteValue = $('#note-' + itemId).val();
+            console.log(noteValue)
+            var noteContent = $("#noteContent");
+            console.log(noteContent)
+            noteContent.text(noteValue)
+            $("#saveNoteConfirm").on('click', function () {
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("SaveNote")',
@@ -432,28 +368,8 @@
                     }
                 });
             })
-    }
-    function Delete(id) {
-        if (id == null) return;
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("Delete")',
-            data: {
-                id: id,
-            },
-            success: function (response) {
-                if (response.success) {
-                    @*notify("Xóa thành công", "success")
-                    loadData(...paramsLoadData)*@
-                }
-             
-            },
-            error: function (error) {
-                alert('Error saving note');
+        }
 
-            }
-        });
-    }
     function ShowImages(id) {
         $.ajax({
             url: '@Url.Action("ShowImages")',

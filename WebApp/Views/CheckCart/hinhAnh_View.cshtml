@@ -11,11 +11,11 @@
         transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out, background-color 0.2s ease-out;
     }
 
-   .upload_dropZone.highlight {
+        .upload_dropZone.highlight {
             outline-offset: -4px;
             outline-color: var(--colorPrimaryNormal, #0576bd);
             background-color: var(--colorPrimaryEighth, #c8dadf);
-   }
+        }
 
     .upload_svg {
         fill: var(--colorPrimaryNormal, #0576bd);
@@ -26,32 +26,34 @@
         background-color: var(--colorPrimaryNormal);
     }
 
-    .btn-upload:hover,
+        .btn-upload:hover,
         .btn-upload:focus {
             color: #fff;
             background-color: var(--colorPrimaryGlare);
-    }
+        }
 
     .upload_img {
         max-width: 450px;
-        height:300px;
+        height: 300px;
         object-fit: contain;
     }
+
     .btn-del-img {
         font-weight: bold;
         background: #dc3545;
-        opacity:0.8;
-        color:#fff;
-        border-radius:50%;
-        padding:3px 11px;
+        opacity: 0.8;
+        color: #fff;
+        border-radius: 50%;
+        padding: 3px 11px;
     }
-    .btn-del-img:hover {
-        cursor:pointer;
-        opacity:1;
-    }
-    .anhNha {
-        cursor:pointer;
 
+        .btn-del-img:hover {
+            cursor: pointer;
+            opacity: 1;
+        }
+
+    .anhNha {
+        cursor: pointer;
     }
 </style>
 <form>
@@ -70,31 +72,31 @@
         <label class="btn btn-upload mb-3" for="upload_image">Chọn ảnh</label>
 
         <div class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0">
-        @if (ViewBag.urlPaths != null)
+            @if (ViewBag.urlPaths != null)
             {
-              foreach (var p in ViewBag.urlPaths)
-            {
-                 var extension = System.IO.Path.GetExtension(p.UrlPath).ToLower();
-            <div class="anhNha d-flex flex-column">
-                @if (extension == ".pdf")
+                foreach (var p in ViewBag.urlPaths)
                 {
-                    <a href="@Url.Content(p.UrlPath.ToString())" target="_blank" class="pdf-link">
-                        <img src="~/Content/images/pdfImage.png" alt="" />
-                        <span class="pdf-placeholder">PDF File</span>
-                    </a>
+                    var extension = System.IO.Path.GetExtension(p.UrlPath).ToLower();
+                    <div class="anhNha d-flex flex-column">
+                        @if (extension == ".pdf")
+                        {
+                            <a href="@Url.Content(p.UrlPath.ToString())" target="_blank" class="pdf-link">
+                                <img src="~/Content/images/pdfImage.png" alt="" />
+                                <span class="pdf-placeholder">PDF File</span>
+                            </a>
 
-                }
-                else
-                {
-                    <a href="@Url.Content(p.UrlPath)" data-fancybox="gallery">
-                        <img class="upload_img p-1" loading="lazy" src="@Url.Content(p.UrlPath)" alt="Ảnh bài viết" />
-                    </a>
-                }
-                <div>
-                    <span class="btn-del-img mt-2" onclick="removeImage('@p.Id')">X</span>
-                </div> 
-                
-            </div>
+                        }
+                        else
+                        {
+                            <a href="@Url.Content(p.UrlPath)" data-fancybox="gallery">
+                                <img class="upload_img p-1" loading="lazy" src="@Url.Content(p.UrlPath)" alt="Ảnh bài viết" />
+                            </a>
+                        }
+                        <div>
+                            <span class="btn-del-img mt-2" onclick="removeImage('@p.Id')">X</span>
+                        </div>
+
+                    </div>
                 }
             }
         </div>
@@ -194,7 +196,7 @@
                     if (data.success === true) {
                         loadHinhAnh();
                         @*console.log(data);
-                        previewFiles(data);*@ 
+                        previewFiles(data);*@
                     } else {
                         console.log('URL: ', url, '  name: ', name);
                     }
