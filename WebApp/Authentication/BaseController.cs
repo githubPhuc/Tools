@@ -30,7 +30,7 @@ namespace ToolsApp.Authentication
                 {
                     string log = "Người dùng thực hiện action ";
                     log += actionName + " ";
-                    if(httpMethod=="POST")
+                    if(httpMethod=="POST" )
                     {
                         foreach (var keyObj in postData.Keys)
                         {
@@ -39,7 +39,7 @@ namespace ToolsApp.Authentication
                             try
                             {
                                 value = postData[key].ToString();
-                                log += key + " " + value +", ";
+                                log += key + " = " + value +", ";
                             }
                             catch (Exception e)
                             {
