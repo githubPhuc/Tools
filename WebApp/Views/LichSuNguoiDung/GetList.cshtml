@@ -1,17 +1,15 @@
 ﻿
 @{
-    ViewBag.Title = "GetList";
+    ViewBag.Title = "Danh sách";
     var data = ViewBag.data as List<ToolsApp.EntityFramework.LogHistory>;
 }
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th></th>
             <th>Mô tả</th>
             <th>Mô tả chi tiết</th>
-            <th>Nguời tạo</th>
             <th>Ngày tạo</th>
-            <th>Ip người dùng</th>
+            <th>Địa chỉ truy cập</th>
         </tr>
     </thead>    
     <tbody>
@@ -21,17 +19,9 @@
                 foreach (var item in data)
                 {
                     <tr>
-                        <td style="max-width:40px!important">
-                            <a onclick="Edit('@item.Id')" class="btn">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a onclick="Delete('@item.Id')" class="btn">
-                                <i class="far fa-trash-alt"></i> Delete
-                            </a>
-                        </td>
+                      
                         <td>@item.moTa</td>
-                        <td>@item.moTaChiTiet</td>
-                        <td>@item.nguoiTao</td>
+                        <td>@Html.Raw(item.moTaChiTiet)</td>
                         <td>@item.ngayTao</td>
                         <td>@item.ipUserHostAddress</td>
                     </tr>

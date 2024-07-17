@@ -10,7 +10,7 @@
 @Html.HiddenFor(model => model.Id)
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.tenMenu)</label>
+    <label class="col-md-12 col-sm-12">Tên menu</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.tenMenu, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.tenMenu, "", new { @class = "text-danger" })
@@ -18,7 +18,7 @@
 </div>
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">Menus parent</label>
+    <label class="col-md-12 col-sm-12">Menus cha</label>
     <div class="col-md-12 col-sm-12 ten">
         <select id="parentId" name="parentId" class="form-control chosen-select" style="width: 100%;">
             <option value="0">
@@ -35,7 +35,7 @@
 </div>
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">Page</label>
+    <label class="col-md-12 col-sm-12">Trang web</label>
     <div class="col-md-12 col-sm-12 ten">
         <select id="idPage" name="idPage" class="form-control chosen-select" style="width: 100%;">
             <option value="0">
@@ -52,14 +52,14 @@
 </div>
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.iconMenu)</label>
+    <label class="col-md-12 col-sm-12">Icon menu</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.iconMenu, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.iconMenu, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.sortOrder)</label>
+    <label class="col-md-12 col-sm-12">Số thứ tự</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.sortOrder    , new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.sortOrder, "", new { @class = "text-danger" })

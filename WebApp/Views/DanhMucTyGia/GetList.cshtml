@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách";
+    var data = ViewBag.data as List<ToolsApp.EntityFramework.Config>;
+}
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Tên tỷ giá</th>
+            <th>Mô tả</th>
+            <th>Tình trạng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var STT = 1; }
+        @{
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    <tr>
+                        <td style="max-width:40px!important">
+                            <a onclick="Edit('@item.Id')" class="btn">
+                                <i class="fas fa-edit"></i> Cập nhật
+                            </a>
+                            <a onclick="Delete('@item.Id')" class="btn">
+                                <i class="far fa-trash-alt"></i> Xóa
+                            </a>
+                        </td>
+                        <td>@item.MoTa</td>
+                        <td>@item.moTaChiTiet</td>
+                        <td>@item.hieuLuc</td>
+                    </tr>
+
+                    STT++;
+                }
+            }
+           
+        }
+
+        </tbody>
+    </table>

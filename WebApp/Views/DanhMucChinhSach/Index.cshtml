@@ -14,22 +14,14 @@
                     </div>
                     <div class="card-body pad">
                         <div class="row">
-                            @*@if (dataUser.capDoTaiKhoan != 5)
-                            {
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Người dùng</label>
-                                        <select class="form-control form-control-md" id="nguoiDungSearch" name="nguoiDungSearch">
-                                            <option value="">--select--</option>
-                                            @foreach (var item in dataUserDanhMuc)
-                                            {
-                                                <option value="@item.Id">@item.hoVaTen</option>
-                                            }
-                                        </select>
-                                    </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Người dùng</label>
+                                    <input value=""
+                                           class="form-control" type="text" autocomplete="off"
+                                           id="tieuDeSearch" name="tieuDeSearch" />
                                 </div>
-
-                            }*@
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ngày bắt đầu</label>
@@ -62,13 +54,11 @@
                         </h3>
                     </div>
                     <div class="card-body pad">
-                        @*<div class="row">
-                                <div class="col-md-4">
-                                    <a href="@Url.Action("Insert")" class="btn bg-gradient-success">
-                                        <i class="fa fa-plus"></i>&nbsp;Thêm
-                                    </a>
-                                </div>
-                            </div>*@
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button id="btnCreate" type="button" class="btn bg-gradient-success"><i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 mt-4 table-body table-responsive">
                             </div>
@@ -81,6 +71,33 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-modal-css">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data" }))
+            {
+
+                <div class="modal-header custom-modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold" id="myModalTitle"></h4>
+                    <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div id="myModalContent">
+                    </div>
+
+                </div>
+                <div class="modal-footer modal-custom-footer footer d-flex ">
+                    <button type="button" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
 
 @section scripts {
     <script>
@@ -108,8 +125,16 @@
            var paramsLoadData = [
              true,
              '@Url.Action("GetList")',
-               '#nguoiDungSearch', '#ngayBatDauSearch', '#ngayKetThucSearch',
-         ];
+               '#tieuDeSearch', '#ngayBatDauSearch', '#ngayKetThucSearch',
+        ];
+         function Delete(id_) {
+            if (confirm('Bạn có chắc chắn muốn xóa?')) {
+                Action('@Url.Action("_DeleteFun")', 'POST', { Id: id_ }, paramsLoadData)
+            }
+        }
+        function Edit(Id) {
+            loadModal('CẬP NHẬT', '@Url.Action("Edit")', myModal, { Id: Id})
+        }
       $(document).ready(function () {
             loadData(...paramsLoadData);
 
@@ -120,7 +145,20 @@
             $("#btnSearch").click(function () {
                 loadData(...paramsLoadData);
             });
-
+             $("#btnCreate").click(function () {
+                 loadModal('Thêm chính sách ', '@Url.Action("Insert")', myModal, {Id:0})
+             });
+              $("#btSave").click(function () {
+                 var formData = {
+                     id: $("#id").val(),
+                     tieuDe: $("#tieuDe").val(),
+                     noiDung: tinymce.get('noiDung').getContent()
+,
+                 }
+                 console.log(formData);
+                 Action(formData.id == "0" ? '@Url.Action("_InsertFun")' : '@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)
+                 myModal.$modal.modal('hide');
+             });
         });
 
     </script>

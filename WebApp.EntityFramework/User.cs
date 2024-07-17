@@ -46,6 +46,18 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> hieuLuc { get; set; }
         public Nullable<int> capDoTaiKhoan { get; set; }
         public string chuKyUser { get; set; }
+        public string nguyenQuan { get; set; }
+        public Nullable<System.DateTime> ngaySinh { get; set; }
+        public Nullable<bool> gioiTinh { get; set; }
+        public string mstCaNhan { get; set; }
+        public string danToc { get; set; }
+        public string tringDoVanHoa { get; set; }
+        public string soDienThoaiKhac { get; set; }
+        public string zalo { get; set; }
+        public string soCCCD { get; set; }
+        public string anhCCCDMatTruoc { get; set; }
+        public string anhCCCDMatSau { get; set; }
+        public string tenTaiKhoanNganHang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaiViet> BaiViets { get; set; }

@@ -65,11 +65,13 @@ namespace ToolsApp.EntityFramework
         public Nullable<double> viDo { get; set; }
         public string diaChiDayDu { get; set; }
         public Nullable<int> soPhong { get; set; }
+        public Nullable<int> tinhTrang { get; set; }
     
+        public virtual Config Config { get; set; }
         public virtual KetCau KetCau { get; set; }
         public virtual NhomBaiViet NhomBaiViet { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HinhAnhBaiViet> HinhAnhBaiViets { get; set; }
-        public virtual User User { get; set; }
     }
 }

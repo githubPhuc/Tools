@@ -401,11 +401,11 @@ legend.scheduler-border {
     border-right: none;
     padding-left:10px;
 }
-.btn-success {
+/*.btn-success {
     background-color: #2bbbad !important;
     padding:5px 15px;
     border:none
-}
+}*/
 /*search css*/
 .card-header {
     box-shadow: 0 0 3px #fff inset, 0 1px 1px rgba(0,0,0,.1);
@@ -662,4 +662,9 @@ legend.scheduler-border {
 
 .table-Salaries th {
     background-color: aquamarine
+}
+/*Text-Editor*/
+.text-editor {
+    box-sizing:border-box;
+    padding: 0 50px;
 }

@@ -4,28 +4,28 @@
 @Html.HiddenFor(model => model.Id)
 
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.Code)</label>
+    <label class="col-md-12 col-sm-12">Mã code</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.Info)</label>
+    <label class="col-md-12 col-sm-12">Thông tin</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.Info, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.controllerName)</label>
+    <label class="col-md-12 col-sm-12">Controller name</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.controllerName, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.controllerName, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-12 col-sm-12">@Html.LabelFor(p => p.actionName)</label>
+    <label class="col-md-12 col-sm-12">Action name</label>
     <div class="col-md-12 col-sm-12 ten">
         @Html.EditorFor(model => model.actionName, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.actionName, "", new { @class = "text-danger" })

@@ -1,4 +1,5 @@
 ﻿@{
+
     var List = ViewBag.List as IEnumerable<ToolsApp.EntityFramework.Menu>;
 }
 
@@ -6,12 +7,12 @@
     <thead>
         <tr>
             <th></th>
-            <th>.No</th>
-            <th>Menu Name</th>
-            <th>Parent</th>
-            <th>Page</th>
+            <th>Stt</th>
+            <th>Tên menu</th>
+            <th>Menu chính</th>
+            <th>Trang web</th>
             <th>Icon</th>
-            <th>Order No</th>
+            <th>Thứ tự sắp xếp</th>
         </tr>
     </thead>
     <tbody>
@@ -21,10 +22,10 @@
             <tr>
                 <td style="max-width:40px!important">
                     <a onclick="Edit('@item.Id')" class="btn">
-                        <i class="fas fa-edit"></i> Edit
+                        <i class="fas fa-edit"></i> Cập nhật
                     </a>
                     <a onclick="Delete('@item.Id')" class="btn">
-                        <i class="far fa-trash-alt"></i> Delete
+                        <i class="far fa-trash-alt"></i> Xóa
                     </a>
                 </td>
                 <td>

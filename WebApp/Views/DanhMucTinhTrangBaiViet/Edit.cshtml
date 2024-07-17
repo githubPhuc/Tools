@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    var data = ViewBag.data as ToolsApp.EntityFramework.Config;
+}
+<input id="Id"name="Id" value="@data.Id" style="display:none" />
+
+<div class="row" style="margin-bottom:5px">
+    <div class="col-md-12 col-sm-4">
+        <div class="row" style="margin-bottom:5px">
+            <label class="col-md-12 col-sm-12">Tên loại tài khoản (Vi)</label>
+            <div class="col-md-12 col-sm-12 ten">
+                <input value="@data.MoTa" class="form-control" type="text" id="MoTa" name="MoTa" />
+            </div>
+        </div> 
+        <div class="row" style="margin-bottom:5px">
+            <label class="col-md-12 col-sm-12">Tên loại tài khoản (Eng)</label>
+            <div class="col-md-12 col-sm-12 ten">
+                <input value="@data.moTaChiTiet" class="form-control" type="text" id="moTaChiTiet" name="moTaChiTiet" />
+            </div>
+        </div>
+    </div>
+</div>
+

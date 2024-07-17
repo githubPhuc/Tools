@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách";
+    var data = ViewBag.data as List<ToolsApp.Models.NhomBaiVietModels>;
+}
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>id</th>
+            <th>Tên nhóm</th>
+            <th>Mô tả</th>
+            <th>Tỷ giá</th>
+            <th>Nguời tạo</th>
+            <th>Ngày tạo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (data != null)
+            {
+                foreach (var item in data)
+                {
+                    <tr>
+                        <td style="max-width:80px!important">
+                            <a onclick="Edit('@item.id')" class="btn">
+                                <i class="fas fa-edit"></i> Cập nhật
+                            </a>
+                            <a onclick="Delete('@item.id')" class="btn">
+                                <i class="far fa-trash-alt"></i> Xóa
+                            </a>
+                        </td>
+                        <td>@item.id</td>
+                        <td>@item.tenNhom</td>
+                        <td>@item.MoTa</td>
+                        <td>@item.tenTyGia</td>
+                        <td>@item.tenNguoiTao</td>
+                        <td>@item.ngayTao.Value.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<script>
+    function view(id) {
+          
+    }
+</script>

@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Cập nhật";
+    var data = ViewBag.data as ToolsApp.EntityFramework.NhomBaiViet;
+    var dataTyGia = ViewBag.dataTyGia as List<ToolsApp.EntityFramework.Config>;
+}
+<input id="id" name="id" value="@data.id" style="display:none" />
+<div class="row" style="margin-bottom:5px">
+    <div class="col-md-12 col-sm-4">
+        <div class="row" style="margin-bottom:5px">
+            <label class="col-md-12 col-sm-12">Tên nhóm</label>
+            <div class="col-md-12 col-sm-12 ten">
+                <input value="@data.tenNhom" class="form-control" type="text" id="tenNhom" name="tenNhom" />
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:5px">
+            <label class="col-md-12 col-sm-12">Mô Tả</label>
+            <div class="col-md-12 col-sm-12 ten">
+                <input value="@data.MoTa" class="form-control" type="text" id="MoTa" name="MoTa" />
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:5px">
+            <label class="col-md-12 col-sm-12">Mô Tả</label>
+            <div class="col-md-12 col-sm-12 ten">
+                <select id="idTyGia" name="idTyGia" class="form-control form-control-md chosen-select" style="width: 100%;">
+                    <option value="">--select--</option>
+                    @foreach (var item in dataTyGia)
+                    {
+                        <option value="@item.Id" @(data.idTyGia>0?"selected":"")>@item.MoTa</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': { allow_single_deselect: false },
+        '.chosen-select-no-single': { disable_search_threshold: 10 },
+        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+        '.chosen-select-width': { width: "95%" },
+        'search_contains': true
+    }
+    for (var selector in config) {
+        $(selector).chosen(config);
+    }
+</script>

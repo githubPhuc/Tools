@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Danh mục kết cấu";
+    ViewBag.Title = "Danh mục loại tài khoản";
     var user = ViewBag.user as ToolsApp.EntityFramework.User;
 }
 <section class="content">
@@ -119,7 +119,7 @@
         ];
 
         function Delete(id_) {
-            if (confirm('Do you want to delete this item ?')) {
+            if (confirm('Bạn có chắc chắn muốn xóa?')) {
                 Action('@Url.Action("_DeleteFun")', 'POST', { Id: id_ }, paramsLoadData)
             }
         }
@@ -148,7 +148,7 @@
             });
 
             $("#btnCreate").click(function () {
-                loadModal('Thêm kết cấu', '@Url.Action("Insert")', myModal, {Id:0})
+                loadModal('Thêm tài khoản', '@Url.Action("Insert")', myModal, {Id:0})
 
             });
         });

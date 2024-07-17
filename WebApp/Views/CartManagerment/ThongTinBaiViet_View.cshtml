@@ -3,6 +3,7 @@
     var nhomBaiViet = ViewBag.nhomBaiViet as ToolsApp.EntityFramework.NhomBaiViet;
     var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
+
     var donGia = 1000000;
   }
 
@@ -49,7 +50,8 @@
                             </div>
                             <div class="col-md-10 col-sm-12">
                                 <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="diaChiDayDu" name="diaChiDayDu" aria-label=".form-select-md">
-                                    <option value="">Thành phố - Quận / Huyện - Phường / Xã </option>
+                                    <option value="@Model.diaChiDayDu" >@Model.diaChiDayDu</option>
+
                                 </select>
                                 <hr />
                             </div>
@@ -220,13 +222,7 @@
                                 <h6 class="mb-0 text-success">Số phòng</h6>
                             </div>
                             <div class="col-sm-10 ">
-                                <select class="form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="soPhong" name="soPhong" aria-label=".form-select-md">
-                                    @*<option value="1-2" @(Model.soPhong == "1-2" ? "selected" : "")>1 đến 2 phòng</option>
-                                    <option value="3-4" @(Model.soPhong == "3-4" ? "selected" : "")>3 đến 4 phòng</option>
-                                    <option value="5-6" @(Model.soPhong == "5-6" ? "selected" : "")>5 đến 6 phòng</option>
-                                    <option value="7-9" @(Model.soPhong == "7-9" ? "selected" : "")>7 đến 9 phòng</option>
-                                    <option value="10+" @(Model.soPhong == "10+" ? "selected" : "")>Trên 10 phòng</option>*@
-                                </select>
+                                <input value="@Model.soPhong" class="form-control quickEdit" min=1 step=1 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="soPhong" name="soPhong">
                                 <hr>
                             </div>
                         </div>
@@ -357,12 +353,12 @@
             $.getJSON(url, function (data) {
                 if (data.length > 0) {
                     var $diaChiDayDu = $("#diaChiDayDu");
-                    $diaChiDayDu.empty(); // Xóa các option cũ nếu có
-
+                    $diaChiDayDu.empty();
                     data.forEach(function (result) {
                         var displayName = result.display_name;
                         $diaChiDayDu.append(new Option(displayName, displayName));
                     });
+                    $diaChiDayDu.trigger('change');
                 } else {
                     alert('Không tìm thấy địa chỉ');
                 }
@@ -372,54 +368,10 @@
         $("select").each(function () {
             $(this).select2()
         })
-        @*var citis = document.getElementById("idThanhPho");
-        var districts = document.getElementById("idQuanHuyen");
-        var wards = document.getElementById("idPhuongXa");
-        var Parameter = {
-            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-            method: "GET",
-            responseType: "application/json",
-        };
-        var promise = axios(Parameter);
-        promise.then(function (result) {
-            renderCity(result.data);
-        });
-
-        function renderCity(data) {
-            console.log(data)
-            for (const x of data) {
-               citis.options[citis.options.length] = new Option(x.Name, x.Id);
-
-            }
-            // xứ lý khi thay đổi tỉnh thành thì sẽ hiển thị ra quận huyện thuộc tỉnh thành đó
-            citis.onchange = function () {
-                districts.length = 1;
-                if (this.value != "") {
-                    const result = data.filter(n => n.Id === this.value);
-                    for (const k of result[0].Districts) {
-                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
-                    }
-                }
-            };
-
-            // xứ lý khi thay đổi quận huyện thì sẽ hiển thị ra phường xã thuộc quận huyện đó
-            districts.onchange = function () {
-                wards.length = 1;
-                const dataCity = data.filter((n) => n.Id === citis.value);
-                if (this.value != "") {
-                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
-                    for (const w of dataWards) {
-                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
-                    }
-                }
-            };
-        }*@
         var giaTien = true;
         $('#idNhomBaiViet').change(function () {
-            var selectedValue = parseInt($(this).val()); // Lấy giá trị đã chọn
+            var selectedValue = parseInt($(this).val()); 
             var donGiaLabel = $('#donGiaLabel');
-
-            // Cập nhật nội dung cho đơn giá tương ứng
             if (selectedValue == 1 || selectedValue == 3) {
                 donGiaLabel.text('Đơn giá: Tỷ đồng (VNĐ)');
                 giaTien = true;
@@ -438,58 +390,73 @@
             else {
                 donGia = 1000000
             }
-            if (giaBan != NaN) {
-                console.log(donGia)
-                var giaM2Dat = giaBan * donGia / @(Model.dienTichDat);
-                var giaM2XayDung = giaBan * donGia / @(Model.dienTichXayDung)
-                 var giaM2SuDung = giaBan * donGia / @(Model.dienTichSuDung)
-                $('#giaM2Dat').text(giaM2Dat.toLocaleString('en-US') + ' VNĐ');
-                $('#giaM2XayDung').text(giaM2XayDung.toLocaleString('en-US') + ' VNĐ');
-                $('#giaM2SuDung').text(giaM2SuDung.toLocaleString('en-US') + ' VNĐ');
-                var data = {
-                    id:id,
-                    giaM2Dat: giaM2Dat,
-                    giaM2SuDung: giaM2SuDung,
-                    giaM2XayDung: giaM2XayDung
-                }
-                try {
-                    $.ajax({
-                        url: '@Url.Action("QuickUpdateBaiViet")',
-                        type: 'POST',
-                        data: data,
-                        success: function (response) {
-                        },
-                        error: function (error) {
-                            // Handle the error response
-                            notify('Có lỗi xảy ra khi lưu thông tin thêm');
-                        },
-                        complete: function () {
-                        }
-                    });
-                } catch (e) {
-                    console.log(e)
-                }
+            if (!isNaN(giaBan)) {
+                console.log(donGia);
+                $.ajax({
+                    url: '@Url.Action("GetUpdatedValues")', 
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (response) {
+                        var dienTichDat = response.dienTichDat;
+                        var dienTichXayDung = response.dienTichXayDung;
+                        var dienTichSuDung = response.dienTichSuDung;
+                        var giaM2Dat = 0;
+                        var giaM2XayDung = 0;
+                        var giaM2SuDung = 0;
+                            if (dienTichDat !== 0) {
+                                 giaM2Dat = giaBan * donGia / dienTichDat;
+                            }
+                            if (dienTichXayDung !== 0) {
+                                 giaM2XayDung = giaBan * donGia / dienTichXayDung;
+                            }
+                            if (dienTichSuDung !== 0) {
+                                 giaM2SuDung = giaBan * donGia / dienTichSuDung;
+                            }
+                            $('#giaM2Dat').text(giaM2Dat.toLocaleString('en-US') + ' VNĐ');
+                            $('#giaM2XayDung').text(giaM2XayDung.toLocaleString('en-US') + ' VNĐ');
+                            $('#giaM2SuDung').text(giaM2SuDung.toLocaleString('en-US') + ' VNĐ');
+
+                            var data = {
+                                id: id,
+                                giaM2Dat: giaM2Dat,
+                                giaM2SuDung: giaM2SuDung,
+                                giaM2XayDung: giaM2XayDung
+                            };
+                            $.ajax({
+                                url: '@Url.Action("QuickUpdateBaiViet")',
+                                type: 'POST',
+                                data: data,
+                                success: function (response) {
+                                },
+                                error: function (error) {
+                                    notify('Có lỗi xảy ra khi lưu thông tin thêm');
+                                },
+                                complete: function () {
+                                }
+                            })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Có lỗi xảy ra khi lấy giá trị mới.');
+                    }
+                });
+            } else {
+                console.error('Giá trị giaBan không hợp lệ.');
             }
         })
 
         //quickUpdate select2
-            // Handle select2 change event
             $("select").on('change', function () {
                 var $this = $(this);
-                var idBaiViet = $this.data('id'); // Ensure data-id is properly set on the input element
+                var idBaiViet = $this.data('id');
                 var newValue = $this.val();
                 var inputName = $this.attr('name');
                 var data = {
                     id: idBaiViet
                 };
-                data[inputName] = newValue; // Dynamically add the property to the data object
-
-                // Optionally, log the data object for debugging
+                data[inputName] = newValue; 
                 console.log(data);
-
-                // Send AJAX request to update the server
                 $.ajax({
-                    url: '@Url.Action("QuickUpdateBaiViet")', // Replace with your server endpoint
+                    url: '@Url.Action("QuickUpdateBaiViet")', 
                     type: 'POST',
                     data: data,
                     success: function (response) {
@@ -503,7 +470,6 @@
                     }
                 });
             });
-        //QuickUpdate
             $('.quickEdit').on('blur', function () {
             var $this = $(this);
             var idBaiViet = $this.data('id');
@@ -532,11 +498,7 @@
                 }
             });
         });
-        $('.quickEdit').on('keydown', function (event) {
-            if (event.key === 'Enter') {
-                $(this).blur();
-            }
-        });
+      
     })
 
 </script>

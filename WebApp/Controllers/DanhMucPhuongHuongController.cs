@@ -54,6 +54,7 @@ namespace ToolsApp.Controllers
                 }
                 var model_copy = new Config();
                 model_copy.parentId = Direction;
+                model_copy.code = "Direction";
                 model_copy.MoTa = tenPhuongHuong;
                 model_copy.moTaChiTiet = tenPhuongHuong;
                 model_copy.ngayTao = DateTime.Now;

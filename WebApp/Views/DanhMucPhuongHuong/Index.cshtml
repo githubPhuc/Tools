@@ -119,7 +119,7 @@
         ];
 
         function Delete(id_) {
-            if (confirm('Do you want to delete this item ?')) {
+            if (confirm('Bạn có chắc chắn muốn xóa ?')) {
                 Action('@Url.Action("_DeleteFun")', 'POST', { Id: id_ }, paramsLoadData)
             }
         }

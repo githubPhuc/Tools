@@ -279,6 +279,38 @@ namespace ToolsApp.Models
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
     }
+    public partial class ChinhSachModels
+    {
+        public int id { get; set; }
+        public string tieuDe { get; set; }
+        public string noiDung { get; set; }
+        public string tenNguoiTao { get; set; }
+        public Nullable<bool> trangThai { get; set; }
+        public Nullable<System.DateTime> ngayTao { get; set; }
+        public Nullable<int> nguoiTao { get; set; }
+        public Nullable<System.DateTime> ngayCapNhat { get; set; }
+        public Nullable<int> nguoiCapNhat { get; set; }
+        public Nullable<System.DateTime> ngayXoa { get; set; }
+        public Nullable<int> nguoiXoa { get; set; }
+        public Nullable<bool> xacNhanXoa { get; set; }
+    }
+    public partial class NhomBaiVietModels
+    {
+        public int id { get; set; }
+        public string tenNhom { get; set; }
+        public string MoTa { get; set; }
+        public string tenNguoiTao { get; set; }
+        public Nullable<int> idTyGia { get; set; }
+        public string tenTyGia { get; set; }
+        public Nullable<bool> trangThai { get; set; }
+        public Nullable<System.DateTime> ngayTao { get; set; }
+        public Nullable<int> nguoiTao { get; set; }
+        public Nullable<System.DateTime> ngayCapNhat { get; set; }
+        public Nullable<int> nguoiCapNhat { get; set; }
+        public Nullable<System.DateTime> ngayXoa { get; set; }
+        public Nullable<int> nguoiXoa { get; set; }
+        public Nullable<bool> xacNhanXoa { get; set; }
+    }
     public class BaiVietViewModel
     {
         public int id { get; set; }
@@ -290,6 +322,8 @@ namespace ToolsApp.Models
         public string huong { get; set; }
         public string tenBaiViet { get; set; }
         public string diaChiTaiSan { get; set; }
+        public string diaChiDayDu { get; set; }
+        public Nullable<int> soPhong { get; set; }
         public Nullable<int> idThanhPho { get; set; }
         public Nullable<int> idQuanHuyen { get; set; }
         public Nullable<int> idPhuongXa { get; set; }
@@ -322,11 +356,14 @@ namespace ToolsApp.Models
         public Nullable<System.DateTime> ngayXoa { get; set; }
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
-
+        public Nullable<int> tinhTrang { get; set; }
+        public  Config Config { get; set; }
         public KetCau KetCau { get; set; }
         public NhomBaiViet NhomBaiViet { get; set; }
         public ICollection<HinhAnhBaiViet> HinhAnhBaiViets { get; set; }
+
         public User User { get; set; }
+        public string MoTaTyGia { get; set; }
     }
     public class HinhAnhViewModel
     {
@@ -363,5 +400,28 @@ namespace ToolsApp.Models
         public int Id { get; set; }
         public string UrlPath { get; set; }
     }
-
+    public class TyGiaViewModel
+    {
+        public int Id { get; set; }
+        public string TyGiaMoTa { get; set; }
+    }
+    public class LogHistoryViewModel
+    {
+        public int Id { get; set; }
+        public int? idUser { get; set; }
+        public string hoVaTen { get; set; }
+        public string tenTaiKhoan { get; set; }
+        public string moTa { get; set; }
+        public string moTaChiTiet { get; set; }
+        public DateTime? ngayTao { get; set; }
+        public int? nguoiTao { get; set; }
+        public DateTime? ngayCapNhat { get; set; }
+        public int? nguoiCapNhat { get; set; }
+        public DateTime? ngayXoa { get; set; }
+        public int? nguoiXoa { get; set; }
+        public bool? xacNhanXoa { get; set; }
+        public bool? hieuLuc { get; set; }
+        public string ipUserHostAddress { get; set; }
+        public int? IdBaiViet { get; set; }
+    }
 }

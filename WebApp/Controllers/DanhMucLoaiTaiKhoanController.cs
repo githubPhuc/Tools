@@ -15,7 +15,7 @@ namespace ToolsApp.Controllers
     [Authorize]
     public class DanhMucLoaiTaiKhoanController : BaseController
     {
-        static int Direction = 1;
+        private readonly AppGlobal appGlobal = new AppGlobal();
         crmcustomscontext db_ = new crmcustomscontext();
         public ActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace ToolsApp.Controllers
         }
         public async Task<ActionResult> GetList(string MoTaSearch)
         {
-            var data = db_.Configs.Where(a=>a.parentId == Direction && a.xacNhanXoa ==false &&(string.IsNullOrEmpty(MoTaSearch) ==true || a.MoTa.ToUpper().Contains(MoTaSearch.ToUpper()))).ToList();
+            var data = db_.Configs.Where(a=>a.parentId == appGlobal.IdDanhMucLoaiTaiKhoan && a.xacNhanXoa ==false &&(string.IsNullOrEmpty(MoTaSearch) ==true || a.MoTa.ToUpper().Contains(MoTaSearch.ToUpper()))).ToList();
             ViewBag.data = data;
             return PartialView();
         }
@@ -35,27 +35,28 @@ namespace ToolsApp.Controllers
         }
         public ActionResult Edit(int id)
         {
-            var data = db_.Configs.Where(a=>a.Id==id && a.parentId == Direction).FirstOrDefault();
+            var data = db_.Configs.Where(a=>a.Id==id && a.parentId == appGlobal.IdDanhMucLoaiTaiKhoan).FirstOrDefault();
             ViewBag.data = data;
             return PartialView();
         }
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult _InsertFun(string tenPhuongHuong)
+        public JsonResult _InsertFun(string MoTa, string moTaChiTiet)
         {
          
             try
             {
 
-                if (tenPhuongHuong == "" || tenPhuongHuong == null)
+                if (MoTa == "" || MoTa == null)
                 {
-                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên phương hướng", obj = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = -1, title = "", text = "Vui lòng nhập tên loại tài khoản", obj = "" }, JsonRequestBehavior.AllowGet);
 
                 }
                 var model_copy = new Config();
-                model_copy.parentId = Direction;
-                model_copy.MoTa = tenPhuongHuong;
-                model_copy.moTaChiTiet = tenPhuongHuong;
+                model_copy.parentId = appGlobal.IdDanhMucLoaiTaiKhoan;
+                model_copy.code = "AccountType";
+                model_copy.MoTa = MoTa;
+                model_copy.moTaChiTiet = moTaChiTiet;
                 model_copy.ngayTao = DateTime.Now;
                 model_copy.nguoiTao = User.UserId;
                 model_copy.ngayCapNhat = DateTime.Now;
@@ -88,7 +89,7 @@ namespace ToolsApp.Controllers
                 {
                     return Json(new { status = -1, title = "", text = "Vui lòng nhập tên loại tài khoản", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
-                var data = db_.Configs.Where(a=>a.Id==id && a.xacNhanXoa == false && a.parentId ==Direction).FirstOrDefault();
+                var data = db_.Configs.Where(a=>a.Id==id && a.xacNhanXoa == false && a.parentId ==appGlobal.IdDanhMucLoaiTaiKhoan).FirstOrDefault();
                 if(data != null)
                 {
                     data.MoTa = MoTa;
@@ -122,7 +123,7 @@ namespace ToolsApp.Controllers
          
             try
             {
-                var data = db_.Configs.Where(a => a.Id == id  && a.parentId == Direction).FirstOrDefault();
+                var data = db_.Configs.Where(a => a.Id == id  && a.parentId == appGlobal.IdDanhMucLoaiTaiKhoan).FirstOrDefault();
                 if (data != null)
                 {
                     data.ngayXoa = DateTime.Now;
