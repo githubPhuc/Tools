@@ -22,22 +22,38 @@
             {
                 foreach (var item in data)
                 {
-                    <tr>
-                        <td style="max-width:40px!important">
-                            <a onclick="Edit('@item.id')" class="btn">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a onclick="Delete('@item.id')" class="btn">
-                                <i class="far fa-trash-alt"></i> Delete
-                            </a>
-                        </td>
-                        <td>@item.tenKetCau</td>
-                        <td>@item.tenNguoiTao</td>
-                        <td>@item.ngayTao</td>
-                        <td>@item.tenNguoiCapNhat</td>
-                        <td>@item.ngayCapNhat</td>
-                        <td>@item.trangThai</td>
-                    </tr>
+                <tr>
+                            <td style="max-width:40px!important">
+                  
+                                <a onclick="Edit('@item.id')" class="btn btn-secondary btn-custom">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </a>
+                                <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
+                                    <i class="far fa-trash-alt"></i> Xóa
+                                </a>
+                            </td>
+                    <td>@item.tenKetCau</td>
+                    <td>@item.tenNguoiTao</td>
+                    <td>@item.ngayTao</td>
+                    <td>@item.tenNguoiCapNhat</td>
+                    <td>@item.ngayCapNhat</td>
+                    <td>
+                        @if (item.trangThai == true)
+                        {
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-circle" style="color: green;"></i>
+                                <span class="ml-1">Đang hoạt động</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-circle" style="color: red;"></i>
+                                <span  class="ml-1">Không hoạt động</span>
+                            </div>
+                        }
+                    </td>
+                </tr>
 
                     STT++;
                 }

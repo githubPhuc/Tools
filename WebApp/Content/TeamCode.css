@@ -668,3 +668,8 @@ legend.scheduler-border {
     box-sizing:border-box;
     padding: 0 50px;
 }
+/*Mô giới css*/
+.btn-custom {
+    padding: 3px;
+}
+

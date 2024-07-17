@@ -4,7 +4,7 @@
     ViewBag.data = ViewBag.data;
 }
 <div class="col-lg-12" style="margin-left: 10px; background: white; ">
-    <div class="row">
+    <div class="row ">
         <div class="col-sm-1">
             <button type="button" id="back" onclick="back()" class="btn btn-sm btn-primary"><i class="fa fa-backward"></i>&nbsp;Quay lại</button>
         </div>
@@ -13,9 +13,9 @@
         </div>
     </div>
 </div>
-<div class="col-lg-12" style="margin-left: 10px; background: white; ">
+<div class="col-lg-12 mt-3" style="padding:20px; background: white; border:1px solid #ccc;box-sizing:border-box; max-width:100%;word-wrap:break-word">
     <div id="printableArea">
-         @Html.Raw(@ViewBag.data)
+        @Html.Raw(@ViewBag.data)
 
     </div>
 </div>

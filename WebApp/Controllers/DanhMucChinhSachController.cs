@@ -22,18 +22,13 @@ namespace ToolsApp.Controllers
           
             return View();
         }
-        public async Task<ActionResult> GetList(string tieuDeSearch, string ngayBatDauSearch, string ngayKetThucSearch)
+        public async Task<ActionResult> GetList(string tieuDeSearch)
         {
-            DateTime DateNow = DateTime.UtcNow.AddHours(7);
-            DateTime dateStart = DateTime.ParseExact(ngayBatDauSearch, "dd/MM/yyyy", null);
-            DateTime dateEnd = DateTime.ParseExact(ngayKetThucSearch, "dd/MM/yyyy", null);
-            dateStart = dateStart.AddHours(0).AddMinutes(0).AddSeconds(0);
-            dateEnd = dateEnd.AddHours(23).AddMinutes(59).AddSeconds(59);
+
             var users = db_.Users.AsNoTracking();
             var ChinhSaches = db_.ChinhSaches.AsNoTracking();
             var data =await (from a in ChinhSaches
                        join b in users on a.nguoiTao equals b.Id
-                       where (a.ngayTao >= dateStart) && (a.ngayTao <= dateEnd)
                        where string.IsNullOrEmpty(tieuDeSearch)== true || a.tieuDe.ToUpper().Contains(tieuDeSearch.ToUpper())
                        where a.xacNhanXoa ==false
                        select new ChinhSachModels

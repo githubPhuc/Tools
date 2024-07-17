@@ -34,7 +34,6 @@ function loadData(isDelete, Action, ...searchKey) {
         var value = $('#' + id).val();
         data[name] = value;
     }
-    console.log(data)
     if (isDelete == true) {
         try {
 
@@ -46,7 +45,6 @@ function loadData(isDelete, Action, ...searchKey) {
                     $(".divLoading").addClass("loading");
                 },
                 success: function (response) {
-                    console.log(response)
                     $(".divLoading").removeClass("loading");
                     $('.table-body').html(response);
                     $("#myTable").DataTable({
@@ -125,7 +123,6 @@ function loadModal(title = "Title", action, modalParams, formData, callback) {
             id["Id"] = formData
        }
     }
-    console.log(id)
     if (modalParams && Object.keys(modalParams).length !== 0) {
         modalParams.$myModalContent.html("");
         modalParams.$myModalTitle.html(`${title}`);

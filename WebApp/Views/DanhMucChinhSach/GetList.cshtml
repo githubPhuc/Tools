@@ -3,6 +3,11 @@
     ViewBag.Title = "GetList";
     var data = ViewBag.data as List<ToolsApp.Models.ChinhSachModels>;
 }
+<style>
+    .btn-custom {
+        padding:3px;
+    }
+</style>
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -11,6 +16,7 @@
             <th>Tiêu đề</th>
             <th>Nguời tạo</th>
             <th>Ngày tạo</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -20,21 +26,26 @@
                 foreach (var item in data)
                 {
                     <tr>
-                        <td style="max-width:80px!important">
-                            <a onclick="Edit('@item.id')" class="btn">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a onclick="Delete('@item.id')" class="btn">
-                                <i class="far fa-trash-alt"></i> Delete
-                            </a>
-                            <a href="@Url.Action("View", new { id = item.id })" class="btn">
-                                <i class="far fa-eye"></i> View
-                            </a>
-                        </td>
+                                <td style="max-width:80px!important">
+                                     <a href="@Url.Action("View", new { id = item.id })" class="btn btn-info btn-custom">
+                                        <i class="far fa-eye"></i> Xem
+                                    </a>
+                                    <a onclick="Edit('@item.id')" class="btn btn-secondary  btn-custom">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </a>
+
+
+                                </td>
                         <td>@item.id</td>
                         <td>@item.tieuDe</td>
-                        <td>@item.nguoiTao</td>
+                        <td>@item.tenNguoiTao</td>
                         <td>@item.ngayTao.Value.ToString("dd/MM/yyyy")</td>
+                        <td class="text-end">
+                            <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
+                                <i class="far fa-trash-alt"></i> Xóa
+                            </a>
+
+                        </td>
                     </tr>
                 }
             }
