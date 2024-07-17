@@ -1,4 +1,31 @@
-﻿//LoadData
+﻿//Convert html to text 
+function htmlToText(html) {
+    html = html.replace(/\n/g, "");
+    html = html.replace(/\t/g, "");
+    html = html.replace(/<\/td>/g, "\t");
+    html = html.replace(/<\/table>/g, "\n");
+    html = html.replace(/<\/tr>/g, "\n");
+    html = html.replace(/<\/p>/g, "\n");
+    html = html.replace(/<\/div>/g, "\n");
+    html = html.replace(/<\/h>/g, "\n");
+    html = html.replace(/<br>/g, "\n"); html = html.replace(/<br( )*\/>/g, "\n");
+    var dom = (new DOMParser()).parseFromString('<!doctype html><body>' + html, 'text/html');
+    return dom.body.textContent;
+}
+//Copy to clipboard
+function copyToClipboard(text) {
+    if (!document.hasFocus()) {
+        window.focus();
+    }
+
+    navigator.clipboard.writeText(text).then(function () {
+        alert('Đã sao chép nội dung chia sẻ vào clipboard');
+    }).catch(function (error) {
+        console.error('Error copying text to clipboard: ', error);
+    });
+}
+
+//LoadData
 function loadData(isDelete, Action, ...searchKey) {
     var data = {};
     for (var i = 0; i < searchKey.length; i++) {
@@ -19,6 +46,7 @@ function loadData(isDelete, Action, ...searchKey) {
                     $(".divLoading").addClass("loading");
                 },
                 success: function (response) {
+                    console.log(response)
                     $(".divLoading").removeClass("loading");
                     $('.table-body').html(response);
                     $("#myTable").DataTable({
@@ -292,6 +320,5 @@ function fadeInImage(Id) {
             overlay.remove();
         });
     });
-
-
 }
+
