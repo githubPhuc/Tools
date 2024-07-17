@@ -3207,6 +3207,7 @@
     <Compile Include="Controllers\DanhMucChinhSachController.cs" />
     <Compile Include="Controllers\DanhMucLoaiTaiKhoanController.cs" />
     <Compile Include="Controllers\DanhMucPhuongHuongController.cs" />
+    <Compile Include="Controllers\InfomationUserController.cs" />
     <Compile Include="Controllers\LichSuNguoiDungController.cs" />
     <Compile Include="Controllers\DanhMucKetCauController.cs" />
     <Compile Include="Controllers\CartManagermentController.cs" />
@@ -3289,14 +3290,19 @@
     <Content Include="Views\DanhMucPhuongHuong\GetList.cshtml" />
     <Content Include="Views\DanhMucPhuongHuong\Index.cshtml" />
     <Content Include="Views\DanhMucPhuongHuong\Insert.cshtml" />
-    <Content Include="Views\CheckCart\Edit.cshtml" />
     <Content Include="Views\CheckCart\GetList.cshtml" />
-    <Content Include="Views\CheckCart\hinhAnh_View.cshtml" />
     <Content Include="Views\CheckCart\Index.cshtml" />
-    <Content Include="Views\CheckCart\Insert.cshtml" />
-    <Content Include="Views\CheckCart\ThongTinBaiViet_View.cshtml" />
     <Content Include="Views\DanhMucChinhSach\GetList.cshtml" />
     <Content Include="Views\DanhMucChinhSach\Index.cshtml" />
+    <Content Include="Views\InfomationUser\_Image_Avatar_View.cshtml" />
+    <Content Include="Views\InfomationUser\_Image_View.cshtml" />
+    <Content Include="Views\InfomationUser\Index.cshtml" />
+    <Content Include="Views\InfomationUser\ThongTinCoBan_View.cshtml" />
+    <Content Include="Views\InfomationUser\ThongTinLienHe_View.cshtml" />
+    <Content Include="Views\InfomationUser\ThôngTinCaNhan_View.cshtml" />
+    <Content Include="Views\InfomationUser\_ViewCCCD.cshtml" />
+    <Content Include="Views\InfomationUser\User.cshtml" />
+    <Content Include="Views\CartManagerment\ShowLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

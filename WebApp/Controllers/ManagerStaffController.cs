@@ -42,6 +42,10 @@ namespace ToolsApp.Controllers
             ViewBag.dataUser = dataUser;
             return PartialView();
         }
+        public ActionResult ViewInfomation(int Id)
+        {
+            return RedirectToAction("UserProfile", "InfomationUser", new { id = Id });
+        }
         public ActionResult _Insert_View()
         {
           
@@ -61,88 +65,6 @@ namespace ToolsApp.Controllers
             ViewBag.user = user;
             return PartialView();
         }
-        #region Register
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<JsonResult> Register(RegisterViewModel model)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(model.hoVaTen) )
-                {
-                    return Json(new { status = -1, title = "", text = "Chưa nhập Họ và tên.", obj = "" }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(model.tenTaiKhoan))
-                    {
-                        return Json(new { status = -1, title = "", text = "Vui lòng nhập Username", obj = "" }, JsonRequestBehavior.AllowGet);
-                    }
-
-                    else
-                    {
-                        if (string.IsNullOrEmpty(model.matKhau))
-                        {
-                            return Json(new { status = -1, title = "", text = "Vui lòng nhập Password", obj = "" }, JsonRequestBehavior.AllowGet);
-
-                        }
-                        else
-                        {
-                            if (string.IsNullOrEmpty(model.email))
-                            {
-                                return Json(new { status = -1, title = "", text = "Vui lòng nhập Email", obj = "" }, JsonRequestBehavior.AllowGet);
-
-                            }
-                            var pass = ToolsApp.Utilities.UtilsLocal.mahoaS(model.matKhau);
-                            var dataUser =await db_.Users.Where(a=>a.tenTaiKhoan==model.tenTaiKhoan).FirstOrDefaultAsync();
-                            if(dataUser != null)
-                            {
-                                return Json(new { status = -1, title = "", text = "Vui lòng chọn AccoutType", obj = "" }, JsonRequestBehavior.AllowGet);
-                            }
-                            else
-                            {
-                                var data = new User()
-                                {
-                                    tenTaiKhoan = model.tenTaiKhoan,
-                                    matKhau = pass,
-                                    dcTamTru = model.dcTamTru,
-                                    dcThuongTru = model.dcThuongTru,
-                                    soDienThoai = model.soDienThoai,
-                                    email = model.email,
-                                    anhDaiDien = model.anhDaiDien,
-                                    hieuLuc = true,
-                                    hoVaTen = model.hoVaTen,
-                                    ngayTao = DateTime.Now,
-                                    nguoiTao = User.UserId,
-                                    ngayCapNhat = DateTime.Now,
-                                    nguoiCapNhat = User.UserId,
-                                    ngayXoa = DateTime.Now,
-                                    nguoiXoa = User.UserId,
-                                    xacNhanXoa = false,
-                                };
-                                db_.Users.Add(data); 
-                                await db_.SaveChangesAsync();
-                                return Json(new { status = 1, title = "", text = "Tạo tài khoản thành công", obj = "" }, JsonRequestBehavior.AllowGet);
-                            }
-
-
-                        }
-                    }
-                }
-
-
-                return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        #endregion
-       
-
-        [ValidateInput(false)]
-        [HttpPost]
         public JsonResult EditUser(RegisterViewModel model, int Id)
         {
             var item = db_.Users.FirstOrDefault(p => p.Id == Id);

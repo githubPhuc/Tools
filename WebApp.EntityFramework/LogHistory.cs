@@ -27,6 +27,7 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> xacNhanXoa { get; set; }
         public Nullable<bool> hieuLuc { get; set; }
         public string ipUserHostAddress { get; set; }
+        public Nullable<int> IdBaiViet { get; set; }
     
         public virtual User User { get; set; }
     }

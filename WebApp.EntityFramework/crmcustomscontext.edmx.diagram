@@ -4,36 +4,38 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c195061298bb4ba5af563431587fd11d" Name="Diagram1" ZoomLevel="92">
-        <EntityTypeShape EntityType="CRM_CustomsModel.Config" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.LogHistory" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.Menu" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.Page" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.sysdiagram" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.UserAuthorization" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="1e84d13bc2a841319fbc91436e0ce339" Name="Diagram1">
+        <EntityTypeShape EntityType="CRM_CustomsModel.BaiViet" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.ChinhSach" Width="1.5" PointX="5.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.Config" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.HinhAnh" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.HinhAnhBaiViet" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.KetCau" Width="1.5" PointX="0.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.LogHistory" Width="1.5" PointX="3" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.Luong" Width="1.5" PointX="6.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.Menu" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.NhomBaiViet" Width="1.5" PointX="0.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.Page" Width="1.5" PointX="1.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.UserAuthorization" Width="1.5" PointX="6" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.UserLuong" Width="1.5" PointX="9" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.User" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_Configs" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_KetCau" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_Configs_Configs" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_NhomBaiViet_Configs" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_HinhAnhBaiViet_HinhAnh" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_LogHistorys_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_UserLuong_Luong" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_Menus_Menus" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_Menus_Pages" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Menus" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Pages" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.BaiViet" Width="1.5" PointX="11.25" PointY="7.75" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.ChinhSach" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.HinhAnh" Width="1.5" PointX="11.25" PointY="3" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.HinhAnhBaiViet" Width="1.5" PointX="13.5" PointY="10.75" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.KetCau" Width="1.5" PointX="9" PointY="16" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.Luong" Width="1.5" PointX="6" PointY="17.625" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.NhomBaiViet" Width="1.5" PointX="9" PointY="5.875" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.UserLuong" Width="1.5" PointX="8.25" PointY="10.25" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_KetCau" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_HinhAnhBaiViet_HinhAnh" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_UserLuong_Luong" />
-        <EntityTypeShape EntityType="CRM_CustomsModel.User" Width="1.5" PointX="3" PointY="7.125" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_BaiViet_Users" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_LogHistorys_Users" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Users" />
-        <AssociationConnector Association="CRM_CustomsModel.FK_UserLuong_Users" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CRM_CustomsModel.FK_UserLuong_Users" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,25 +3,34 @@
     ViewBag.Title = "GetList";
     var data = ViewBag.danhSachBaiViet as List<ToolsApp.EntityFramework.BaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
+    var tinhTrangs = ViewBag.tinhTrang as List<ToolsApp.EntityFramework.Config>;
 
+    var idNhomBaiViet = ViewData["id"] != null ? ViewData["id"] : "null";
+    var page = ViewBag.page != null ? ViewBag.page : 1;
+    var totalPages = ViewBag.totalPages != null ? ViewBag.totalPages : 1;
+    var pageWindow = 2;
 }
 @functions { public string GetHouseNumber(string diaChiTaiSan)
     {
-        diaChiTaiSan = diaChiTaiSan.Trim();
+
+
         if (string.IsNullOrWhiteSpace(diaChiTaiSan))
         {
             return string.Empty;
         }
+        diaChiTaiSan = diaChiTaiSan.Trim();
         var parts = diaChiTaiSan.Split(' ');
         return parts.Length > 0 ? parts[0] : string.Empty;
     }
 
     public string GetStreetName(string diaChiTaiSan)
     {
+
         if (string.IsNullOrWhiteSpace(diaChiTaiSan))
         {
             return string.Empty;
         }
+        diaChiTaiSan = diaChiTaiSan.Trim();
         var parts = diaChiTaiSan.Split(' ');
         return parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : string.Empty;
     } }
@@ -39,7 +48,10 @@
     }
 
     .btn-custom {
-        padding: 3px !important
+        padding: 3px !important;
+        margin-top: 4px;
+        margin-left: 4px
+    
     }
 
     .func-menu a {
@@ -57,7 +69,7 @@
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th></th>
+            <th>Mã</th>
             <th>
                 Ghi chú
             </th>
@@ -79,7 +91,7 @@
 
                     <tr>
                         <td>
-                            @STT
+                            @item.id
                         </td>
 
                         <td>
@@ -124,29 +136,27 @@
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-user"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.tenKh) ? "-" : item.tenKh)</span>
-                                    <input type="text" name="tenKh" value="@item.tenKh" class="quickEdit displayN w-80" />
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
-                                    <span class="displayValue">@(item.sdtKh != null ? item.sdtKh : 0)</span>
-                                    <input type="number" name="sdtKh" value="@item.sdtKh" class="quickEdit displayN w-80" />
+                                    <a class="showPhoneNumber" data-id="@item.id" href="javascript:void(0);">Lấy số </a>
+                                    <span class="displayValue displayN">@(item.sdtKh != null ? item.sdtKh : 0)</span>
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-mail-bulk"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.emailKh) ? "-" : item.emailKh)</span>
-                                    <input type="email" name="emailKh" value="@item.emailKh" class="quickEdit displayN w-80" />
                                 </div>
                             </div>
 
                         </td>
                         <td>
                             <div class="editable d-inline" data-id="@item.id">
-                                <span class="bg-danger text-white font-weight-bold rounded displayValue">Đã bán</span>
-                                <select class=" chosen-select quickEdit displayN quickSelect" name="trangThai" aria-label=".form-select-md">
-                                    <option value="">Đã giao dich</option>
-                                    <option value="">Đang giao dịch</option>
-                                    <option value="">Ngưng bán</option>
-                                    <option value="">Đã cho thuê không bán nữa</option>
+                                <span class="text-white font-weight-bold rounded displayValue @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "bg-secondary")">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
+                                <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
+                                    @foreach (var item1 in tinhTrangs)
+                                    {
+                                        <option value="@item1.Id" @(item.tinhTrang == item1.Id ? "selected" : "")>@item1.MoTa</option>
+                                    }
                                 </select>
                             </div>
 
@@ -154,13 +164,17 @@
                         <td>
                             <div class="editable" data-id="@item.id" data-house-number="@GetHouseNumber(item.diaChiTaiSan)" data-street-name="@GetStreetName(item.diaChiTaiSan)">
                                 <i class="fa-solid fa-house"></i>
-                                <a class="showHomeNumber" href="javascript:void(0);">Số nhà</a>
+                                <a class="showHomeNumber" data-id="@item.id" href="javascript:void(0);">Số nhà</a>
                                 <span class="displayValue">
-                                    @(string.IsNullOrWhiteSpace(item.diaChiTaiSan) ? "Địa chỉ" : GetStreetName(item.diaChiTaiSan))
+                                    @(string.IsNullOrWhiteSpace(item.diaChiTaiSan) ? "" : GetStreetName(item.diaChiTaiSan))
                                 </span>
                                 <span class="houseNumber displayN" style="display:none;">
                                     @GetHouseNumber(item.diaChiTaiSan)
                                 </span>
+                            </div>
+                            <div class="editable" data-id="@item.id">
+                                <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.moTaViTri) ? "-" : item.moTaViTri)</span>
+
                             </div>
                         </td>
                         <td>
@@ -169,39 +183,34 @@
                                     @if (item.idNhomBaiViet == 1 || item.idNhomBaiViet == 3)
                                     {
                                         <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
-                                        <input type="text" name="giaBan" min=0.01 step=0.01 onkeypress="return event.charCode != 45" value="@item.giaBan" class="quickEdit displayN" />
                                         <span class="text-success font-weight-bold">tỷ</span>
                                     }
                                     else
                                     {
 
                                         <span class="displayValue text-success font-weight-bold">@item.giaBan</span>
-                                        <input type="text" name="giaBan" value="@item.giaBan" class="quickEdit displayN" />
                                         <span class="text-success font-weight-bold">triệu</span>
                                     }
                                 </div>
                             </div>
                             <hr />
                             <div class="editable" data-id="@item.id">
-                                <i class="displayValue">@(string.IsNullOrWhiteSpace(item.moTaGia) ? "Mô tả giá" : item.moTaGia)</i>
-                                <input type="text" name="moTaGia" value="@item.moTaGia" placeholder="Nhập mô tả" class="quickEdit displayN w-100" />
+                                <i class="displayValue">@(string.IsNullOrWhiteSpace(item.moTaGia) ? "-" : item.moTaGia)</i>
                             </div>
 
                         </td>
                         <td>
                             <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-around">
+                                <div class="d-flex justify-content-around flex-wrap">
                                     <div class="editable" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
                                         <span class="displayValue">@item.chieuNgang</span>
-                                        <input type="text" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuNgang" name="chieuNgang" value="@item.chieuNgang" class="quickEdit displayN" />
                                         <span>m</span>
 
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-up-down"></i>
                                         <span class="displayValue">@item.chieuDai</span>
-                                        <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="chieuDai" name="chieuDai" value="@item.chieuDai" class="quickEdit displayN" />
                                         <span>m</span>
 
                                     </div>
@@ -209,16 +218,6 @@
                                         <div class="editable d-inline" data-id="@item.id">
                                             <i class="fa-solid fa-compass"></i>
                                             <span class="displayValue"> @item.huong</span>
-                                            <select class=" chosen-select quickEdit displayN quickSelect" id="huong" name="huong" aria-label=".form-select-md">
-                                                <option value="Bắc">Bắc</option>
-                                                <option value="Đông Bắc">Đông Bắc</option>
-                                                <option value="Đông">Đông</option>
-                                                <option value="Đông Nam">Đông Nam</option>
-                                                <option value="Nam">Nam</option>
-                                                <option value="Tây Nam">Tây Nam</option>
-                                                <option value="Tây">Tây</option>
-                                                <option value="Tây Bắc">Tây Bắc</option>
-                                            </select>
                                         </div>
 
                                     </div>
@@ -230,20 +229,11 @@
                                             <div class="editable d-inline" data-id="@item.id">
                                                 <i class="fa-solid fa-city"></i>
                                                 <span class="displayValue"> @item.KetCau.tenKetCau</span>
-                                                <select class="chosen-select quickEdit displayN quickSelect" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
-                                                    @foreach (var kc in ketCaus)
-                                                    {
-                                                        <option value="@kc.id">@kc.tenKetCau</option>
-                                                    }
-
-                                                    }
-                                                </select>
                                             </div>
                                             <div class="editable" data-id="@item.id">
                                                 <i class="fa-solid fa-building"></i>
                                                 <i class="displayValue">@item.motaKetCau</i> -
                                                 <span>Số phòng</span> :<span>1-2 phòng</span>
-                                                <textarea name="motaKetCau" class="quickEdit form-control quickTextarea displayN">@item.motaKetCau</textarea>
                                             </div>
                                         }
                                     </div>
@@ -254,40 +244,37 @@
                                         <i class="font-weight-bold displayValue">
                                             @item.dienTichDat
                                         </i>
-                                        <input type="number" id="dienTichDat" min=0.01 step=0.01 onkeypress="return event.charCode != 45" name="dienTichDat" value="@item.dienTichDat" class="quickEdit displayN" /> m<sup>2</sup>
-
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT sử dụng:</span>
                                         <i class="font-weight-bold displayValue">
                                             @item.dienTichSuDung
                                         </i>
-                                        <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="dienTichSuDung" name="dienTichSuDung" value="@item.dienTichSuDung" class="quickEdit displayN" /> m<sup>2</sup>
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT xây dựng:</span>
                                         <i class="font-weight-bold displayValue">
                                             @item.dienTichXayDung
                                         </i>
-                                        <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="dienTichXayDung" name="dienTichXayDung" value="@item.dienTichXayDung" class="quickEdit displayN" /> m<sup>2</sup>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td>
+                            <div class="text-center d-flex flex-wrap">
 
-                            <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-warning">
-                                <i class="fas fa-share"></i> Share
-                            </a>
-                            <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-success">
-                                <i class="fas fa-image"></i> Ảnh
-                            </a>
-                            <a href='@Url.Action("Edit", new { id = item.id })' target="_blank" class="btn btn-custom btn-secondary">
-                                <i class="far fa-edit"></i> Sửa
-                            </a>
-                            <a onclick="Delete('@item.id')" class="btn btn-custom btn-danger">
-                                <i class="far fa-trash-alt"></i> Xóa
-                            </a>
+
+                                <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-info">
+                                    <i class="fas fa-share"></i> Share
+                                </a>
+                                <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-primary">
+                                    <i class="fas fa-image"></i> Ảnh
+                                </a>
+                                <a onclick="ShowLog('@item.id')" class="btn btn-custom btn-warning">
+                                    <i class="fa-solid fa-rectangle-list"></i> Log
+                                </a>
+
+                            </div>
                         </td>
                     </tr>
 
@@ -299,34 +286,75 @@
 
     </tbody>
 </table>
+@if (data.Count > 0)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(page == 1 ? "disabled" : "")">
+                <a class="page-link" onclick="changePage(@idNhomBaiViet, @(page - 1), @totalPages)">Trang trước</a>
+            </li>
+            @if (totalPages <= 7)
+            {
+                for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == page ? "active" : "")">
+                        <a class="page-link" onclick="loadList(@idNhomBaiViet, @i)">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="page-item @(1 == page ? "active" : "")">
+                    <a class="page-link" onclick="loadList(@idNhomBaiViet, 1)">1</a>
+                </li>
+                if (page > pageWindow + 2)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>
+                }
+                for (int i = Math.Max(2, page - pageWindow); i <= Math.Min(totalPages - 1, page + pageWindow); i++)
+                {
+                    <li class="page-item @(i == page ? "active" : "")">
+                        <a class="page-link" onclick="loadList(@idNhomBaiViet, @i)">@i</a>
+                    </li>
+                }
+                if (page < totalPages - pageWindow - 1)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>
+                }
+                <li class="page-item @(totalPages == page ? "active" : "")">
+                    <a class="page-link" onclick="loadList(@idNhomBaiViet, @totalPages)">@totalPages</a>
+                </li>
+            }
+            <li class="page-item @(page == totalPages ? "disabled" : "")">
+                <a class="page-link" onclick="changePage(@idNhomBaiViet, @(page + 1), @totalPages)">Trang sau</a>
+            </li>
+        </ul>
+    </nav>
+}
 <div id="image-gallery" style="display:none;"></div>
 
-<!-- Modal -->
-<div class="modal fade" id="callConfirmModel" tabindex="-1" aria-labelledby="callConfirmModel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary">Xác nhận đã gọi</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Nội dung ghi chú: <span id="noteContent"></span>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" id="saveNoteConfirm" class="btn btn-primary">Xác nhận</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
     $(document).ready(function () {
-        $('.showHomeNumber').click(function () {
+            $(document).on('click', '.showHomeNumber', function () {
             var parent = $(this).closest('.editable');
             var houseNumber = parent.data('house-number');
             var streetName = parent.data('street-name');
+            var idBaiViet = $(this).data('id');
+            $.ajax({
+                    url: '@Url.Action("getSoNha")',
+                    type: 'POST',
+                    data: { id: idBaiViet},
+                    success: function (data) {
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Failed to clear session:', error);
+                    }
+            });
             $(this).hide()
             if (houseNumber && streetName) {
                 parent.find('.displayValue').text(houseNumber + " " + streetName);
@@ -335,8 +363,25 @@
             } else if (houseNumber && !streetName) {
                 parent.find('.displayValue').text(houseNumber);
             } else {
-                parent.find('.displayValue').text("Chưa có thông tin");
+                parent.find('.displayValue').text("Chưa có địa chỉ");
             }
+            });
+          $(document).on('click', '.showPhoneNumber', function () {
+            var parent = $(this).closest('.editable');
+            var displayValue = parent.find('.displayValue');
+            var idBaiViet = $(this).data('id');
+            $.ajax({
+                    url: '@Url.Action("getPhoneNumber")',
+                    type: 'POST',
+                    data: { id: idBaiViet},
+                    success: function (data) {
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Failed to clear session:', error);
+                    }
+            });
+              $(this).hide()
+              displayValue.show()
         });
         //chinh sửa nhanh
         $('.call-button').on('click', function () {

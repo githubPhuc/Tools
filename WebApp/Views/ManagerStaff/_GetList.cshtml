@@ -36,7 +36,17 @@
                 <td>@item.hoVaTen </td>
                 <td>@item.email</td>
                 <td>@item.soDienThoai</td>
-                <td><button class="btn btn-primary" onclick=""><i class="fas fa-list"></i></button></td>
+                <td>
+                    <div class="text-center">
+                        <a href="@Url.Action("ViewInfomation", new { id = item.Id })" class="btn btn-custom btn-primary">
+                            <i class="fa-solid fa-rectangle-list"></i> Log
+                        </a>
+                        <a onclick="ShowLog('@item.Id')" class="btn btn-custom btn-">
+                            <i class="fa-solid fa-rectangle-list"></i> Log
+                        </a>
+                    </div>
+                 
+                </td>
                
                
             </tr>
@@ -44,11 +54,10 @@
     </tbody>
 </table>
 <script>
-    function ViewInfomation() {
-        var Id = $('#IdStaff').val();
+    @*function ViewInfomation(Id) {
         var formData = {
             Id:Id
         }
         Action('@Url.Action("ViewInfomation")', 'POST', formData)
-    }
+    }*@
 </script>
