@@ -3208,8 +3208,11 @@
     <Compile Include="Controllers\DanhMucLoaiTaiKhoanController.cs" />
     <Compile Include="Controllers\DanhMucNhomBaiVietController.cs" />
     <Compile Include="Controllers\DanhMucPhuongHuongController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\DanhMucTinhTrangBaiVietController.cs" />
     <Compile Include="Controllers\DanhMucTyGiaController.cs" />
+=======
+>>>>>>> da3e0be241bef254c4b92b1b24105cfe71c64092
     <Compile Include="Controllers\InfomationUserController.cs" />
     <Compile Include="Controllers\LichSuNguoiDungController.cs" />
     <Compile Include="Controllers\DanhMucKetCauController.cs" />
@@ -3307,6 +3310,7 @@
     <Content Include="Views\InfomationUser\_ViewCCCD.cshtml" />
     <Content Include="Views\InfomationUser\User.cshtml" />
     <Content Include="Views\CartManagerment\ShowLog.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\DanhMucNhomBaiViet\Edit.cshtml" />
     <Content Include="Views\DanhMucNhomBaiViet\GetList.cshtml" />
     <Content Include="Views\DanhMucNhomBaiViet\Index.cshtml" />
@@ -3322,6 +3326,8 @@
     <Content Include="Views\DanhMucChinhSach\Edit.cshtml" />
     <Content Include="Views\DanhMucChinhSach\Insert.cshtml" />
     <Content Include="Views\DanhMucChinhSach\View.cshtml" />
+=======
+>>>>>>> da3e0be241bef254c4b92b1b24105cfe71c64092
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
