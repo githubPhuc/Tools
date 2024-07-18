@@ -409,7 +409,7 @@ namespace ToolsApp.Controllers
                 {
                     if (file != null && file.ContentLength > 0)
                     {
-                        var uploadsPath = Server.MapPath("~/Uploads");
+                        var uploadsPath = Server.MapPath("~/Uploads/Realestate");
                         var fileName = Path.GetFileName(file.FileName);
                         var filePath = Path.Combine(uploadsPath, fileName);
                         if (!Directory.Exists(uploadsPath))
@@ -418,7 +418,7 @@ namespace ToolsApp.Controllers
                         }
 
                         file.SaveAs(filePath);
-                        var relativePath = $"~/Uploads/{fileName}";
+                        var relativePath = $"~/Uploads/Realestate/{fileName}";
 
                         var hinhAnh = new HinhAnh
                         {

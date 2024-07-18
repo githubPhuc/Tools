@@ -34,7 +34,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-sm-4">
-                        <h6 class="mb-0"> <i class="fa-solid fa-phone-volume" style="color: #23b110;"></i>&nbsp; Số điện thoại khác ( Nếu có) </h6>
+                        <h6 class="mb-0"> <i class="fa-solid fa-phone-volume" style="color: #23b110;"></i>&nbsp; SDT ( Nếu có) </h6>
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
                         <input value="@data.soDienThoaiKhac" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="soDienThoaiKhac" name="soDienThoaiKhac">
@@ -49,7 +49,7 @@
                         <h6 class="mb-0"> <i class="fa-regular fa-envelope" style="color: #cf290c;"></i>&nbsp; Email </h6>
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
-                        <input value="@data.email" class="form-control " type="text" id="Email" name="Email">
+                        <input value="@data.email" class="form-control " type="email" id="Email" name="Email">
                     </div>
                     <div class="col-sm-8 text-secondary show">
                         @data.email
@@ -61,7 +61,7 @@
                         <h6 class="mb-0"> <img src="~/Content/images/zalo.png" alt="zalo" style="width:18px; height:15px" /> &nbsp; Zalo </h6>
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
-                        <input value="@data.zalo" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="zalo" name="zalo">
+                        <input value="@data.zalo" class="form-control " type="text" id="zalo" name="zalo">
                     </div>
                     <div class="col-sm-8 text-secondary show">
                        @data.zalo

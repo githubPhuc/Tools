@@ -153,7 +153,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-10 text-secondary show">
-                                    @(user.gioiTinh == null?"": user.gioiTinh == true?"Có":user.gioiTinh == false? "Không":"")
+                                    @(user.dangThuViec == null?"": user.dangThuViec == true?"Có":user.dangThuViec == false? "Không":"")
                                 </div>
                             </div>
                             <hr>
@@ -186,34 +186,5 @@
             $(this).select2()
         })
     });
-    var placeOfOrigin = document.getElementById("placeOfOrigin");
-    var placeOfBirt = document.getElementById("placeOfBirt");
-    var subAdministrativeArea = document.getElementById("subAdministrativeArea");
-    var Parameter = {
-        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
-
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-        renderCity(result.data);
-
-
-    });
-
-    function renderCity(data) {
-        for (const x of data) {
-
-            var a = placeOfOrigin.options[placeOfOrigin.options.length] = new Option(x.Name, x.Name);
-            var b = placeOfBirt.options[placeOfBirt.options.length] = new Option(x.Name, x.Name);
-        }
-        //administrativeArea.onchange = function () {
-        //    subAdministrativeArea.length = 1;
-        //    if (this.value != "") {
-        //        const result = data.filter(n => n.Name === this.value);
-
-        //    }
-        //};
-    }
+  
 </script>

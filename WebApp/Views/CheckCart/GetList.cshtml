@@ -415,43 +415,5 @@
             })
         }
 
-    function ShowImages(id) {
-        $.ajax({
-            url: '@Url.Action("ShowImages")',
-            type: 'POST',
-            data: { id: id },
-            success: function (response) {
-                if (response.success == true) {
-                    if (response.response.length === 0) {
-                        notify("Bài viết này không có hình ảnh")
-                        return;
-                    }
-                    var images = response.response;
-                    console.log(images)
-                    var galleryDiv = $('#image-gallery');
-                    galleryDiv.empty();
-                    $.each(images, function (index, image) {
-                        console.log(image)
-                        var imgElement = `<a href="${image.UrlPath}" data-fancybox="gallery"><img src="${image.UrlPath}" class="upload_img p-1" alt="Ảnh bài viết"/></a>`;
-                        galleryDiv.append(imgElement);
-                    });
-                    $('[data-fancybox="gallery"]').fancybox({
-                        loop: true,
-                        buttons: [
-                            "zoom",
-                            "slideShow",
-                            "thumbs",
-                            "close"
-                        ]
-                    });
-                    $('[data-fancybox="gallery"]').eq(0).trigger('click');
-                } else {
-                    alert('Không thể tải hình ảnh.');
-                }
-            },
-            error: function() {
-                alert('Lỗi khi gửi yêu cầu.');
-            }
-        });
-    }
+  
 </script>

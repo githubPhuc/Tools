@@ -307,7 +307,6 @@ legend.scheduler-border {
     text-align: center;
     position: relative;
     transition: .2s;
-    opacity: 0;
     border: 2px solid #ddd;
     padding: 15px;
 }

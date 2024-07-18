@@ -33,8 +33,8 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> xacNhanXoa { get; set; }
         public Nullable<int> idTyGia { get; set; }
     
+        public virtual Config Config { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaiViet> BaiViets { get; set; }
-        public virtual Config Config { get; set; }
     }
 }

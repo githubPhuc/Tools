@@ -48,7 +48,6 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> trangThaiGoiDien { get; set; }
         public Nullable<System.DateTime> thoiGianGoiDien { get; set; }
         public string tenKh { get; set; }
-        public Nullable<int> sdtKh { get; set; }
         public string emailKh { get; set; }
         public Nullable<System.DateTime> ngaySinhKh { get; set; }
         public string diachiKh { get; set; }
@@ -66,6 +65,7 @@ namespace ToolsApp.EntityFramework
         public string diaChiDayDu { get; set; }
         public Nullable<int> soPhong { get; set; }
         public Nullable<int> tinhTrang { get; set; }
+        public string sdtKh { get; set; }
     
         public virtual Config Config { get; set; }
         public virtual KetCau KetCau { get; set; }

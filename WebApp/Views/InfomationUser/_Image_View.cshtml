@@ -90,34 +90,23 @@
         });
     })
     function UploadImage(Id) {
-        var username = $('#username').val()
-        var token = $('#token').val();
         var formData = new FormData();
         for (var i = 0; i < listImg.length; i++) {
-            formData.append('file', listImg[i]);
+            formData.append('file' + i, listImg[i]);
         }
-        formData.append('username', username);
+        formData.append("Id", Id)
         if (isChossed == false) {
             notify("Vui lòng chọn hình ảnh")
         }
         else {
             $.ajax({
-                url: 'https://api.hoanglongsecurity.info/api/Authenticate/UploadImage',
+                url: '@Url.Action("_SaveImageCCCD")',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                },
                 success: function (response) {
-                    console.log(response)
-                    var frontCCCD = response.data[0];
-                    var backCCCD = response.data[1];
-                    $.post('@Url.Action("_SaveImageCCCD")', { frontCCCD: frontCCCD, backCCCD:backCCCD, Id }, function (data) {
-                        notify(data.text, "success")
-                        loadThongTinCaNhan()
-                    });
+                     loadThongTinCaNhan()
                     $('#myModalImage').modal('hide');
                 },
                 error: function (response) {

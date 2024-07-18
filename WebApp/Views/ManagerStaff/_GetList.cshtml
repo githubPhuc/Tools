@@ -2,6 +2,7 @@
 
 @{
     var list = ViewBag.list as List<ToolsApp.EntityFramework.User>;
+    var dataAccountType = ViewBag.dataAccountType as List<ToolsApp.EntityFramework.Config>;
 }
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
@@ -12,6 +13,7 @@
             <th>Email</th>
             <th>Số điện thoại</th>
             <th>Trạng thái</th>
+            <th>Quyền</th>
             <th>Hồ sơ nhân viên</th>
         </tr>
     </thead>
@@ -40,6 +42,7 @@
                         </div>
                     }
                 </td>
+                <td>@(dataAccountType.FirstOrDefault(t => t.Id == item.capDoTaiKhoan)?.MoTa ?? "Chưa cập nhật quyền")</td>
                 <td>
                     <div class="">
                         <a href="@Url.Action("ViewInfomation", new { id = item.Id })" class="btn btn-custom btn-primary">
@@ -49,23 +52,58 @@
                             <i class="fa-solid fa-warning"></i> Giám sát
                         </a>
                         <a onclick="SetRole('@item.Id')" class="btn btn-custom btn-danger">
-                            <i class="fas fa-lock"></i> Phân quyền
+                            <i class="fas fa-user-lock"></i> Phân quyền
                         </a>
-                        <a onclick="LockUser('@item.Id')" class="btn btn-custom btn-success">
-                            <i class="fa-solid fa-user-lock"></i> Khóa tài khoản
-                        </a>
+                        @{
+                            if (item.hieuLuc == true)
+                            {
+                                <a onclick="LockUser('@item.Id')" class="btn btn-custom btn-success">
+                                    <i class="fa-solid fa-user-lock"></i> Khóa tài khoản
+                                </a>
+                            }
+                            else
+                            {
+                                <a onclick="UnLockUser('@item.Id')" class="btn btn-custom btn-secondary">
+                                    <i class="fa-solid fa-lock-open"></i>  Mở khóa
+                                </a>
+                            }
+                        }
+
                         <a onclick="Delete('@item.Id')" class="btn btn-custom btn-dark">
                             <i class="fas fa-trash"></i> Xóa
                         </a>
                     </div>
-                 
+
                 </td>
-               
-               
+
+
             </tr>
         }
     </tbody>
 </table>
+<div class="modal fade" id="myModalImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-modal-css">
+                <div class="modal-header custom-modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold" id="myModalImageTitle"></h4>
+                    <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div id="myModalImageContent">
+                    </div>
+
+                </div>
+                <div class="modal-footer modal-custom-footer footer d-flex ">
+                    <button type="button" onclick="UploadImage()" id="btSave" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Cập nhật</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+        </div>
+    </div>
+</div>
+
 <script>
     @*function ViewInfomation(Id) {
         var formData = {

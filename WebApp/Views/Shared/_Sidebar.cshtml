@@ -45,24 +45,17 @@
     #formatBackgroud {
         background-color: transparent;
     }
-
-        #formatBackgroud img {
-            margin-right: 10px;
-            margin-bottom: 20px;
-        }
 </style>
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
-        <li>
+        <li class="text-center">
 
             <a href="@Url.Action("Index", "Home", new { Area = "" })" id="formatBackgroud" class="
                     @(("Home" == routeController &&
                     "Index" == routeAction) ? "active" : "")">
-             <img src="~/Content/images/logoHDP-removebg-preview.png" style="width:100%;height:auto" />
-              
-
+             <img src="~/Content/images/logoHDP-removebg-preview.png" style="width:50%;height:auto" />
             </a>
         </li>
         <li class="nav-item">

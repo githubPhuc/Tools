@@ -1,0 +1,22 @@
+﻿
+@{
+    var logData = ViewBag.logData as List<ToolsApp.Models.LogHistoryViewModel>;
+
+}
+<div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <ul id="logDataContainer" style="height: 450px ; overflow-y: auto;" class="list-group">
+                @foreach (var item in logData)
+                {
+                    <li class="list-group-item"><i>@item.ipUserHostAddress</i>: <span>@item.hoVaTen</span> <span class="bg-info">@item.tenTaiKhoan</span> <strong>@item.moTa</strong>  vào lúc <i>@item.ngayTao</i></li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

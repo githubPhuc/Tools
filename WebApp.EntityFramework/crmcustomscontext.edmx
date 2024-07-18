@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CRM_CustomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CRM_CustomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BaiViet">
           <Key>
             <PropertyRef Name="id" />
@@ -37,7 +37,6 @@
           <Property Name="trangThaiGoiDien" Type="bit" />
           <Property Name="thoiGianGoiDien" Type="datetime" />
           <Property Name="tenKh" Type="nvarchar(max)" />
-          <Property Name="sdtKh" Type="int" />
           <Property Name="emailKh" Type="nvarchar(max)" />
           <Property Name="ngaySinhKh" Type="datetime" />
           <Property Name="diachiKh" Type="nvarchar(max)" />
@@ -55,6 +54,7 @@
           <Property Name="diaChiDayDu" Type="nvarchar(max)" />
           <Property Name="soPhong" Type="int" />
           <Property Name="tinhTrang" Type="int" />
+          <Property Name="sdtKh" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ChinhSach">
           <Key>
@@ -601,67 +601,10 @@
             <End Role="UserLuong" EntitySet="UserLuong" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CRM_CustomsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="BaiViet">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idNhomBaiViet" Type="Int32" />
-          <Property Name="idUser" Type="Int32" />
-          <Property Name="idKetCau" Type="Int32" />
-          <Property Name="maBaiViet" Type="Int32" />
-          <Property Name="motaKetCau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="huong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="tenBaiViet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="diaChiTaiSan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="idThanhPho" Type="Int32" />
-          <Property Name="idQuanHuyen" Type="Int32" />
-          <Property Name="idPhuongXa" Type="Int32" />
-          <Property Name="dienTichDat" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dienTichXayDung" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dienTichSuDung" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="chieuNgang" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="chieuDai" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="viTri" Type="Boolean" />
-          <Property Name="moTaViTri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="giaBan" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="moTaGia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="giaM2Dat" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="giaM2XayDung" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="giaM2SuDung" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="trangThaiGoiDien" Type="Boolean" />
-          <Property Name="thoiGianGoiDien" Type="DateTime" Precision="3" />
-          <Property Name="tenKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="sdtKh" Type="Int32" />
-          <Property Name="emailKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ngaySinhKh" Type="DateTime" Precision="3" />
-          <Property Name="diachiKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CCCDKh" Type="Int32" />
-          <Property Name="trangThai" Type="Boolean" />
-          <Property Name="ngayTao" Type="DateTime" Precision="3" />
-          <Property Name="nguoiTao" Type="Int32" />
-          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
-          <Property Name="nguoiCapNhat" Type="Int32" />
-          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
-          <Property Name="nguoiXoa" Type="Int32" />
-          <Property Name="xacNhanXoa" Type="Boolean" />
-          <Property Name="tungDo" Type="Double" />
-          <Property Name="viDo" Type="Double" />
-          <Property Name="diaChiDayDu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="soPhong" Type="Int32" />
-          <Property Name="tinhTrang" Type="Int32" />
-          <NavigationProperty Name="Config" Relationship="Self.FK_BaiViet_Configs" FromRole="BaiViet" ToRole="Configs" />
-          <NavigationProperty Name="KetCau" Relationship="Self.FK_BaiViet_KetCau" FromRole="BaiViet" ToRole="KetCau" />
-          <NavigationProperty Name="NhomBaiViet" Relationship="Self.FK_BaiViet_NhomBaiViet" FromRole="BaiViet" ToRole="NhomBaiViet" />
-          <NavigationProperty Name="User" Relationship="Self.FK_BaiViet_Users" FromRole="BaiViet" ToRole="Users" />
-          <NavigationProperty Name="HinhAnhBaiViets" Relationship="Self.FK_HinhAnhBaiViet_BaiViet" FromRole="BaiViet" ToRole="HinhAnhBaiViet" />
-        </EntityType>
         <EntityType Name="ChinhSach">
           <Key>
             <PropertyRef Name="id" />
@@ -696,10 +639,10 @@
           <Property Name="nguoiXoa" Type="Int32" />
           <Property Name="xacNhanXoa" Type="Boolean" />
           <Property Name="hieuLuc" Type="Boolean" />
-          <NavigationProperty Name="BaiViets" Relationship="Self.FK_BaiViet_Configs" FromRole="Configs" ToRole="BaiViet" />
           <NavigationProperty Name="Configs1" Relationship="Self.FK_Configs_Configs" FromRole="Configs" ToRole="Configs1" />
           <NavigationProperty Name="Config1" Relationship="Self.FK_Configs_Configs" FromRole="Configs1" ToRole="Configs" />
           <NavigationProperty Name="NhomBaiViets" Relationship="Self.FK_NhomBaiViet_Configs" FromRole="Configs" ToRole="NhomBaiViet" />
+          <NavigationProperty Name="BaiViets" Relationship="CRM_CustomsModel.FK_BaiViet_Configs" FromRole="Config" ToRole="BaiViet" />
         </EntityType>
         <EntityType Name="HinhAnh">
           <Key>
@@ -732,8 +675,8 @@
           <Property Name="ngayXoa" Type="DateTime" Precision="3" />
           <Property Name="nguoiXoa" Type="Int32" />
           <Property Name="xacNhanXoa" Type="Boolean" />
-          <NavigationProperty Name="BaiViet" Relationship="Self.FK_HinhAnhBaiViet_BaiViet" FromRole="HinhAnhBaiViet" ToRole="BaiViet" />
           <NavigationProperty Name="HinhAnh" Relationship="Self.FK_HinhAnhBaiViet_HinhAnh" FromRole="HinhAnhBaiViet" ToRole="HinhAnh" />
+          <NavigationProperty Name="BaiViet" Relationship="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" FromRole="HinhAnhBaiViet" ToRole="BaiViet" />
         </EntityType>
         <EntityType Name="KetCau">
           <Key>
@@ -749,7 +692,7 @@
           <Property Name="ngayXoa" Type="DateTime" Precision="3" />
           <Property Name="nguoiXoa" Type="Int32" />
           <Property Name="xacNhanXoa" Type="Boolean" />
-          <NavigationProperty Name="BaiViets" Relationship="Self.FK_BaiViet_KetCau" FromRole="KetCau" ToRole="BaiViet" />
+          <NavigationProperty Name="BaiViets" Relationship="CRM_CustomsModel.FK_BaiViet_KetCau" FromRole="KetCau" ToRole="BaiViet" />
         </EntityType>
         <EntityType Name="LogHistory">
           <Key>
@@ -831,8 +774,8 @@
           <Property Name="nguoiXoa" Type="Int32" />
           <Property Name="xacNhanXoa" Type="Boolean" />
           <Property Name="idTyGia" Type="Int32" />
-          <NavigationProperty Name="BaiViets" Relationship="Self.FK_BaiViet_NhomBaiViet" FromRole="NhomBaiViet" ToRole="BaiViet" />
           <NavigationProperty Name="Config" Relationship="Self.FK_NhomBaiViet_Configs" FromRole="NhomBaiViet" ToRole="Configs" />
+          <NavigationProperty Name="BaiViets" Relationship="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" FromRole="NhomBaiViet" ToRole="BaiViet" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -950,71 +893,11 @@
           <Property Name="anhCCCDMatTruoc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="anhCCCDMatSau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="tenTaiKhoanNganHang" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BaiViets" Relationship="Self.FK_BaiViet_Users" FromRole="Users" ToRole="BaiViet" />
           <NavigationProperty Name="LogHistorys" Relationship="Self.FK_LogHistorys_Users" FromRole="Users" ToRole="LogHistorys" />
           <NavigationProperty Name="UserAuthorizations" Relationship="Self.FK_UserAuthorizations_Users" FromRole="Users" ToRole="UserAuthorizations" />
           <NavigationProperty Name="UserLuongs" Relationship="Self.FK_UserLuong_Users" FromRole="Users" ToRole="UserLuong" />
+          <NavigationProperty Name="BaiViets" Relationship="CRM_CustomsModel.FK_BaiViet_Users" FromRole="User" ToRole="BaiViet" />
         </EntityType>
-        <Association Name="FK_BaiViet_Configs">
-          <End Role="Configs" Type="Self.Config" Multiplicity="0..1" />
-          <End Role="BaiViet" Type="Self.BaiViet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Configs">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaiViet">
-              <PropertyRef Name="tinhTrang" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BaiViet_KetCau">
-          <End Role="KetCau" Type="Self.KetCau" Multiplicity="0..1" />
-          <End Role="BaiViet" Type="Self.BaiViet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KetCau">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="BaiViet">
-              <PropertyRef Name="idKetCau" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BaiViet_NhomBaiViet">
-          <End Role="NhomBaiViet" Type="Self.NhomBaiViet" Multiplicity="0..1" />
-          <End Role="BaiViet" Type="Self.BaiViet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhomBaiViet">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="BaiViet">
-              <PropertyRef Name="idNhomBaiViet" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BaiViet_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="BaiViet" Type="Self.BaiViet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaiViet">
-              <PropertyRef Name="idUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HinhAnhBaiViet_BaiViet">
-          <End Role="BaiViet" Type="Self.BaiViet" Multiplicity="0..1" />
-          <End Role="HinhAnhBaiViet" Type="Self.HinhAnhBaiViet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BaiViet">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="HinhAnhBaiViet">
-              <PropertyRef Name="idBaiViet" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Configs_Configs">
           <End Role="Configs" Type="Self.Config" Multiplicity="0..1" />
           <End Role="Configs1" Type="Self.Config" Multiplicity="*" />
@@ -1148,7 +1031,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="crmcustomscontext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="BaiViets" EntityType="Self.BaiViet" />
           <EntitySet Name="ChinhSaches" EntityType="Self.ChinhSach" />
           <EntitySet Name="Configs" EntityType="Self.Config" />
           <EntitySet Name="HinhAnhs" EntityType="Self.HinhAnh" />
@@ -1163,26 +1045,6 @@
           <EntitySet Name="UserAuthorizations" EntityType="Self.UserAuthorization" />
           <EntitySet Name="UserLuongs" EntityType="Self.UserLuong" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_BaiViet_Configs" Association="Self.FK_BaiViet_Configs">
-            <End Role="Configs" EntitySet="Configs" />
-            <End Role="BaiViet" EntitySet="BaiViets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BaiViet_KetCau" Association="Self.FK_BaiViet_KetCau">
-            <End Role="KetCau" EntitySet="KetCaus" />
-            <End Role="BaiViet" EntitySet="BaiViets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BaiViet_NhomBaiViet" Association="Self.FK_BaiViet_NhomBaiViet">
-            <End Role="NhomBaiViet" EntitySet="NhomBaiViets" />
-            <End Role="BaiViet" EntitySet="BaiViets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BaiViet_Users" Association="Self.FK_BaiViet_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="BaiViet" EntitySet="BaiViets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HinhAnhBaiViet_BaiViet" Association="Self.FK_HinhAnhBaiViet_BaiViet">
-            <End Role="BaiViet" EntitySet="BaiViets" />
-            <End Role="HinhAnhBaiViet" EntitySet="HinhAnhBaiViets" />
-          </AssociationSet>
           <AssociationSet Name="FK_Configs_Configs" Association="Self.FK_Configs_Configs">
             <End Role="Configs" EntitySet="Configs" />
             <End Role="Configs1" EntitySet="Configs" />
@@ -1233,65 +1095,150 @@
             <Parameter Name="moTa" Mode="In" Type="String" />
             <Parameter Name="moTaChiTiet" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="BaiViets" EntityType="CRM_CustomsModel.BaiViet" />
+          <AssociationSet Name="FK_BaiViet_Configs" Association="CRM_CustomsModel.FK_BaiViet_Configs">
+            <End Role="Config" EntitySet="Configs" />
+            <End Role="BaiViet" EntitySet="BaiViets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaiViet_KetCau" Association="CRM_CustomsModel.FK_BaiViet_KetCau">
+            <End Role="KetCau" EntitySet="KetCaus" />
+            <End Role="BaiViet" EntitySet="BaiViets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaiViet_NhomBaiViet" Association="CRM_CustomsModel.FK_BaiViet_NhomBaiViet">
+            <End Role="NhomBaiViet" EntitySet="NhomBaiViets" />
+            <End Role="BaiViet" EntitySet="BaiViets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaiViet_Users" Association="CRM_CustomsModel.FK_BaiViet_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="BaiViet" EntitySet="BaiViets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HinhAnhBaiViet_BaiViet" Association="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet">
+            <End Role="BaiViet" EntitySet="BaiViets" />
+            <End Role="HinhAnhBaiViet" EntitySet="HinhAnhBaiViets" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="BaiViet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idNhomBaiViet" Type="Int32" />
+          <Property Name="idUser" Type="Int32" />
+          <Property Name="idKetCau" Type="Int32" />
+          <Property Name="maBaiViet" Type="Int32" />
+          <Property Name="motaKetCau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="huong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="tenBaiViet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="diaChiTaiSan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idThanhPho" Type="Int32" />
+          <Property Name="idQuanHuyen" Type="Int32" />
+          <Property Name="idPhuongXa" Type="Int32" />
+          <Property Name="dienTichDat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichXayDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dienTichSuDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="chieuNgang" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="chieuDai" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="viTri" Type="Boolean" />
+          <Property Name="moTaViTri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="giaBan" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="moTaGia" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="giaM2Dat" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2XayDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="giaM2SuDung" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trangThaiGoiDien" Type="Boolean" />
+          <Property Name="thoiGianGoiDien" Type="DateTime" Precision="3" />
+          <Property Name="tenKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emailKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ngaySinhKh" Type="DateTime" Precision="3" />
+          <Property Name="diachiKh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CCCDKh" Type="Int32" />
+          <Property Name="trangThai" Type="Boolean" />
+          <Property Name="ngayTao" Type="DateTime" Precision="3" />
+          <Property Name="nguoiTao" Type="Int32" />
+          <Property Name="ngayCapNhat" Type="DateTime" Precision="3" />
+          <Property Name="nguoiCapNhat" Type="Int32" />
+          <Property Name="ngayXoa" Type="DateTime" Precision="3" />
+          <Property Name="nguoiXoa" Type="Int32" />
+          <Property Name="xacNhanXoa" Type="Boolean" />
+          <Property Name="tungDo" Type="Double" />
+          <Property Name="viDo" Type="Double" />
+          <Property Name="diaChiDayDu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="soPhong" Type="Int32" />
+          <Property Name="tinhTrang" Type="Int32" />
+          <Property Name="sdtKh" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Config" Relationship="CRM_CustomsModel.FK_BaiViet_Configs" FromRole="BaiViet" ToRole="Config" />
+          <NavigationProperty Name="KetCau" Relationship="CRM_CustomsModel.FK_BaiViet_KetCau" FromRole="BaiViet" ToRole="KetCau" />
+          <NavigationProperty Name="NhomBaiViet" Relationship="CRM_CustomsModel.FK_BaiViet_NhomBaiViet" FromRole="BaiViet" ToRole="NhomBaiViet" />
+          <NavigationProperty Name="User" Relationship="CRM_CustomsModel.FK_BaiViet_Users" FromRole="BaiViet" ToRole="User" />
+          <NavigationProperty Name="HinhAnhBaiViets" Relationship="CRM_CustomsModel.FK_HinhAnhBaiViet_BaiViet" FromRole="BaiViet" ToRole="HinhAnhBaiViet" />
+        </EntityType>
+        <Association Name="FK_BaiViet_Configs">
+          <End Type="CRM_CustomsModel.Config" Role="Config" Multiplicity="0..1" />
+          <End Type="CRM_CustomsModel.BaiViet" Role="BaiViet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Config">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaiViet">
+              <PropertyRef Name="tinhTrang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaiViet_KetCau">
+          <End Type="CRM_CustomsModel.KetCau" Role="KetCau" Multiplicity="0..1" />
+          <End Type="CRM_CustomsModel.BaiViet" Role="BaiViet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KetCau">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BaiViet">
+              <PropertyRef Name="idKetCau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaiViet_NhomBaiViet">
+          <End Type="CRM_CustomsModel.NhomBaiViet" Role="NhomBaiViet" Multiplicity="0..1" />
+          <End Type="CRM_CustomsModel.BaiViet" Role="BaiViet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomBaiViet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BaiViet">
+              <PropertyRef Name="idNhomBaiViet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaiViet_Users">
+          <End Type="CRM_CustomsModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CRM_CustomsModel.BaiViet" Role="BaiViet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaiViet">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HinhAnhBaiViet_BaiViet">
+          <End Type="CRM_CustomsModel.BaiViet" Role="BaiViet" Multiplicity="0..1" />
+          <End Type="CRM_CustomsModel.HinhAnhBaiViet" Role="HinhAnhBaiViet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaiViet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HinhAnhBaiViet">
+              <PropertyRef Name="idBaiViet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CRM_CustomsModelStoreContainer" CdmEntityContainer="crmcustomscontext">
-          <EntitySetMapping Name="BaiViets">
-            <EntityTypeMapping TypeName="CRM_CustomsModel.BaiViet">
-              <MappingFragment StoreEntitySet="BaiViet">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idNhomBaiViet" ColumnName="idNhomBaiViet" />
-                <ScalarProperty Name="idUser" ColumnName="idUser" />
-                <ScalarProperty Name="idKetCau" ColumnName="idKetCau" />
-                <ScalarProperty Name="maBaiViet" ColumnName="maBaiViet" />
-                <ScalarProperty Name="motaKetCau" ColumnName="motaKetCau" />
-                <ScalarProperty Name="huong" ColumnName="huong" />
-                <ScalarProperty Name="tenBaiViet" ColumnName="tenBaiViet" />
-                <ScalarProperty Name="diaChiTaiSan" ColumnName="diaChiTaiSan" />
-                <ScalarProperty Name="idThanhPho" ColumnName="idThanhPho" />
-                <ScalarProperty Name="idQuanHuyen" ColumnName="idQuanHuyen" />
-                <ScalarProperty Name="idPhuongXa" ColumnName="idPhuongXa" />
-                <ScalarProperty Name="dienTichDat" ColumnName="dienTichDat" />
-                <ScalarProperty Name="dienTichXayDung" ColumnName="dienTichXayDung" />
-                <ScalarProperty Name="dienTichSuDung" ColumnName="dienTichSuDung" />
-                <ScalarProperty Name="chieuNgang" ColumnName="chieuNgang" />
-                <ScalarProperty Name="chieuDai" ColumnName="chieuDai" />
-                <ScalarProperty Name="viTri" ColumnName="viTri" />
-                <ScalarProperty Name="moTaViTri" ColumnName="moTaViTri" />
-                <ScalarProperty Name="giaBan" ColumnName="giaBan" />
-                <ScalarProperty Name="moTaGia" ColumnName="moTaGia" />
-                <ScalarProperty Name="giaM2Dat" ColumnName="giaM2Dat" />
-                <ScalarProperty Name="giaM2XayDung" ColumnName="giaM2XayDung" />
-                <ScalarProperty Name="giaM2SuDung" ColumnName="giaM2SuDung" />
-                <ScalarProperty Name="note" ColumnName="note" />
-                <ScalarProperty Name="trangThaiGoiDien" ColumnName="trangThaiGoiDien" />
-                <ScalarProperty Name="thoiGianGoiDien" ColumnName="thoiGianGoiDien" />
-                <ScalarProperty Name="tenKh" ColumnName="tenKh" />
-                <ScalarProperty Name="sdtKh" ColumnName="sdtKh" />
-                <ScalarProperty Name="emailKh" ColumnName="emailKh" />
-                <ScalarProperty Name="ngaySinhKh" ColumnName="ngaySinhKh" />
-                <ScalarProperty Name="diachiKh" ColumnName="diachiKh" />
-                <ScalarProperty Name="CCCDKh" ColumnName="CCCDKh" />
-                <ScalarProperty Name="trangThai" ColumnName="trangThai" />
-                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
-                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
-                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
-                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
-                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
-                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
-                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
-                <ScalarProperty Name="tungDo" ColumnName="tungDo" />
-                <ScalarProperty Name="viDo" ColumnName="viDo" />
-                <ScalarProperty Name="diaChiDayDu" ColumnName="diaChiDayDu" />
-                <ScalarProperty Name="soPhong" ColumnName="soPhong" />
-                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ChinhSaches">
             <EntityTypeMapping TypeName="CRM_CustomsModel.ChinhSach">
               <MappingFragment StoreEntitySet="ChinhSach">
@@ -1573,6 +1520,58 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="insert_loghistory" FunctionName="CRM_CustomsModel.Store.insert_loghistory" />
+          <EntitySetMapping Name="BaiViets">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.BaiViet">
+              <MappingFragment StoreEntitySet="BaiViet">
+                <ScalarProperty Name="sdtKh" ColumnName="sdtKh" />
+                <ScalarProperty Name="tinhTrang" ColumnName="tinhTrang" />
+                <ScalarProperty Name="soPhong" ColumnName="soPhong" />
+                <ScalarProperty Name="diaChiDayDu" ColumnName="diaChiDayDu" />
+                <ScalarProperty Name="viDo" ColumnName="viDo" />
+                <ScalarProperty Name="tungDo" ColumnName="tungDo" />
+                <ScalarProperty Name="xacNhanXoa" ColumnName="xacNhanXoa" />
+                <ScalarProperty Name="nguoiXoa" ColumnName="nguoiXoa" />
+                <ScalarProperty Name="ngayXoa" ColumnName="ngayXoa" />
+                <ScalarProperty Name="nguoiCapNhat" ColumnName="nguoiCapNhat" />
+                <ScalarProperty Name="ngayCapNhat" ColumnName="ngayCapNhat" />
+                <ScalarProperty Name="nguoiTao" ColumnName="nguoiTao" />
+                <ScalarProperty Name="ngayTao" ColumnName="ngayTao" />
+                <ScalarProperty Name="trangThai" ColumnName="trangThai" />
+                <ScalarProperty Name="CCCDKh" ColumnName="CCCDKh" />
+                <ScalarProperty Name="diachiKh" ColumnName="diachiKh" />
+                <ScalarProperty Name="ngaySinhKh" ColumnName="ngaySinhKh" />
+                <ScalarProperty Name="emailKh" ColumnName="emailKh" />
+                <ScalarProperty Name="tenKh" ColumnName="tenKh" />
+                <ScalarProperty Name="thoiGianGoiDien" ColumnName="thoiGianGoiDien" />
+                <ScalarProperty Name="trangThaiGoiDien" ColumnName="trangThaiGoiDien" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="giaM2SuDung" ColumnName="giaM2SuDung" />
+                <ScalarProperty Name="giaM2XayDung" ColumnName="giaM2XayDung" />
+                <ScalarProperty Name="giaM2Dat" ColumnName="giaM2Dat" />
+                <ScalarProperty Name="moTaGia" ColumnName="moTaGia" />
+                <ScalarProperty Name="giaBan" ColumnName="giaBan" />
+                <ScalarProperty Name="moTaViTri" ColumnName="moTaViTri" />
+                <ScalarProperty Name="viTri" ColumnName="viTri" />
+                <ScalarProperty Name="chieuDai" ColumnName="chieuDai" />
+                <ScalarProperty Name="chieuNgang" ColumnName="chieuNgang" />
+                <ScalarProperty Name="dienTichSuDung" ColumnName="dienTichSuDung" />
+                <ScalarProperty Name="dienTichXayDung" ColumnName="dienTichXayDung" />
+                <ScalarProperty Name="dienTichDat" ColumnName="dienTichDat" />
+                <ScalarProperty Name="idPhuongXa" ColumnName="idPhuongXa" />
+                <ScalarProperty Name="idQuanHuyen" ColumnName="idQuanHuyen" />
+                <ScalarProperty Name="idThanhPho" ColumnName="idThanhPho" />
+                <ScalarProperty Name="diaChiTaiSan" ColumnName="diaChiTaiSan" />
+                <ScalarProperty Name="tenBaiViet" ColumnName="tenBaiViet" />
+                <ScalarProperty Name="huong" ColumnName="huong" />
+                <ScalarProperty Name="motaKetCau" ColumnName="motaKetCau" />
+                <ScalarProperty Name="maBaiViet" ColumnName="maBaiViet" />
+                <ScalarProperty Name="idKetCau" ColumnName="idKetCau" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="idNhomBaiViet" ColumnName="idNhomBaiViet" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

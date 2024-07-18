@@ -212,7 +212,6 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            $('#codeBank').select2();
             loadThongTinCoBan()
             loadThongTinCaNhan();
             loadThongTinLienHe()
@@ -220,6 +219,7 @@
             var dateObj = new Date(dateString);
             var formattedDate = dateObj.toLocaleDateString();
             $("#timeWorkingShow").html("Ngày vào làm" + " " + formattedDate)
+            $('#codeBank').select2();
         });
         var myModalImage = {
             $modal: $('#myModalImage'),
@@ -433,19 +433,18 @@
                Email: $('#Email').val().trim(),
                Zalo: $('#zalo').val().trim(),
            }
-           if (formData.SoDienThoai.length > 0 && formData.SoDienThoai.length !== 10) {
-               notify('Số Zalo không hợp lệ');
+            if (formData.SoDienThoai.length > 0 && formData.SoDienThoai.length !== 10) {
+                notify('Số điện thoại không hợp lệ');
+                return;
             }
-            else if (formData.SoDienThoaiKhac.length > 0 && formData.SoDienThoaiKhac.length !== 10) {
-                notify('Số điện thoại chưa hợp lệ');
+            if (formData.SoDienThoaiKhac.length > 0 && formData.SoDienThoaiKhac.length !== 10) {
+                notify('Số điện thoại không hợp lệ');
+                return;
             }
-            else if (!isEmail(formData.Email)) {
+            if (!isEmail(formData.Email)) {
                 notify("Email chưa hợp lệ");
+                return;
             }
-           else if (formData.Zalo.length > 0 && formData.Zalo.length !== 10) {
-                notify('Số Zalo không hợp lệ');
-            }
-            else {
                 ActionFunc('@Url.Action("_SaveInfoContact")', 'POST', formData, "", function (response) {
                     if (response) {
                         loadThongTinLienHe();
@@ -455,17 +454,14 @@
                     }
                 })
                 handleShowHide('contact');
-
-            }
         }
         function SaveInfoPersonal() {
             var formData = {
                 Id: $('#Id').val(),
-                CCCD: $('#CCCD').val().trim(),
-                passPortNum: $('#passPortNum').val().trim(),
-                codeBank: $('#codeBank').val().trim(),
-                numBank: $('#numBank').val().trim(),
-                nameAccountBank: $('#nameAccountBank').val().trim(),
+                SoCCCD: $('#soCCCD').val().trim(),
+                CodeNganHang: $('#codeNganHang').val().trim(),
+                SoTaiKhoan: $('#soTaiKhoan').val().trim(),
+                TenTaiKhoanNganHang: $('#tenTaiKhoanNganHang').val().trim(),
             }
             ActionFunc('@Url.Action("_SaveInfoPersonal")', 'POST', formData, "", function (response) {
                 if (response) {
@@ -477,6 +473,6 @@
                 }
             })
             handleShowHide('personal')
-          }
+        }
     </script>
 }

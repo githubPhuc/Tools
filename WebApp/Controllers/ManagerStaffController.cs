@@ -22,6 +22,8 @@ namespace ToolsApp.Controllers
         crmcustomscontext db_ = new crmcustomscontext();
         public ActionResult Index()
         {
+            var dataAccountType =  db_.Configs.Where(a => a.parentId == 1).ToList();
+            ViewBag.dataAccountType = dataAccountType;
             return View();
         }
         public ActionResult _Image_View(string Id)
@@ -35,10 +37,12 @@ namespace ToolsApp.Controllers
             FullnameSearch = FullnameSearch?.Trim();
             var list = db_.Users.Where(a =>
                             (string.IsNullOrEmpty(UsernameSearch) || a.tenTaiKhoan.ToUpper().Contains(UsernameSearch.ToUpper())) &&
-                            (string.IsNullOrEmpty(FullnameSearch) || (a.hoVaTen).ToUpper().Contains(FullnameSearch.ToUpper()))
+                            (string.IsNullOrEmpty(FullnameSearch) || (a.hoVaTen).ToUpper().Contains(FullnameSearch.ToUpper())) && a.xacNhanXoa == false
                         ).ToList();
             ViewBag.list = list;
             var dataUser = db_.Users.Where(a => a.tenTaiKhoan == User.tenTaiKhoan).FirstOrDefault();
+            var dataAccountType =  db_.Configs.Where(a => a.parentId == 1).ToList();
+            ViewBag.dataAccountType = dataAccountType;
             ViewBag.dataUser = dataUser;
             return PartialView();
         }
@@ -64,6 +68,103 @@ namespace ToolsApp.Controllers
             var user = db_.Users.FirstOrDefault(p => p.Id == Id);
             ViewBag.user = user;
             return PartialView();
+        }
+        public async Task<ActionResult> ChangeRole(int id)
+        {
+            var user = db_.Users.FirstOrDefault(a => a.Id == id);
+            var dataAccountType = await db_.Configs.AsNoTracking().Where(a => a.parentId == 1).ToListAsync();
+            ViewBag.dataAccountType = dataAccountType;
+            ViewBag.user = user;
+
+            return PartialView();
+        }
+        public ActionResult ShowLog(int id)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            DateTime threeDaysAgo = currentDate.AddDays(-2);
+            var logData = db_.LogHistorys
+                .Where(a => a.idUser == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate)
+                .OrderByDescending(a => a.ngayTao)
+                .ThenByDescending(a => a.Id)
+                 .Select(a => new LogHistoryViewModel
+                 {
+                     Id = a.Id,
+                     idUser = a.idUser,
+                     moTa = a.moTa,
+                     hoVaTen = User.hoVaTen,
+                     tenTaiKhoan = User.tenTaiKhoan,
+                     moTaChiTiet = a.moTaChiTiet,
+                     ngayTao = a.ngayTao,
+                     nguoiTao = a.nguoiTao,
+                     ipUserHostAddress = a.ipUserHostAddress
+                 })
+                .ToList();
+
+            if (logData.Count == 0)
+            {
+                return Json(new { success = false, message = "Người dùng này chưa ghi lại bất kỳ log nào:" }, JsonRequestBehavior.AllowGet);
+            }
+
+            ViewData["id"] = id;
+            ViewBag.logData = logData;
+            db_.SaveChanges();
+
+            return PartialView();
+        }
+        public JsonResult _ChangeRoleFun(int Id, int capDoTaiKhoan)
+        {
+            var user = db_.Users.FirstOrDefault(a => a.Id == Id);
+            if (user == null)
+            {
+                return Json(new { status = -1, title = "", text = "Lỗi không tìm thấy người dùng.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+            user.capDoTaiKhoan = capDoTaiKhoan;
+            db_.SaveChanges();
+            return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult _Lock_User(int Id)
+        {
+            var user = db_.Users.FirstOrDefault(p => p.Id == Id);
+            if (user == null)
+            {
+                return Json(new { status = -1, title = "", text = "Lỗi không tìm thấy người dùng.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+            user.hieuLuc = false;
+            user.ngayCapNhat = DateTime.Now;
+            user.nguoiCapNhat = User.UserId;
+            db_.SaveChanges();
+            return Json(new { status = 1, title = "", text = "Khóa người dùng thành công. Tài khoản này sẽ không thể đăng nhập.", obj = "" }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _UnLock_User(int Id)
+        {
+            var user = db_.Users.FirstOrDefault(p => p.Id == Id);
+            if (user == null)
+            {
+                return Json(new { status = -1, title = "", text = "Lỗi không tìm thấy người dùng.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+            user.hieuLuc = true;
+            user.nguoiCapNhat = User.UserId;
+            user.ngayCapNhat = DateTime.Now;
+            db_.SaveChanges();
+            return Json(new { status = 1, title = "", text = "Mở người dùng thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult _Delete(int Id)
+        {
+            var user = db_.Users.FirstOrDefault(p => p.Id == Id);
+            if (user == null)
+            {
+                return Json(new { status = -1, title = "", text = "Lỗi không tìm thấy người dùng.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+            user.xacNhanXoa = true;
+            user.ngayXoa = DateTime.Now;
+            user.nguoiXoa = User.UserId;
+            db_.SaveChanges();
+            return Json(new { status = 1, title = "", text = "Xóa người dùng thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult EditUser(RegisterViewModel model, int Id)
         {
@@ -107,45 +208,7 @@ namespace ToolsApp.Controllers
                 return Json(new { status = -1, title = "", text = "Error: " + UtilsLocal.ModelStateError(ModelState), obj = "" }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<JsonResult> SaveNewPassword(string Username, string newPass)
-        {
-            try
-            {
-                //// Phân tích chuỗi JSON thành danh sách đối tượng
-
-
-                //using (HttpClient client = new HttpClient())
-                //{
-                //    var data = new { Username = Username, newPass = newPass };
-                //    string token = User.token;
-                //    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
-                //    // Gửi GET request tới API
-                //    HttpResponseMessage response = await client.PostAsJsonAsync($"https://api.hoanglongsecurity.info/api/Authenticate/ChangePassword?Username={data.Username}&newPass={data.newPass}", data);
-                //    HttpStatusCode statusCode = response.StatusCode;
-                //    string responseData = await response.Content.ReadAsStringAsync();
-                //    dynamic json = JsonConvert.DeserializeObject<dynamic>(responseData);
-                //    ResponseObject responseObject = JsonConvert.DeserializeObject<ResponseObject>(responseData);
-                //    if (response.StatusCode.ToString() == "200" || response.ReasonPhrase == "OK")
-                //    {
-                        return Json(new { status = 1, title = "", text = "", obj = "" }, JsonRequestBehavior.AllowGet);
-
-
-                //    }
-                //    else
-                //    {
-                //        return Json(new { status = -1, title = "", text = responseObject.message, obj = "" }, JsonRequestBehavior.AllowGet);
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-            }
-
-
-        }
+    
 
     }
 

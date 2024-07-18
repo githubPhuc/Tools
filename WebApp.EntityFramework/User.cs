@@ -17,10 +17,10 @@ namespace ToolsApp.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.BaiViets = new HashSet<BaiViet>();
             this.LogHistorys = new HashSet<LogHistory>();
             this.UserAuthorizations = new HashSet<UserAuthorization>();
             this.UserLuongs = new HashSet<UserLuong>();
+            this.BaiViets = new HashSet<BaiViet>();
         }
     
         public int Id { get; set; }
@@ -60,12 +60,12 @@ namespace ToolsApp.EntityFramework
         public string tenTaiKhoanNganHang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BaiViet> BaiViets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LogHistory> LogHistorys { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAuthorization> UserAuthorizations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserLuong> UserLuongs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BaiViet> BaiViets { get; set; }
     }
 }

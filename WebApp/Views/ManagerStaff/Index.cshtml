@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "THÔNG TIN NHÂN VIÊN";
+    var dataAccountType = ViewBag.dataAccountType as List<ToolsApp.EntityFramework.Config>;
 }
 <section class="content">
     <div class="container-fluid">
@@ -29,10 +30,11 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Loại tài khoản</label>
-                                    <select id="AccountType" name="AccountType" class="form-control chosen-select" style="width: 100%;">
-                                        <option value="">-- All --</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="User">User</option>
+                                    <select id="dataAccountType" name="dataAccountType" class="form-control chosen-select" style="width: 100%;">
+                                       @foreach (var item in dataAccountType)
+                                       {
+                                           <option value="@item.Id">@item.MoTa</option>
+                                       }
                                     </select>
                                 </div>
                             </div>
@@ -104,8 +106,58 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModalChangeRole" tabindex="-1" role="dialog" aria-labelledby="myModalChangeRole"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-modal-css">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header custom-modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold" id="myModalChangeRoleTitle"></h4>
+                    <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div id="myModalChangeRoleContent">
+                    </div>
 
+                </div>
+                <div class="modal-footer modal-custom-footer footer d-flex ">
+                    <button type="button" id="btnSaveChangeRole" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            }
 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalShowLog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 80%" role="document">
+        <div class="modal-content" style="width: 100%;height:auto;">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data" }))
+            {
+
+                <div class="modal-header custom-modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold" id="myModalShowLogTitle"></h4>
+                    <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div id="myModalShowLogContent">
+                    </div>
+
+                </div>
+                <div class="modal-footer modal-custom-footer footer d-flex ">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script type="text/javascript">
@@ -146,12 +198,21 @@
             $myModalContent: $("#myModalPasswordContent"),
             $myModalTitle: $("#myModalPasswordTitle")
         }
-
+        var myModalChangeRole = {
+            $modal: $('#myModalChangeRole'),
+            $myModalContent: $("#myModalChangeRoleContent"),
+            $myModalTitle: $("#myModalChangeRoleTitle")
+        }
+        var myModalShowLog = {
+            $modal: $('#myModalShowLog'),
+            $myModalContent: $("#myModalShowLogContent"),
+            $myModalTitle: $("myModalShowLogTitle")
+        }
         var paramsLoadData = [
             true,
             '@Url.Action("_GetList")',
             '#UsernameSearch',
-            '#AccountType',
+            '#dataAccountType',
             '#FullnameSearch'
 
         ];
@@ -166,14 +227,27 @@
             $("#btnSearch").click(function () {
                 loadData(...paramsLoadData);
             });
+             $("#btnSaveChangeRole").click(function () {
+                 var formData = {
+                     Id: $("#IdUser").val(),
+                     capDoTaiKhoan: $("#capDoTaiKhoan").val(),
+                 }
+                 Action('@Url.Action("_ChangeRoleFun")', 'POST', formData, paramsLoadData)
+                 myModal.$modal.modal('hide')
+             })
 
         });
-    
-    
+
+
         function Update(id) {
             loadModal('CẬP NHẬT', '@Url.Action("_Update_View")', myModalUpdate,id)
         }
-
+        function SetRole(id) {
+            loadModal('THAY ĐỔI QUYỀN', '@Url.Action("ChangeRole")', myModalChangeRole, id)
+        }
+        function ShowLog(id) {
+            loadModal('Lịch sử bài viết', '@Url.Action("ShowLog")', myModalShowLog, { Id: id})
+        };
         //Upload ảnh
         var isChossed = false
         var a = {}
@@ -195,12 +269,21 @@
         function Upload(id) {
             loadModal('CẬP NHẬT ẢNH NHÂN VIÊN', '@Url.Action("_Image_View")', myModalImage,id)
         }
-    
+
         function LockUser(id) {
             if (confirm("Bạn có chắc muốn khóa người dùng này")) {
              Action('@Url.Action("_Lock_User")', 'POST', { Id: id }, paramsLoadData)
             }
         }
-  
+
+        function UnLockUser(id) {
+             Action('@Url.Action("_UnLock_User")', 'POST', { Id: id }, paramsLoadData)
+        }
+        function Delete(id) {
+               if (confirm("Bạn có chắc muốn xóa tài khoản này")) {
+            Action('@Url.Action("_Delete")', 'POST', { Id: id }, paramsLoadData)
+            }
+
+        }
     </script>
 }
