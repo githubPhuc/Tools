@@ -1,8 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Cập nhật";
-    var data = ViewBag.data as ToolsApp.EntityFramework.NhomBaiViet;
-    var dataTyGia = ViewBag.dataTyGia as List<ToolsApp.EntityFramework.Config>;
+    var data = ViewBag.dataNhomBaiViet as ToolsApp.EntityFramework.NhomBaiViet;
+    var dataTyGia = ViewBag.data as List<ToolsApp.EntityFramework.Config>;
 }
 <input id="id" name="id" value="@data.id" style="display:none" />
 <div class="row" style="margin-bottom:5px">
@@ -20,13 +20,13 @@
             </div>
         </div>
         <div class="row" style="margin-bottom:5px">
-            <label class="col-md-12 col-sm-12">Mô Tả</label>
+            <label class="col-md-12 col-sm-12">Đơn vị tiền tệ</label>
             <div class="col-md-12 col-sm-12 ten">
                 <select id="idTyGia" name="idTyGia" class="form-control form-control-md chosen-select" style="width: 100%;">
                     <option value="">--select--</option>
                     @foreach (var item in dataTyGia)
                     {
-                        <option value="@item.Id" @(data.idTyGia>0?"selected":"")>@item.MoTa</option>
+                        <option value="@item.Id" @(data.idTyGia == item.Id?"selected":"")>@item.MoTa</option>
                     }
                 </select>
             </div>

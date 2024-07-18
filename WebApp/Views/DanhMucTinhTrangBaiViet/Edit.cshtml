@@ -8,17 +8,30 @@
 <div class="row" style="margin-bottom:5px">
     <div class="col-md-12 col-sm-4">
         <div class="row" style="margin-bottom:5px">
-            <label class="col-md-12 col-sm-12">Tên loại tài khoản (Vi)</label>
-            <div class="col-md-12 col-sm-12 ten">
+            <label class="col-md-12 col-sm-12">Tên tình trạng</label>
+            <div class="col-md-12 col-sm-12">
                 <input value="@data.MoTa" class="form-control" type="text" id="MoTa" name="MoTa" />
             </div>
         </div> 
         <div class="row" style="margin-bottom:5px">
-            <label class="col-md-12 col-sm-12">Tên loại tài khoản (Eng)</label>
-            <div class="col-md-12 col-sm-12 ten">
-                <input value="@data.moTaChiTiet" class="form-control" type="text" id="moTaChiTiet" name="moTaChiTiet" />
+            <label class="col-md-12 col-sm-12">Mã màu</label>
+            <div class="col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="col-lg-11"><input value="@data.moTaChiTiet" class="form-control" type="text" id="moTaChiTiet" name="moTaChiTiet" /></div>
+                    <div class="col-lg-1">
+                        <form>
+                            <input type="color" class="form-control form-control-color" id="myColor" value="#CCCCCC" title="Choose a color">
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
 </div>
-
+<script>$(document).ready(function() {
+    $('#myColor').change(function() {
+        var selectedColor = $(this).val();
+        $('#moTaChiTiet').val(selectedColor);
+    });
+});</script>

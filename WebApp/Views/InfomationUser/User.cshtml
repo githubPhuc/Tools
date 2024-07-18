@@ -15,11 +15,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img id="imageAvatar" src="~/Content/images/noImage.png" class="rounded-circle p-1 bg-primary" width="200" height="200" style="object-fit:cover">
+                            <img id="imageAvatar" src="@(!string.IsNullOrEmpty(user.anhDaiDien) ? Url.Content(user.anhDaiDien) : Url.Content("~/Content/images/noImage.png"))" class="rounded-circle p-1 bg-primary" width="200" height="200" style="object-fit:cover">
                             <div class="mt-3">
                                 <h4>@user.hoVaTen</h4>
                                 <p class="text-secondary mb-1"></p>
-                                <p id="timeWorkingShow" class="text-muted font-size-sm"></p>
+                                <p id="timeWorkingShow" class="text-muted font-size-sm">@user.thoiGianLamViec</p>
                                 <button class="btn btn-primary" onclick="UploadAvatarModal('@user.Id')">Cập nhật Avatar</button>
                             </div>
                         </div>
@@ -50,14 +50,14 @@
                 <div class="card-body job">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h4 class="mb-4" style="color:orangered">Công việc </h4>
+                            <h4 class="mb-4" style="color:orangered">Chữ ký </h4>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="text-editor">
-                            <textarea name="content" id="editor" style="width:100%">@user.chuKyUser</textarea>
+                                <textarea name="content" id="editor" style="width:100%">@user.chuKyUser</textarea>
                             </div>
                         </div>
                     </div>
@@ -350,31 +350,26 @@
             });
         });
 
-    function UploadAvatar(Id) {
-            var username = $('#username').val().trim()
-            var token = $('#token').val();
+        function UploadAvatar(Id) {
+
             var formData = new FormData();
             formData.append('file', a);
-            formData.append('username', username);
+            formData.append("id", Id);
             if (isChossedAvatar == false) {
                 notify("Vui lòng chọn hình ảnh")
             }
             else {
                 $.ajax({
-                    url: 'https://api.hoanglongsecurity.info/api/Authenticate/UploadImage',
+                    url: '@Url.Action("_SaveImageAvatar")',
                     type: 'POST',
-                    data:  formData,
+                    data: formData,
                     processData: false,
                     contentType: false,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + token);
-                    },
                     success: function (response) {
-                        var image = response.data[0];
-                        $.post('@Url.Action("_SaveImageAvatar")', { image: image, Id }, function (data) {
-                            notify(data.text, "success")
-                        });
-                           $('#myModalAvatar').modal('hide');
+                        if (response.success) {
+                            notify("Cập nhật ảnh đại diện thành công", "success")
+                        }
+                        $('#myModalAvatar').modal('hide');
                     },
                     error: function (response) {
                         if (response.status == 'Failed') {
@@ -408,19 +403,16 @@
     function SaveInfo() {
         var formData = {
             Id: $('#Id').val(),
-            birtDate: $('#birtDate').val().trim(),
-            placeOfBirt: $('#placeOfBirt').val().trim(),
-            placeOfOrigin: $('#placeOfOrigin').val().trim(),
-            curResidence: $('#curResidence').val().trim(),
-            resident: $('#resident').val().trim(),
-            temResidence: $('#temResidence').val().trim(),
-            gender: $('#gender').val(),
-            taxCode: $('#taxCode').val().trim(),
-            marital: $('#marital').val().trim(),
-            ethnicity: $('#ethnicity').val().trim(),
-            religion: $('#religion').val().trim(),
-            nationality: $('#nationality').val().trim(),
-            educationalLevel: $('#educationalLevel').val().trim(),
+            HoVaTen: $('#Fullname').val().trim(),
+            NgaySinh: $('#ngaySinh').val().trim(),
+            NguyenQuan: $('#nguyenQuan').val().trim(),
+            DcTamTru: $('#dcTamTru').val().trim(),
+            DcThuongTru: $('#dcThuongTru').val().trim(),
+            GioiTinh: $('#gioiTinh').val(),
+            MstCaNhan: $('#mstCaNhan').val().trim(),
+            DanToc: $('#danToc').val().trim(),
+            TringDoVanHoa: $('#tringDoVanHoa').val().trim(),
+            DangThuViec: $('#dangThuViec').val().trim(),
         }
         ActionFunc('@Url.Action("_SaveInfo")', 'POST', formData, "", function (response) {
             if (response) {
@@ -434,20 +426,23 @@
         handleShowHide('info');
     }
        function SaveInfoContact() {
-            var formData = {
-                Id: $('#Id').val(),
-                otherNum: $('#otherNum').val().trim(),
-                address: $('#address').val().trim(),
-                Email: $('#Email').val().trim(),
-                zalo: $('#zalo').val().trim(),
+           var formData = {
+               Id: $('#Id').val(),
+               SoDienThoai: $('#soDienThoai').val().trim(),
+               SoDienThoaiKhac: $('#soDienThoaiKhac').val().trim(),
+               Email: $('#Email').val().trim(),
+               Zalo: $('#zalo').val().trim(),
+           }
+           if (formData.SoDienThoai.length > 0 && formData.SoDienThoai.length !== 10) {
+               notify('Số Zalo không hợp lệ');
             }
-            if (formData.otherNum.length > 0 && formData.otherNum.length !== 10) {
+            else if (formData.SoDienThoaiKhac.length > 0 && formData.SoDienThoaiKhac.length !== 10) {
                 notify('Số điện thoại chưa hợp lệ');
             }
             else if (!isEmail(formData.Email)) {
                 notify("Email chưa hợp lệ");
             }
-            else if (formData.otherNum.length > 0 && formData.otherNum.length !== 10) {
+           else if (formData.Zalo.length > 0 && formData.Zalo.length !== 10) {
                 notify('Số Zalo không hợp lệ');
             }
             else {

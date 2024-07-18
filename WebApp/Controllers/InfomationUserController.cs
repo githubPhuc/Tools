@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,6 +21,7 @@ namespace ToolsApp.Controllers
         }
         public ActionResult _Image_Avatar_View(int Id)
         {
+
             ViewData["Id"] = Id;
             return PartialView();
         }
@@ -91,110 +93,77 @@ namespace ToolsApp.Controllers
             db_.LogHistorys.Add(log);
             db_.SaveChanges();
             return Json(new { success = true });
-           
+
         }
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public JsonResult _SaveImageAvatar(string image, int Id)
-        //{
-        //    try
-        //    {
-        //        var user = db_.Users.FirstOrDefault(a => a.Id == Id);
-        //        user.imageName = image;
-        //        db_.Entry(user).State = EntityState.Modified;
-        //        db_.SaveChanges();
-        //        return Json(new { status = 1, title = "", text = "Cập nhật ảnh thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult _SaveImageAvatar(HttpPostedFileBase file, int id)
+        {
+            var user = db_.Users.FirstOrDefault(a => a.Id == id);
+            if (file != null && file.ContentLength > 0)
+            {
+                string path = Server.MapPath("~/Uploads/Avatars");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string fileName = Path.GetFileName(file.FileName);
+                string fullPath = Path.Combine(path, fileName);
+                file.SaveAs(fullPath);
+                var relativePath = $"~/Uploads/Avatars/{fileName}";
+                user.anhDaiDien = relativePath;
+                user.ngayCapNhat = DateTime.Now;
+                db_.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Vui lòng chọn một tệp hợp lệ." });
+            }
+        }
         [HttpPost]
         [AllowAnonymous]
         public JsonResult _SaveImageCCCD(string frontCCCD, string backCCCD, int Id)
         {
             return Json(new { status = -1 }, JsonRequestBehavior.AllowGet);
         }
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public JsonResult _SaveInfo(ProfileUserviewModel model, int Id)
-        //{
-        //    var item = db_.Users.FirstOrDefault(a => a.Id == Id);
-        //    try
-        //    {
-        //        item.birtDate = model.birtDate;
-        //        item.placeOfBirt = model.placeOfBirt;
-        //        item.placeOfOrigin = model.placeOfOrigin;
-        //        item.curResidence = model.curResidence;
-        //        item.resident = model.resident;
-        //        item.temResidence = model.temResidence;
-        //        item.gender = model.gender;
-        //        item.taxCode = model.taxCode;
-        //        item.marital = model.marital;
-        //        item.ethnicity = model.ethnicity;
-        //        item.religion = model.religion;
-        //        item.nationality = model.nationality;
-        //        item.educationalLevel = model.educationalLevel;
-        //        db_.Entry(item).State = EntityState.Modified;
-        //        db_.SaveChanges();
-        //        return Json(new { status = 1, title = "", text = "Cập nhật thông tin cơ bản thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-        //    }
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult _SaveInfo(NhanVienUserViewModel model, int Id)
+        {
+            var item = db_.Users.FirstOrDefault(a => a.Id == Id);
+            try
+            {
+                item.ngaySinh = model.NgaySinh;
+                item.hoVaTen = model.HoVaTen;
+                item.nguyenQuan = model.NguyenQuan;
+                item.dcTamTru = model.DcTamTru;
+                item.dcThuongTru = model.DcThuongTru;
+                item.gioiTinh = model.GioiTinh;
+                item.mstCaNhan = model.MstCaNhan;
+                item.danToc = model.DanToc;
+                item.tringDoVanHoa = model.TringDoVanHoa;
+                item.dangThuViec = model.DangThuViec;
+                db_.Entry(item).State = EntityState.Modified;
+                db_.SaveChanges();
+                return Json(new { status = 1, title = "", text = "Cập nhật thông tin cơ bản thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult _SaveInfoContact(NhanVienUserViewModel model, int Id)
+        {
+             var item = db_.Users.FirstOrDefault(a => a.Id == Id);
+             item.email = model.Email;
+             item.soDienThoai = model.SoDienThoai;
+             item.soDienThoaiKhac = model.SoDienThoaiKhac;
+             item.zalo = model.Zalo;
+             db_.Entry(item).State = EntityState.Modified;
+             db_.SaveChanges();
+             return Json(new { status = 1, title = "", text = "Cập nhật thông tin liên hệ thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
 
-
-        //}
-        //    [HttpPost]
-        //    [AllowAnonymous]
-        //    public JsonResult _SaveInfoContact(ProfileUserviewModel model, int Id, string Email)
-        //    {
-        //        var user = db_.AspNetUsers.FirstOrDefault(a => a.Id == Id);
-        //        var item = db_.Users.FirstOrDefault(a => a.Id == Id);
-        //        if (model.otherNum != null && model.otherNum.Length > 0)
-        //        {
-        //            if (model.otherNum.Length != 10)
-        //            {
-        //                return Json(new { status = -1, title = "", text = "Số điện thoại chưa hợp lệ", obj = "" }, JsonRequestBehavior.AllowGet);
-        //            }
-        //            else
-        //            {
-        //                try
-        //                {
-        //                    user.Email = Email;
-        //                    item.otherNum = model.otherNum;
-        //                    item.address = model.address;
-        //                    item.zalo = model.zalo;
-        //                    db_.Entry(item).State = EntityState.Modified;
-        //                    db_.SaveChanges();
-        //                    return Json(new { status = 1, title = "", text = "Cập nhật thông tin liên hệ thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            try
-        //            {
-        //                user.Email = Email;
-        //                item.otherNum = model.otherNum;
-        //                item.address = model.address;
-        //                item.zalo = model.zalo;
-        //                db_.Entry(item).State = EntityState.Modified;
-        //                db_.SaveChanges();
-        //                return Json(new { status = 1, title = "", text = "Cập nhật thông tin liên hệ thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return Json(new { status = -1, title = "", text = "Lỗi: Không cấu trúc api", obj = "" }, JsonRequestBehavior.AllowGet);
-        //            }
-        //        }
-        //    }
+        }
         //    [HttpPost]
         //    [AllowAnonymous]
         //    public JsonResult _SaveInfoPersonal(ProfileUserviewModel model, int Id)

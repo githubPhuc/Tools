@@ -311,6 +311,42 @@ namespace ToolsApp.Models
         public Nullable<int> nguoiXoa { get; set; }
         public Nullable<bool> xacNhanXoa { get; set; }
     }
+    public class NhanVienUserViewModel
+    {
+        public int Id { get; set; }
+        public string TenTaiKhoan { get; set; }
+        public string HoVaTen { get; set; }
+        public string SoDienThoai { get; set; }
+        public string Email { get; set; }
+        public string DcThuongTru { get; set; }
+        public string DcTamTru { get; set; }
+        public DateTime? ThoiGianLamViec { get; set; }
+        public string SoTaiKhoan { get; set; }
+        public string CodeNganHang { get; set; }
+        public string AnhDaiDien { get; set; }
+        public bool? DangThuViec { get; set; }
+        public DateTime? NgayTao { get; set; }
+        public int? NguoiTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
+        public int? NguoiCapNhat { get; set; }
+        public DateTime? NgayXoa { get; set; }
+        public int? NguoiXoa { get; set; }
+        public bool? XacNhanXoa { get; set; }
+        public bool? HieuLuc { get; set; }
+        public int? CapDoTaiKhoan { get; set; } 
+        public string NguyenQuan { get; set; }
+        public DateTime? NgaySinh { get; set; }
+        public bool? GioiTinh { get; set; }
+        public string MstCaNhan { get; set; }
+        public string DanToc { get; set; }
+        public string TringDoVanHoa { get; set; }
+        public string SoDienThoaiKhac { get; set; }
+        public string Zalo { get; set; }
+        public string SoCCCD { get; set; }
+        public string AnhCCCDMatTruoc { get; set; }
+        public string AnhCCCDMatSau { get; set; }
+        public string TenTaiKhoanNganHang { get; set; }
+    }
     public class BaiVietViewModel
     {
         public int id { get; set; }

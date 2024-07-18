@@ -61,8 +61,10 @@ namespace ToolsApp.Controllers
         }
         public ActionResult Edit(int id)
         {
-            var data = db_.Configs.Where(a => a.parentId == appGlobal.IdDanhMucTyGia && a.xacNhanXoa == false).FirstOrDefault();
-            ViewBag.data = data;
+            var dataNhomBaiViet = db_.NhomBaiViets.FirstOrDefault(a => a.id == id);
+            var dataTyGia = db_.Configs.Where(a => a.parentId == appGlobal.IdDanhMucTyGia && a.xacNhanXoa == false).ToList();
+            ViewBag.dataNhomBaiViet = dataNhomBaiViet;
+            ViewBag.data = dataTyGia;
             return PartialView();
         }
         [ValidateInput(false)]

@@ -8,7 +8,7 @@
         <tr>
             <th></th>
             <th>Tên tình trạng</th>
-            <th>Tình trạng chi tiết</th>
+            <th>Màu sắc</th>
             <th>Tình trạng</th>
         </tr>
     </thead>
@@ -20,17 +20,32 @@
                 foreach (var item in data)
                 {
                     <tr>
-                        <td style="max-width:40px!important">
-                            <a onclick="Edit('@item.Id')" class="btn">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a onclick="Delete('@item.Id')" class="btn">
-                                <i class="far fa-trash-alt"></i> Delete
-                            </a>
-                        </td>
+                                <td>
+                                    <a onclick="Edit('@item.Id')" class="btn btn-secondary btn-custom">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </a>
+                                    <a onclick="Delete('@item.Id')" class="btn btn-danger btn-custom">
+                                        <i class="far fa-trash-alt"></i> Xóa
+                                    </a>
+                                </td>
                         <td>@item.MoTa</td>
                         <td>@item.moTaChiTiet</td>
-                        <td>@item.hieuLuc</td>
+                        <td>
+                                                @if (item.hieuLuc == true)
+                                                {
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fa-solid fa-circle" style="color: green;"></i>
+                                                        <span class="ml-1">Đang hoạt động</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fa-solid fa-circle" style="color: red;"></i>
+                                                        <span class="ml-1">Không hoạt động</span>
+                                                    </div>
+                                                }
+                        </td>
                     </tr>
 
                     STT++;

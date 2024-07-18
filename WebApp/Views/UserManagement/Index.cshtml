@@ -127,6 +127,33 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModalChangePassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content custom-modal-css">
+            @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header custom-modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold" id="myModalChangePasswordTitle"></h4>
+                    <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div id="myModalChangePasswordContent">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer modal-custom-footer footer d-flex ">
+                    <button type="button" id="btnSaveChangePassword" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;Lưu</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
         var myModal = {
@@ -139,7 +166,11 @@
             $myModalContent: $("#myModalInsertContent"),
             $myModalTitle: $("#myModalInsertTitle")
         }
-
+        var myModalChangePassword = {
+            $modal: $('#myModalChangePassword'),
+            $myModalContent: $("#myModalChangePasswordContent"),
+            $myModalTitle: $("#myModalChangePasswordTitle")
+        }
         var paramsLoadData = [
             true,
             '@Url.Action("_GetList")',
@@ -162,17 +193,19 @@
              $("#btSaveInsert").click(function () {
                  var formData = {
                      Id: $("#Id").val(),
-                     tenTaiKhoan: $("#tenTaiKhoan").val(),
-                     matKhau: $("#matKhau").val(),
-                     hoVaTen: $("#hoVaTen").val(),
-                     soDienThoai: $("#soDienThoai").val(),
+                     tenTaiKhoan: $("#tenTaiKhoan").val().trim(),
+                     matKhau: $("#matKhau").val().trim(),
+                     hoVaTen: $("#hoVaTen").val().trim(),
+                     soDienThoai: $("#soDienThoai").val().trim(),
                      email: $("#email").val(),
                      capDoTaiKhoan: $("#capDoTaiKhoan").val(),
                  }
+                 if (formData.matKhau.length < 6) {
+                     notify('Mật khẩu phải lớn hơn 6 ký tự.');
+                     return;
+                 }
                  Action('@Url.Action("_InsertFun")', 'POST', formData, paramsLoadData)
                  myModal.$modal.modal('hide')
-
-
              })
             $("#btSave").click(function () {
                 var valuePages = $("#Pages").val();
@@ -180,14 +213,32 @@
                 var formData = {
                     Id: $("#Id").val(),
                     tenTaiKhoan: $("#tenTaiKhoan").val(),
-                    Pages:Pages
+                    Pages: Pages
                 }
                 Action('@Url.Action("_EditFun")', 'POST', formData, paramsLoadData)
                 myModal.$modal.modal('hide')
 
 
             })
+    
+            $("#btnSaveChangePassword").click(function () {
+                 var formData = {
+                     Id: $("#Id").val(),
+                     matKhauMoi: $("#matKhauMoi").val().trim(),
+                     xacNhanMatKhauMoi: $("#xacNhanMatKhauMoi").val().trim(),
+                }
+                if (formData.matKhauMoi.length <= 6) {
+                    notify('Mật khẩu phải lớn hơn 6 ký tự.');
+                    return;
+                } else if (matKhauMoi !== xacNhanMatKhauMoi) {
+                    notify('Xác nhận mật khẩu không khớp với mật khẩu.');
+                    return;
+                }
+                 Action('@Url.Action("_ChangePasswordFun")', 'POST', formData, paramsLoadData)
+                 myModal.$modal.modal('hide')
+             })
         });
+
         $("#btnCreate").click(function () {
             loadModal('Thêm tài khoản', '@Url.Action("_Insert")', myModalInsert, { Id: 0 })
 
@@ -203,6 +254,8 @@
         function Edit(id_) {
             loadModal("CẬP NHẬT", '@Url.Action("_Edit")', myModal, id_)
         }
-
+        function ChangePassword(id_) {
+            loadModal("CẬP NHẬT MẬT KHẨU", '@Url.Action("_ChangePassword")', myModalChangePassword, id_)
+        }
     </script>
 }

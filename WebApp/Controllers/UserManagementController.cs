@@ -38,7 +38,7 @@ namespace ToolsApp.Areas.Admin.Controllers
         }
         public async Task<ActionResult> _Insert(int? id)
         {
-            var dataAccountType =await db_.Configs.AsNoTracking().Where(a => a.parentId == 1).ToListAsync();
+            var dataAccountType = await db_.Configs.AsNoTracking().Where(a => a.parentId == 1).ToListAsync();
             ViewBag.dataAccountType = dataAccountType;
             return PartialView();
         }
@@ -52,44 +52,39 @@ namespace ToolsApp.Areas.Admin.Controllers
 
             return PartialView(model);
         }
+        public ActionResult _ChangePassword(int Id)
+        {
+            var model = db_.Users.FirstOrDefault(p => p.Id == Id);
+            return PartialView(model);
+        }
         [ValidateInput(false)]
         [HttpPost]
         public JsonResult _InsertFun(string tenTaiKhoan, string matKhau, string hoVaTen, string soDienThoai, string email, int capDoTaiKhoan)
         {
-           
+
             try
             {
-                if(string.IsNullOrEmpty(tenTaiKhoan))
+                if (string.IsNullOrEmpty(tenTaiKhoan))
                 {
-                    return Json(new { status = -1, title = "", text = "Tên tài khoản không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = -1, title = "", text = "Tên tài khoản không được để trống", obj = "" }, JsonRequestBehavior.AllowGet);
 
                 }
-                if(string.IsNullOrEmpty(matKhau))
+                if (string.IsNullOrEmpty(matKhau))
                 {
-                    return Json(new { status = -1, title = "", text = "Mật khẩu không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = -1, title = "", text = "Mật khẩu không được để trống", obj = "" }, JsonRequestBehavior.AllowGet);
 
                 }
-                if(string.IsNullOrEmpty(hoVaTen))
+                if (string.IsNullOrEmpty(hoVaTen))
                 {
-                    return Json(new { status = -1, title = "", text = "Họ và tên không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { status = -1, title = "", text = "Họ và tên không được để trống", obj = "" }, JsonRequestBehavior.AllowGet);
 
                 }
-                if(string.IsNullOrEmpty(soDienThoai))
+                if (capDoTaiKhoan == 0)
                 {
-                    return Json(new { status = -1, title = "", text = "Số điện thoại không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
-
+                    return Json(new { status = -1, title = "", text = "Vui lòng chọn loại tài khoản", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
-                if(string.IsNullOrEmpty(email))
-                {
-                    return Json(new { status = -1, title = "", text = "Email không được để trống@@", obj = "" }, JsonRequestBehavior.AllowGet);
-
-                }
-                if(capDoTaiKhoan ==0)
-                {
-                    return Json(new { status = -1, title = "", text = "Vui lòng chọn loại tài khoản@@", obj = "" }, JsonRequestBehavior.AllowGet);
-                }
-                var checkUser = db_.Users.Where(a=>a.tenTaiKhoan == tenTaiKhoan).FirstOrDefault();
-                if(checkUser != null)
+                var checkUser = db_.Users.Where(a => a.tenTaiKhoan == tenTaiKhoan).FirstOrDefault();
+                if (checkUser != null)
                 {
                     return Json(new { status = -1, title = "", text = "Tên tài khoản đã tồn tại!!", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
@@ -121,7 +116,7 @@ namespace ToolsApp.Areas.Admin.Controllers
             {
                 return Json(new { status = -1, title = "", text = ex.Message, obj = "" }, JsonRequestBehavior.AllowGet);
             }
-         
+
         }
 
         //Edit role
@@ -230,7 +225,30 @@ namespace ToolsApp.Areas.Admin.Controllers
                     db_.SaveChanges();
                     return Json(new { status = 1, title = "", text = "Xóa quyền thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
-            }   
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = -1, title = "", text = ex.Message, obj = "" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult _ChangePasswordFun(QL_UserViewModel model)
+        {
+            try
+            {
+                var item = db_.Users.FirstOrDefault(p => p.Id == model.Id);
+                if (item == null)
+                {
+                    return Json(new { status = -1, title = "", text = "User không tồn tại!!.", obj = "" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    item.matKhau = model.matKhau;
+                    db_.Entry(item).State = EntityState.Modified;
+                    db_.SaveChanges();
+                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
+            }
             catch (Exception ex)
             {
                 return Json(new { status = -1, title = "", text = ex.Message, obj = "" }, JsonRequestBehavior.AllowGet);

@@ -1,7 +1,6 @@
 ﻿﻿
 @{
     var user = ViewBag.data as ToolsApp.EntityFramework.User;
-    var token = ViewData["token"];
 }
 
 <div class="row">
@@ -22,158 +21,161 @@
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Tên đầy đủ</h6>
+                <form id="thongtincoban" action="Post">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Tên đầy đủ</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.hoVaTen" class="form-control"
+                                           type="text" id="Fullname" name="Fullname">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.hoVaTen
+                                </div>
                             </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                <input value="@user.hoVaTen" class="form-control" disabled
-                                       type="text" id="Fullname" name="Fullname">
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Ngày sinh</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.ngaySinh" class="form-control" type="date" id="ngaySinh" name="ngaySinh">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.ngaySinh
+                                </div>
                             </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @user.hoVaTen
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Ngày sinh</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                @*<input value="@user.ngaySinh" class="form-control" type="date" id="ngaySinh" name="ngaySinh">*@
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.ngaySinh*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Nguyên quán</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                <select class=" form-control chosen-select" style="width: 100%" id="placeOfOrigin" name="placeOfOrigin" aria-label=".form-select-md">
-                                    @*<option value="@user.nguyenQuan">@user.nguyenQuan</option>*@
-                                </select>
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.nguyeQuan*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Địa chỉ tạm trú</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                <input value="@user.dcTamTru" class="form-control " type="text" id="curResidence" name="curResidence">
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @user.dcTamTru
-                            </div>
-                        </div>
-                        <hr>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Nguyên quán</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.nguyenQuan" class="form-control " type="text" id="nguyenQuan" name="nguyenQuan">
 
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Địa chỉ thường trú</h6>
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.nguyenQuan
+                                </div>
                             </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                <input value="@user.dcThuongTru" class="form-control " type="text" id="temResidence" name="temResidence">
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Địa chỉ tạm trú</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.dcTamTru" class="form-control " type="text" id="dcTamTru" name="dcTamTru">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.dcTamTru
+                                </div>
                             </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @user.dcThuongTru
-                            </div>
-                        </div>
-                        <hr>
+                            <hr>
 
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Địa chỉ thường trú</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.dcThuongTru" class="form-control " type="text" id="dcThuongTru" name="dcThuongTru">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.dcThuongTru
+                                </div>
+                            </div>
+                            <hr>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Giới tính</h6>
+                                </div>
+                                <div class="col-sm-9 edit">
+                                    <select id="gioiTinh" name="gioiTinh">
+                                        <option value="true" @if (user.gioiTinh == true) { <text> selected</text> }>Nam</option>
+                                        <option value="false" @if (user.gioiTinh == false) { <text> selected</text> }>Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @(user.gioiTinh == null?"": user.gioiTinh == true?"Nam":user.gioiTinh == false? "Nữ":"")
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">MST cá nhân (Nếu có)</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.mstCaNhan" class="form-control " type="text" id="mstCaNhan" name="mstCaNhan">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.mstCaNhan
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Dân tộc</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.danToc" class="form-control " type="text" id="danToc" name="danToc">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.danToc
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Trình độ học vấn</h6>
+                                </div>
+                                <div class="col-md-10 col-sm-12 edit">
+                                    <input value="@user.tringDoVanHoa" class="form-control " type="text" id="tringDoVanHoa" name="tringDoVanHoa">
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @user.tringDoVanHoa
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <h6 class="mb-0">Đang thử việc</h6>
+                                </div>
+                                <div class="col-sm-9 edit">
+                                    <select id="dangThuViec" name="dangThuViec">
+                                        <option value="true" @if (user.dangThuViec == true) { <text> selected</text> }>Có</option>
+                                        <option value="false" @if (user.dangThuViec == false) { <text> selected</text> }>Không</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-10 text-secondary show">
+                                    @(user.gioiTinh == null?"": user.gioiTinh == true?"Có":user.gioiTinh == false? "Không":"")
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="button-group">
+                                <button type="button" onclick="SaveInfo()" class="btn-shadow btn-save btn btn-info btn-success ">
+                                    <span class="btn-icon-wrapper pr-2 opacity-7">
+                                        <i class="fa fa-save"></i>
+                                    </span>
+                                    Lưu
+                                </button>
+                                <button type="button" onclick="Cancel('info')" style="margin-left:20px" class="btn-shadow btn-cancel btn btn-info btn-danger">
+                                    <span class="btn-icon-wrapper pr-2 opacity-7">
+
+                                        <i class="fa fa-close"></i>
+                                    </span>
+                                    Hủy
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Giới tính</h6>
-                            </div>
-                            <div class="col-sm-9 edit">
-                                <select id="gioiTinh" name="gioiTinh">
-                                    @*<option value="true" @if (user.gioiTinh == true) { <text> selected</text> }>Nam</option>
-                                    <option value="false" @if (user.gioiTinh == false) { <text> selected</text> }>Nữ</option>*@
-                                </select>
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@(user.gioiTinh == null?"": user.gioiTinh == true?"Nam":user.gioiTinh == false? "Nữ":"")*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">MST cá nhân (Nếu có)</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                @*<input value="@user.mstCaNhan" class="form-control " type="text" id="mstCaNhan" name="mstCaNhan">*@
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.mstCaNhan*@
-                            </div>
-                        </div>
-                        <hr>
-                      
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Dân tộc</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                @*<input value="@user.danToc" class="form-control " type="text" id="danToc" name="danToc">*@
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.danToc*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Tôn giáo</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                @*<input value="@user.tonGiao" class="form-control " type="text" id="religion" name="religion">*@
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.tonGiao*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <h6 class="mb-0">Trình độ học vấn</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12 edit">
-                                @*<input value="@user.trinhDoHocVan" class="form-control " type="text" id="trinhDoHocVan" name="trinhDoHocVan">*@
-                            </div>
-                            <div class="col-sm-10 text-secondary show">
-                                @*@user.trinhDoHocVan*@
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="button-group">
-                            <button type="button" onclick="SaveInfo()" class="btn-shadow btn-save btn btn-info btn-success ">
-                                <span class="btn-icon-wrapper pr-2 opacity-7">
-                                    <i class="fa fa-save"></i>
-                                </span>
-                                Lưu
-                            </button>
-                            <button type="button" onclick="Cancel('info')" style="margin-left:20px" class="btn-shadow btn-cancel btn btn-info btn-danger">
-                                <span class="btn-icon-wrapper pr-2 opacity-7">
-
-                                    <i class="fa fa-close"></i>
-                                </span>
-                                Hủy
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
+                </form>
             </div>
         </div>
     </div>

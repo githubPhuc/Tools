@@ -25,7 +25,7 @@
 
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
-                        <input value=" @data.soDienThoai" class="form-control" disabled type="text" id="soDienThoai" name="soDienThoai">
+                        <input value=" @data.soDienThoai" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control" type="text" id="soDienThoai" name="soDienThoai">
                     </div>
                     <div class="col-sm-8 text-secondary show">
                         @data.soDienThoai
@@ -37,10 +37,10 @@
                         <h6 class="mb-0"> <i class="fa-solid fa-phone-volume" style="color: #23b110;"></i>&nbsp; Số điện thoại khác ( Nếu có) </h6>
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
-                        @*<input value="@data.soDienThoaiKhac" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="otherNum" name="otherNum">*@
+                        <input value="@data.soDienThoaiKhac" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="soDienThoaiKhac" name="soDienThoaiKhac">
                     </div>
                     <div class="col-sm-8 text-secondary show">
-                        @*@data.soDienThoaiKhac*@
+                        @data.soDienThoaiKhac
                     </div>
                 </div>
                 <hr>
@@ -61,10 +61,10 @@
                         <h6 class="mb-0"> <img src="~/Content/images/zalo.png" alt="zalo" style="width:18px; height:15px" /> &nbsp; Zalo </h6>
                     </div>
                     <div class="col-md-8 col-sm-12 edit">
-                        @*<input value="@data.zalo" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="zalo" name="zalo">*@
+                        <input value="@data.zalo" oninput="this.value = this.value.replace(/[^0-123456789]/g, '');" class="form-control " type="text" id="zalo" name="zalo">
                     </div>
                     <div class="col-sm-8 text-secondary show">
-                        @*@data.zalo*@
+                       @data.zalo
                     </div>
                 </div>
                 <hr>

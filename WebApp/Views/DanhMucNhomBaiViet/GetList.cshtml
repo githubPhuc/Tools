@@ -22,14 +22,14 @@
                 foreach (var item in data)
                 {
                     <tr>
-                        <td style="max-width:80px!important">
-                            <a onclick="Edit('@item.id')" class="btn">
-                                <i class="fas fa-edit"></i> Cập nhật
-                            </a>
-                            <a onclick="Delete('@item.id')" class="btn">
-                                <i class="far fa-trash-alt"></i> Xóa
-                            </a>
-                        </td>
+                                <td>
+                                    <a onclick="Edit('@item.id')" class="btn btn-secondary btn-custom">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </a>
+                                    <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
+                                        <i class="far fa-trash-alt"></i> Xóa
+                                    </a>
+                                </td>
                         <td>@item.id</td>
                         <td>@item.tenNhom</td>
                         <td>@item.MoTa</td>

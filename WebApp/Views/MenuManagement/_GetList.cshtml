@@ -20,11 +20,11 @@
         @foreach (var item in List)
         {
             <tr>
-                <td style="max-width:40px!important">
-                    <a onclick="Edit('@item.Id')" class="btn">
-                        <i class="fas fa-edit"></i> Cập nhật
+                <td>
+                    <a onclick="Edit('@item.Id')" class="btn btn-secondary btn-custom">
+                        <i class="fas fa-edit"></i> Sửa
                     </a>
-                    <a onclick="Delete('@item.Id')" class="btn">
+                    <a onclick="Delete('@item.Id')" class="btn btn-danger btn-custom">
                         <i class="far fa-trash-alt"></i> Xóa
                     </a>
                 </td>

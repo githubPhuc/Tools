@@ -3322,6 +3322,7 @@
     <Content Include="Views\DanhMucChinhSach\Edit.cshtml" />
     <Content Include="Views\DanhMucChinhSach\Insert.cshtml" />
     <Content Include="Views\DanhMucChinhSach\View.cshtml" />
+    <Content Include="Views\UserManagement\_ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

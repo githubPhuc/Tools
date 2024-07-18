@@ -15,6 +15,7 @@
             <th>Chức năng</th>
             <th>Email</th>
             <th>Loại tài khoản</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,13 +25,14 @@
             var User_Page = db_.UserAuthorizations.Where(a => a.idUser == item.Id ).ToList();
             var loaiTK = db_.Configs.Where(a => a.Id == item.capDoTaiKhoan && a.parentId ==1).FirstOrDefault();
         <tr>
-            <td style="width:100px!important">
-                <a onclick="Edit('@item.Id')" class="btn">
-                    <i class="fas fa-edit"></i> Sửa
-                </a>
-                <a onclick="Delete('@item.Id')" class="btn">
-                    <i class="far fa-trash-alt"></i> Xóa
-                </a>
+            <td>
+                    <a onclick="Edit('@item.Id')" class="btn btn-secondary btn-custom">
+                        <i class="fas fa-edit"></i> Sửa
+                    </a>
+                   
+                    <a onclick="ChangePassword('@item.Id')" class="btn btn-success btn-custom">
+                        <i class="fas fa-lock"></i> Mật khẩu
+                    </a>
             </td>
             <td>
                 @STT
@@ -55,6 +57,11 @@
             </td>
             <td>@item.email</td>
             <td>@loaiTK.MoTa</td>
+            <td>
+                <a onclick="Delete('@item.Id')" class="btn btn-danger btn-custom">
+                    <i class="far fa-trash-alt"></i> Xóa quyền
+                </a>
+            </td>
         </tr>
 
             STT++;

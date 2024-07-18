@@ -7,37 +7,37 @@
 
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Tên tài khoản</label>
-    <div class="col-md-9 col-sm-9 ten">
-        <input value="" class="form-control" type="text" id="tenTaiKhoan" name="tenTaiKhoan" oninput="formatInput(this)"/>
+    <div class="col-md-12 col-sm-9 ten">
+        <input value="" class="form-control" type="text" id="tenTaiKhoan" name="tenTaiKhoan"/>
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Mật khẩu</label>
-    <div class="col-md-9 col-sm-9 ten">
-        <input value="" class="form-control" type="text" id="matKhau" name="matKhau" oninput="formatInput(this)"/>
+    <div class="col-md-12 col-sm-9 ten">
+        <input value="" class="form-control" type="text" id="matKhau" name="matKhau"/>
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Họ và tên</label>
-    <div class="col-md-9 col-sm-9 ten">
+    <div class="col-md-12 col-sm-9 ten">
         <input value="" class="form-control" type="text" id="hoVaTen" name="hoVaTen" />
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Số điện thoại</label>
-    <div class="col-md-9 col-sm-9 ten">
-        <input value="" class="form-control" type="tel" id="soDienThoai" name="soDienThoai"oninput="validatePhoneNumber(this)" />
+    <div class="col-md-12 col-sm-9 ten">
+        <input value="" class="form-control" type="tel" id="soDienThoai" name="soDienThoai" />
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
-    <label class="col-md-3 col-sm-3">email</label>
-    <div class="col-md-9 col-sm-9 ten">
+    <label class="col-md-3 col-sm-3">Email</label>
+    <div class="col-md-12 col-sm-9 ten">
         <input value="" class="form-control" type="email" id="email" name="email" />
     </div>
 </div>
 <div class="row" style="margin-bottom:5px">
     <label class="col-md-3 col-sm-3">Quyền tài khoản</label>
-    <div class="col-md-9 col-sm-9 ten">
+    <div class="col-md-12 col-sm-9 ten">
         <select id="capDoTaiKhoan" name="capDoTaiKhoan" class="form-control form-control-md chosen-select" style="width: 100%;">
             <option value="">--select--</option>
             @foreach (var item in dataAccountType)
@@ -49,23 +49,18 @@
 </div>
 
 <script type="text/javascript">
-    //var config = {
-    //    '.chosen-select': {},
-    //    '.chosen-select-deselect': { allow_single_deselect: true },
-    //    '.chosen-select-no-single': { disable_search_threshold: 10 },
-    //    '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
-    //    '.chosen-select-width': { width: "95%" },
-    //    'search_contains': true
-    //}
-    //for (var selector in config) {
-    //    $(selector).chosen(config);
-    //}
-    function formatInput(input) {
-        var value = input.value;
-        value = value.toLowerCase();
-        value = value.replace(/[^\w\s]/gi, '');
-        input.value = value;
-    } function validatePhoneNumber(input) {
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': { allow_single_deselect: true },
+        '.chosen-select-no-single': { disable_search_threshold: 10 },
+        '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+        '.chosen-select-width': { width: "95%" },
+        'search_contains': true
+    }
+    for (var selector in config) {
+        $(selector).chosen(config);
+    }
+     function validatePhoneNumber(input) {
         var phoneNumber = input.value;
         if (isNaN(phoneNumber)) {
             notify('Số điện thoại không hợp lệ: ' + phoneNumber, "error");

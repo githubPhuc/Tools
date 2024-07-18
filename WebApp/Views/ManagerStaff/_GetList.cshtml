@@ -2,47 +2,60 @@
 
 @{
     var list = ViewBag.list as List<ToolsApp.EntityFramework.User>;
-    var dataUser = ViewBag.dataUser as ToolsApp.EntityFramework.User;
 }
-
-<div>
-    <label class="mb-3">Tổng kết quả:</label> <label class="total-item"> @list.Count()</label>
-</div>
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th></th>
+            <th>Mã nhân viên</th>
             <th>Tên tài khoản</th>
             <th>Tên nhân viên</th>
             <th>Email</th>
             <th>Số điện thoại</th>
+            <th>Trạng thái</th>
             <th>Hồ sơ nhân viên</th>
         </tr>
     </thead>
     <tbody>
-
         @foreach (var item in list)
         {
             <tr>
-                <td width="133px">
-                    <a onclick="Update('@item.Id')" class="btn">
-                        <i class="fas fa-edit"></i> Sửa
-                    </a>
-                    <a onclick="ChangePassword('@item.Id')" class="btn">
-                        <i class="fa-solid fa-key"></i> Mật khẩu
-                    </a>
-                </td>
+                <td><span class="bg-info p-2 rounded">NV-@item.Id</span></td>
                 <td>@item.tenTaiKhoan</td>
                 <td>@item.hoVaTen </td>
                 <td>@item.email</td>
                 <td>@item.soDienThoai</td>
                 <td>
-                    <div class="text-center">
+                    @if (item.hieuLuc == true)
+                    {
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-circle" style="color: green;"></i>
+                            <span class="ml-1">Hoạt động</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-circle" style="color: red;"></i>
+                            <span class="ml-1">Đã khóa</span>
+                        </div>
+                    }
+                </td>
+                <td>
+                    <div class="">
                         <a href="@Url.Action("ViewInfomation", new { id = item.Id })" class="btn btn-custom btn-primary">
-                            <i class="fa-solid fa-rectangle-list"></i> Log
+                            <i class="fa-solid fa-rectangle-list"></i> Xem hồ sơ
                         </a>
-                        <a onclick="ShowLog('@item.Id')" class="btn btn-custom btn-">
-                            <i class="fa-solid fa-rectangle-list"></i> Log
+                        <a onclick="ShowLog('@item.Id')" class="btn btn-custom btn-warning">
+                            <i class="fa-solid fa-warning"></i> Giám sát
+                        </a>
+                        <a onclick="SetRole('@item.Id')" class="btn btn-custom btn-danger">
+                            <i class="fas fa-lock"></i> Phân quyền
+                        </a>
+                        <a onclick="LockUser('@item.Id')" class="btn btn-custom btn-success">
+                            <i class="fa-solid fa-user-lock"></i> Khóa tài khoản
+                        </a>
+                        <a onclick="Delete('@item.Id')" class="btn btn-custom btn-dark">
+                            <i class="fas fa-trash"></i> Xóa
                         </a>
                     </div>
                  

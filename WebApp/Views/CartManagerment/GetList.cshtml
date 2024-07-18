@@ -159,7 +159,7 @@
                         </td>
                         <td>
                             <div class="editable d-inline" data-id="@item.id">
-                                <span class="text-white font-weight-bold rounded displayValue @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "bg-secondary")">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
+                                <span class="text-white font-weight-bold rounded displayValue p-1" style="background-color:@(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "#6c757d"); font-size:12px">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
                                 <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
                                     @foreach (var item1 in tinhTrangs)
                                     {
