@@ -27,6 +27,7 @@ namespace ToolsApp.EntityFramework
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<BaiViet> BaiViets { get; set; }
         public virtual DbSet<ChinhSach> ChinhSaches { get; set; }
         public virtual DbSet<Config> Configs { get; set; }
         public virtual DbSet<HinhAnh> HinhAnhs { get; set; }
@@ -41,7 +42,6 @@ namespace ToolsApp.EntityFramework
         public virtual DbSet<UserAuthorization> UserAuthorizations { get; set; }
         public virtual DbSet<UserLuong> UserLuongs { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<BaiViet> BaiViets { get; set; }
     
         public virtual int insert_loghistory(Nullable<int> idUser, string ipUserHostAddress, string moTa, string moTaChiTiet)
         {
