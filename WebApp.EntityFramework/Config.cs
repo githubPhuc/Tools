@@ -17,9 +17,9 @@ namespace ToolsApp.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Config()
         {
+            this.BaiViets = new HashSet<BaiViet>();
             this.Configs1 = new HashSet<Config>();
             this.NhomBaiViets = new HashSet<NhomBaiViet>();
-            this.BaiViets = new HashSet<BaiViet>();
         }
     
         public int Id { get; set; }
@@ -38,11 +38,11 @@ namespace ToolsApp.EntityFramework
         public Nullable<bool> hieuLuc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BaiViet> BaiViets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Config> Configs1 { get; set; }
         public virtual Config Config1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhomBaiViet> NhomBaiViets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BaiViet> BaiViets { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     var data = ViewBag.danhSachBaiViet as List<ToolsApp.EntityFramework.BaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
     var tinhTrangs = ViewBag.tinhTrang as List<ToolsApp.EntityFramework.Config>;
-    var tyGia = ViewBag.tyGia as List<ToolsApp.EntityFramework.Config>;
+
     var idNhomBaiViet = ViewData["id"] != null ? ViewData["id"] : "null";
     var page = ViewBag.page != null ? ViewBag.page : 1;
     var totalPages = ViewBag.totalPages != null ? ViewBag.totalPages : 1;
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
-                                    <span class="displayValue">@(string.IsNullOrWhiteSpace(item.sdtKh) ? item.sdtKh : "0")</span>
+                                    <span class="displayValue">@(item.sdtKh != null ? item.sdtKh : "")</span>
                                     <input type="number" name="sdtKh" value="@item.sdtKh" class="quickEditGetList displayN w-80" />
                                 </div>
                                 <div class="editable" data-id="@item.id">
@@ -183,11 +183,17 @@
                         <td>
                             <div class="">
                                 <div class="editable" data-id="@item.id">
-                                    @{ var donvi = tyGia.FirstOrDefault(a => a.Id == item.idNhomBaiViet).MoTa}
-                                    
+                                    @if (item.idNhomBaiViet == 1 || item.idNhomBaiViet == 3)
+                                    {
                                         <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
-                                        <span class="text-success font-weight-bold">@donvi</span>
-                                    
+                                        <span class="text-success font-weight-bold">tỷ</span>
+                                    }
+                                    else
+                                    {
+
+                                        <span class="displayValue text-success font-weight-bold">@item.giaBan</span>
+                                        <span class="text-success font-weight-bold">triệu</span>
+                                    }
                                 </div>
 
                               </div>
