@@ -290,6 +290,40 @@ namespace ToolsApp.Controllers
             return Json(new { success = true, message = "Đã xóa bài viết thành công" }, JsonRequestBehavior.AllowGet);
 
         }
+        public ActionResult ShowLog(int id)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            DateTime threeDaysAgo = currentDate.AddDays(-2);
+            var logData = db_.LogHistorys
+                .Where(a => a.IdBaiViet == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate)
+                .OrderByDescending(a => a.ngayTao)
+                .ThenByDescending(a => a.Id)
+                 .Select(a => new LogHistoryViewModel
+                 {
+                     Id = a.Id,
+                     idUser = a.idUser,
+                     moTa = a.moTa,
+                     hoVaTen = User.hoVaTen,
+                     tenTaiKhoan = User.tenTaiKhoan,
+                     moTaChiTiet = a.moTaChiTiet,
+                     ngayTao = a.ngayTao,
+                     nguoiTao = a.nguoiTao,
+                     IdBaiViet = a.IdBaiViet,
+                     ipUserHostAddress = a.ipUserHostAddress
+                 })
+                .ToList();
+
+            if (logData.Count == 0)
+            {
+                return Json(new { success = false, message = "Bài viết chưa ghi lại bất kỳ log nào:" }, JsonRequestBehavior.AllowGet);
+            }
+
+            ViewData["id"] = id;
+            ViewBag.logData = logData;
+            db_.SaveChanges();
+
+            return PartialView();
+        }
         [HttpPost]
         public JsonResult getSoNha(int id)
         {
@@ -311,6 +345,28 @@ namespace ToolsApp.Controllers
             db_.LogHistorys.Add(log);
             db_.SaveChanges();
             return Json(new { success = true});
+        }
+        [HttpPost]
+        public JsonResult getPhoneNumber(int id)
+        {
+            string userIpAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(userIpAddress))
+            {
+                userIpAddress = Request.ServerVariables["REMOTE_ADDR"];
+            }
+            var log = new LogHistory
+            {
+                idUser = User.UserId,
+                ipUserHostAddress = userIpAddress,
+                ngayTao = DateTime.Now,
+                moTa = "Click lấy số chủ nhà",
+                moTaChiTiet = $"Người dùng ${User.tenTaiKhoan} click vào lấy số nhà vào lúc {DateTime.Now}",
+                hieuLuc = true,
+                IdBaiViet = id
+            };
+            db_.LogHistorys.Add(log);
+            db_.SaveChanges();
+            return Json(new { success = true });
         }
     }
 }

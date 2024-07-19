@@ -32,12 +32,14 @@ namespace ToolsApp.Controllers
             ViewBag.tinhTrang = getTinhTrang;
 
             ViewBag.ketCaus = ketCaus;
-            
+
             var query = db_.BaiViets
                 .Include(bv => bv.NhomBaiViet)
                 .Include(bv => bv.HinhAnhBaiViets)
                 .Include(bv => bv.User)
-                .Include(bv => bv.KetCau).AsQueryable();
+                .Include(bv => bv.KetCau)
+                .Where(a => a.trangThai == true)
+                .AsQueryable();
 
             if (idNhomBaiViet != null)
             {
@@ -46,10 +48,10 @@ namespace ToolsApp.Controllers
                 ViewData["id"] = idNhomBaiViet;
             }
             if (!string.IsNullOrEmpty(searchModel.DiaChiTaiSanSearch))
-            {  
+            {
                 var searchValue = searchModel.DiaChiTaiSanSearch.ToLower();
                 query = query.Where(a => a.diaChiTaiSan.ToLower().Contains(searchValue));
- 
+
             }
             if (searchModel.NhomBaiVietSearch.HasValue)
             {
@@ -111,9 +113,9 @@ namespace ToolsApp.Controllers
                 {
                     query = query.Where(a => a.soPhong >= soPhongTu && a.soPhong <= soPhongDen);
                 }
-                else if (searchModel.SoPhongSearch == ">10")  
+                else if (searchModel.SoPhongSearch == ">10")
                 {
-                    query = query.Where(a => a.soPhong >= 10);  
+                    query = query.Where(a => a.soPhong >= 10);
                 }
             }
             if (!string.IsNullOrEmpty(searchModel.HuongSearch))
@@ -126,7 +128,10 @@ namespace ToolsApp.Controllers
             var recordsTotal = query.Count();
             var totalPages = (int)Math.Ceiling((double)recordsTotal / itemPerPage);
             var tyGia = db_.Configs.Where(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true).ToList();
+            var nhomBaiViet = db_.NhomBaiViets.Where(a => a.trangThai == true).ToList();
+
             ViewBag.tyGia = tyGia;
+            ViewBag.nhomBaiViet = nhomBaiViet;
             var data = query.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToList();
 
             ViewBag.danhSachBaiViet = data;
@@ -152,7 +157,9 @@ namespace ToolsApp.Controllers
             BaiViet baiViet;
             var nhomBaiViets = db_.NhomBaiViets.Where(a => a.trangThai == true).ToList();
             var ketCaus = db_.KetCaus.Where(a => a.trangThai == true).ToList();
-            var IdTinhTrang =db_.Configs.FirstOrDefault(a => a.parentId == 16 && a.xacNhanXoa == false).Id;
+            var tyGia = db_.Configs.Where(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true).ToList();
+            var IdTinhTrang = db_.Configs.FirstOrDefault(a => a.parentId == 16 && a.xacNhanXoa == false).Id;
+            ViewBag.tyGia = tyGia;
             ViewBag.ketCaus = ketCaus;
             ViewBag.nhomBaiViets = nhomBaiViets;
 
@@ -259,8 +266,6 @@ namespace ToolsApp.Controllers
                .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
                .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
                .ToList();
-
-            // Chuyển đổi đường dẫn tương đối thành đường dẫn tuyệt đối
             var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
             {
                 Id = hbv.id,
@@ -287,10 +292,10 @@ namespace ToolsApp.Controllers
                 return Json(new { success = false, message = "Bài viết không tồn tại." });
             }
 
-              var loaiBaiDang = db_.NhomBaiViets
-             .Where(b => b.id == baiViet.idNhomBaiViet)
-             .Select(b => new { b.idTyGia, b.tenNhom })
-             .FirstOrDefault();
+            var loaiBaiDang = db_.NhomBaiViets
+           .Where(b => b.id == baiViet.idNhomBaiViet)
+           .Select(b => new { b.idTyGia, b.tenNhom })
+           .FirstOrDefault();
             var tyGia = db_.Configs.FirstOrDefault(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true && a.Id == loaiBaiDang.idTyGia).MoTa;
             var userId = User.UserId;
             var chuKy = db_.Users
@@ -550,13 +555,12 @@ namespace ToolsApp.Controllers
             db_.SaveChanges();
             return Json(new { success = true });
         }
-        public ActionResult ShowLog(int id, int? idUser)
+        public ActionResult ShowLog(int id)
         {
             DateTime currentDate = DateTime.Now.Date;
             DateTime threeDaysAgo = currentDate.AddDays(-2);
             var logData = db_.LogHistorys
-                .Where(a => a.IdBaiViet == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate 
-                && a.idUser == idUser)
+                .Where(a => a.IdBaiViet == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate)
                 .OrderByDescending(a => a.ngayTao)
                 .ThenByDescending(a => a.Id)
                  .Select(a => new LogHistoryViewModel
@@ -585,5 +589,36 @@ namespace ToolsApp.Controllers
 
             return PartialView();
         }
+        [HttpPost]
+        public JsonResult CheckTyGia(int id, int idNhom)
+        {
+            var idTyGia = db_.NhomBaiViets.FirstOrDefault(a => a.id == idNhom).idTyGia;
+            var tyGia = db_.Configs.FirstOrDefault(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true && a.Id == idTyGia).MoTa;
+            var tyGiaLower = tyGia.ToLower();
+
+            int donvi;
+            string tenDonVi = "";
+            switch (tyGiaLower)
+            {
+                case "tỷ":
+                    donvi = 1000000000;
+                    tenDonVi = "Tỷ đồng (VND)";
+                    break;
+                case "triệu":
+                    donvi = 1000000;
+                    tenDonVi = "Triệu đồng (VND)";
+                    break;
+                case "nghìn":
+                    donvi = 1000;
+                    tenDonVi = "Nghìn (VND)";
+                    break;
+                default:
+                    donvi = 0;  
+                    tenDonVi = ""; 
+                    break;
+            }
+            return Json(new { success = donvi > 0, donvi, tenDonVi });
+        }
     }
+
 }

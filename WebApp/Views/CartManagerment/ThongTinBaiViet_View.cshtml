@@ -3,8 +3,7 @@
     var nhomBaiViet = ViewBag.nhomBaiViet as ToolsApp.EntityFramework.NhomBaiViet;
     var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
-
-    var donGia = 1000000;
+    var tyGia = ViewBag.tyGia as List<ToolsApp.EntityFramework.Config>;
   }
 
 <div class="row">
@@ -56,36 +55,6 @@
                                 <hr />
                             </div>
                         </div>
-                        <!--<div class="row">
-                            <div class="col-md-2">
-                                <h6 class="mb-0 text-success">Tỉnh thành</h6>
-                            </div>
-                            <div class="col-md-10 col-sm-12">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idThanhPho" name="idThanhPho" aria-label=".form-select-md">-->
-                                            @*<option value="">Thành Phố</option>*@
-                                            <!--<option value="">Thành Phố</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idQuanHuyen" name="idQuanHuyen" aria-label=".form-select-md">
-                                            <option value="">Quận/Huyện</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="idPhuongXa" name="idPhuongXa" aria-label=".form-select-md">
-                                            <option value="">Phường Xã</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <hr />
-                            </div>
-
-
-                        </div>-->
-
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Chiều ngang</h6>
@@ -149,15 +118,6 @@
                                         <i class="">Giá</i>
                                         <input value="@Model.giaBan" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
                                         <span id="donGiaLabel" class=" text-danger font-weight-bold mt-2">
-                                            @if (Model.idNhomBaiViet == 1 || Model.idNhomBaiViet == 3)
-                                            {
-                                                donGia = 1000000000;
-                                                @:Đơn giá: Tỷ đồng (VNĐ)
-                                            }
-                                            else
-                                            {
-                                                @:Đơn giá: Triệu đồng (VNĐ)
-                                            }
                                         </span>
                                     </div>
                                     <div class="col-lg-8">
@@ -368,32 +328,36 @@
         $("select").each(function () {
             $(this).select2()
         })
-        var giaTien = true;
+        var donGia = 1000000000
         $('#idNhomBaiViet').change(function () {
-            var selectedValue = parseInt($(this).val()); 
+            var id = $(this).data("id")
+            var selectedValue = parseInt($(this).val());
             var donGiaLabel = $('#donGiaLabel');
-            if (selectedValue == 1 || selectedValue == 3) {
-                donGiaLabel.text('Đơn giá: Tỷ đồng (VNĐ)');
-                giaTien = true;
-            } else {
-                donGiaLabel.text('Đơn giá: triệu đồng (VNĐ)');
-                giaTien = false;
-            }
-        });
+            $.ajax({
+                url: '@Url.Action("CheckTyGia")',
+                type: 'POST',
+                data: {id:id, idNhom:selectedValue},
+                success: function (res) {
+                      
+                    if (res.success == true) {
+                        donGia = res.donvi
+                        donGiaLabel.text(res.tenDonVi)
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        notify('Có lỗi xảy ra');
+                    }
+                });
+            });
+        $('#idNhomBaiViet').change();
+
         $('#giaBan').on('blur', function () {
             var id = $(this).data("id")
             var giaBan = parseFloat($(this).val());
-            var donGia;
-            if (giaTien == true) {
-                donGia = 1000000000;
-            }
-            else {
-                donGia = 1000000
-            }
             if (!isNaN(giaBan)) {
                 console.log(donGia);
                 $.ajax({
-                    url: '@Url.Action("GetUpdatedValues")', 
+                    url: '@Url.Action("GetUpdatedValues")',
                     type: 'POST',
                     data: { id: id },
                     success: function (response) {
@@ -404,7 +368,7 @@
                         var giaM2XayDung = 0;
                         var giaM2SuDung = 0;
                             if (dienTichDat !== 0) {
-                                 giaM2Dat = giaBan * donGia / dienTichDat;
+                                giaM2Dat = giaBan * donGia / dienTichDat;
                             }
                             if (dienTichXayDung !== 0) {
                                  giaM2XayDung = giaBan * donGia / dienTichXayDung;
@@ -453,10 +417,10 @@
                 var data = {
                     id: idBaiViet
                 };
-                data[inputName] = newValue; 
+                data[inputName] = newValue;
                 console.log(data);
                 $.ajax({
-                    url: '@Url.Action("QuickUpdateBaiViet")', 
+                    url: '@Url.Action("QuickUpdateBaiViet")',
                     type: 'POST',
                     data: data,
                     success: function (response) {
@@ -498,7 +462,7 @@
                 }
             });
         });
-      
+
     })
 
 </script>

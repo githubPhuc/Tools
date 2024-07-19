@@ -4,7 +4,8 @@
     var data = ViewBag.danhSachBaiViet as List<ToolsApp.EntityFramework.BaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
     var tinhTrangs = ViewBag.tinhTrang as List<ToolsApp.EntityFramework.Config>;
-
+    var tyGia = ViewBag.tyGia as List<ToolsApp.EntityFramework.Config>;
+    var nhomBaiViet = ViewBag.nhomBaiViet as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var idNhomBaiViet = ViewData["id"] != null ? ViewData["id"] : "null";
     var page = ViewBag.page != null ? ViewBag.page : 1;
     var totalPages = ViewBag.totalPages != null ? ViewBag.totalPages : 1;
@@ -83,8 +84,8 @@
             <th>Khách hàng</th>
             <th>Tình trạng</th>
             <th>Địa chỉ</th>
-            <th>Giá bán</th>
-            <th>Thông tin nhà</th>
+            <th style="width:200px">Giá bán</th>
+            <th style="width:350px">Thông tin nhà</th>
             <th>Công cụ</th>
         </tr>
     </thead>
@@ -122,7 +123,7 @@
                                     {
 
                                         <div class="call-container">
-                                            <button class="call-button btn btn-success text-white font-weight-bold">Gọi điện</button>
+                                            <button class="call-button btn btn-success text-white font-weight-bold">Gọi</button>
                                             <div class="call-confirm mt-2 displayN">
                                                 <i class="mt-2">Nhập ghi chú:</i>
                                                 <textarea id="note-@item.id" rows="1" cols="10" name="note" data-id="@item.id" class="form-control"></textarea>
@@ -146,7 +147,7 @@
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
-                                    <span class="displayValue">@(item.sdtKh != null ? item.sdtKh : "")</span>
+                                    <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.sdtKh) ? "" : item.sdtKh)</span>
                                     <input type="number" name="sdtKh" value="@item.sdtKh" class="quickEditGetList displayN w-80" />
                                 </div>
                                 <div class="editable" data-id="@item.id">
@@ -183,17 +184,16 @@
                         <td>
                             <div class="">
                                 <div class="editable" data-id="@item.id">
-                                    @if (item.idNhomBaiViet == 1 || item.idNhomBaiViet == 3)
-                                    {
-                                        <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
-                                        <span class="text-success font-weight-bold">tỷ</span>
+                                    @{
+                                        var idTyGia = nhomBaiViet.FirstOrDefault(a => a.id == item.idNhomBaiViet).idTyGia;
+                                        var donvi = tyGia.FirstOrDefault(a => a.Id == idTyGia).MoTa;
                                     }
-                                    else
-                                    {
 
-                                        <span class="displayValue text-success font-weight-bold">@item.giaBan</span>
-                                        <span class="text-success font-weight-bold">triệu</span>
-                                    }
+                                    <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
+                                    <input type="text" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="giaBan" name="giaBan" value="@item.giaBan" class="quickEditGetList displayN" />
+
+                                    <span class="text-success font-weight-bold">@donvi</span>
+
                                 </div>
 
                               </div>

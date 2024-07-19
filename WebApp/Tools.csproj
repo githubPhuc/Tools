@@ -3325,6 +3325,7 @@
     <Content Include="Views\UserManagement\_ChangePassword.cshtml" />
     <Content Include="Views\ManagerStaff\ChangeRole.cshtml" />
     <Content Include="Views\ManagerStaff\ShowLog.cshtml" />
+    <Content Include="Views\CheckCart\ShowLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

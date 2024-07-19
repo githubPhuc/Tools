@@ -460,4 +460,10 @@ namespace ToolsApp.Models
         public string ipUserHostAddress { get; set; }
         public int? IdBaiViet { get; set; }
     }
+    public class GiaBanViewModel
+    {
+        public int Id { get; set; }
+        public decimal GiaBan { get; set; }
+        public string DonVi { get; set; }
+    }
 }

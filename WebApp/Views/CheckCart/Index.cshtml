@@ -302,6 +302,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 80%" role="document">
+            <div class="modal-content" style="width: 100%;height:auto;">
+                @using (Html.BeginForm(null, null, FormMethod.Get, new { name = "frm", id = "frm", enctype = "multipart/form-data" }))
+                {
+
+                    <div class="modal-header custom-modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold" id="myModalTitle"></h4>
+                        <button type="button" style="color: white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div id="myModalContent">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer modal-custom-footer footer d-flex ">
+                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Đóng</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
 </section>
 
 @section scripts {
@@ -383,7 +409,7 @@
                 var data = {
                     idNhomBaiViet: idNhomBaiViet,
                     page: page,
-                    itemPerPage: 50
+                    itemPerPage: 30
                 };
                 $.each(formData, function (index, item) {
                     data[item.name] = item.value;
@@ -482,59 +508,8 @@
                         $(".divLoading").addClass("loading");
                     },
                     success: function (response) {
-                        $(".divLoading").removeClass("loading");
-                        $('.table-body').html(response);
-                        $("#myTable").DataTable({
-
-                            destroy: true,
-                            "order": [[1, "desc"]],
-                            "language": {
-                                "sProcessing": "Đang xử lý...",
-                                "sLengthMenu": " Hiển thị _MENU_ dữ liệu",
-                                "sZeroRecords": "Không tìm thấy kết quả",
-                                "sEmptyTable": "Không có dữ liệu",
-                                "sInfo": "Hiển thị _START_ tới _END_ của _TOTAL_ dữ liệu",
-                                "sInfoEmpty": "Hiển thị 0 tới 0 của 0 dữ liệu",
-                                "sInfoFiltered": "(được lọc từ _MAX_ dữ liệu)",
-                                "sInfoPostFix": "",
-                                "sSearch": "Tìm kiếm:",
-                                "sUrl": "",
-                                "sInfoThousands": ",",
-                                "sLoadingRecords": "Đang tải...",
-                                "oPaginate": {
-                                    "sFirst": "Đầu tiên",
-                                    "sLast": "Cuối cùng",
-                                    "sNext": "Sau",
-                                    "sPrevious": "Trước"
-                                },
-                                "oAria": {
-                                    "sSortAscending": ":Sắp xếp thứ tự tăng dần",
-                                    "sSortDescending": ": Sắp xếp thứ tự giảm dần"
-                                }
-                            },
-                            "lengthMenu": [5, 10, 25, 50, 75, 100],
-                            "columnDefs": [
-                                {
-                                    "targets": [0,],
-                                    orderable: false
-                                },
-                            ],
-                            "info": false,
-                            "processing": false,
-                            "serverSide": false,
-                            "bFilter": true,
-                            "bPaginate": false,
-                            "bLengthChange": true,
-                            "bInfo": true,
-                            "responsive": true,
-                            "lengthChange": true,
-                            "autoWidth": false,
-                            "stateSave": true,
-                            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                            "initComplete": function (oSettings) {
-
-                            }
-                        })
+                        loadList(null, 1)
+                       
                     },
                     error: function (message) {
                         $(".divLoading").removeClass("loading");
@@ -620,6 +595,8 @@
                 }
             });
         }
-
+        function ShowLog(id) {
+            loadModal('Lịch sử bài viết', '@Url.Action("ShowLog")', myModal, { Id: id})
+        };
     </script>
 }

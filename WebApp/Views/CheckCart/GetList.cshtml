@@ -76,8 +76,8 @@
             <th>Khách hàng</th>
             <th>Tình trạng</th>
             <th>Địa chỉ</th>
-            <th>Giá bán</th>
-            <th>Thông tin nhà</th>
+            <th style="width:200px">Giá bán</th>
+            <th style="width:350px">Thông tin nhà</th>
             <th></th>
         </tr>
     </thead>
@@ -116,7 +116,7 @@
                                     {
 
                                         <div class="call-container">
-                                            <button class="call-button btn btn-success text-white font-weight-bold">Gọi điện</button>
+                                            <button class="call-button btn btn-success text-white font-weight-bold">Gọi</button>
                                             <div class="call-confirm mt-2 displayN">
                                                 <i class="mt-2">Nhập ghi chú:</i>
                                                 <textarea id="note-@item.id" rows="1" cols="10" name="note" data-id="@item.id" class="form-control"></textarea>
@@ -242,19 +242,20 @@
                                     <div class="editable" data-id="@item.id">
                                         <span>DT đất:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichDat
+                                            @item.dienTichDat  m<sup>2</sup>
                                         </i>
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT sử dụng:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichSuDung
+                                            @item.dienTichSuDung  m<sup>2</sup>
                                         </i>
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT xây dựng:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichXayDung
+                                            @item.dienTichSuDung  m<sup>2</sup>
+                                           
                                         </i>
                                     </div>
                                 </div>
