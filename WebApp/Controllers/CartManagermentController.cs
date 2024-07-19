@@ -125,7 +125,8 @@ namespace ToolsApp.Controllers
 
             var recordsTotal = query.Count();
             var totalPages = (int)Math.Ceiling((double)recordsTotal / itemPerPage);
-
+            var tyGia = db_.Configs.Where(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true).ToList();
+            ViewBag.tyGia = tyGia;
             var data = query.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToList();
 
             ViewBag.danhSachBaiViet = data;
