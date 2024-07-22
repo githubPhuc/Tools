@@ -509,7 +509,7 @@
                     },
                     success: function (response) {
                         loadList(null, 1)
-                       
+
                     },
                     error: function (message) {
                         $(".divLoading").removeClass("loading");
@@ -570,36 +570,38 @@
             return parseFloat(value.toFixed(10));
         }
         function Share(idBaiViet) {
-            $.ajax({
-                url: '@Url.Action("Share")',
-                type: 'POST',
-                data: { id: idBaiViet },
-                success: function (response) {
-                    if (response.success) {
-                        var res = response.data;
-                        var giaBan = formatDecimal(res.gia)
-                        var context = `- ${res.nhomBaiViet} đường ${res.viTri}, giá ${giaBan} ${res.donVi}\n`
-                            + `- Vị trí: ${res.viTri} đường ${res.diaChi}\n`
-                            + `- Diện tích: ${res.dienTich.chieuNgang}m x ${res.dienTich.chieuDai}m\n`
-                            + `- Kết cấu: ${res.ketCau}\n`
-                            + `- Giá: ${res.gia} ${res.donVi}\n`
-                            + `${htmlToText(res.chuKy)}`;
-                        console.log(context)
-                        const textarea = document.createElement('textarea');
-                        textarea.value = context;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textarea);
-                        alert('Đã sao chép nội dung chia sẻ vào clipboard');
-                    } else {
-                        console.error("Failed to retrieve data: " + response.message);
-                    }
-                },
-                error: function () {
-                    alert('Lỗi khi gửi yêu cầu.');
+          $.ajax({
+            url: '@Url.Action("Share")',
+            type: 'POST',
+              data: { id: idBaiViet },
+              success: function (response) {
+                if (response.success) {
+                    var res = response.data;
+                    var giaBan = formatDecimal(res.gia)
+                    var context = `- ${res.nhomBaiViet} đường ${res.viTri}, giá ${giaBan} ${res.donVi}\n`
+                        + `- Vị trí: ${res.viTri} đường ${removeHouseNumber(res.diaChi)}\n`
+                        + `- Diện tích: ${res.dienTich.chieuNgang}m x ${res.dienTich.chieuDai}m\n`
+                        + `- Kết cấu: ${res.ketCau}\n`
+                        + `- Giá: ${res.gia} ${res.donVi}\n`
+                        + `${htmlToText(res.chuKy)}`;
+                    console.log(context)
+                    const textarea = document.createElement('textarea');
+                    textarea.value = context;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+
+                    alert('Đã sao chép nội dung chia sẻ vào clipboard');
+
+                } else {
+                    console.error("Failed to retrieve data: " + response.message);
                 }
-            });
+            },
+            error: function() {
+                alert('Lỗi khi gửi yêu cầu.');
+            }
+        });
         }
         function ShowLog(id) {
             loadModal('Lịch sử bài viết', '@Url.Action("ShowLog")', myModal, { Id: id})

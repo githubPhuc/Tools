@@ -36,6 +36,7 @@ namespace ToolsApp.Controllers
                 .Include(bv => bv.NhomBaiViet)
                 .Include(bv => bv.HinhAnhBaiViets)
                 .Include(bv => bv.User)
+                .Where(a => a.trangThai == true)
                 .Include(bv => bv.KetCau).AsQueryable();
 
             if (idNhomBaiViet != null)
@@ -121,7 +122,11 @@ namespace ToolsApp.Controllers
             }
 
             query = query.AsNoTracking().OrderByDescending(a => a.id);
+            var tyGia = db_.Configs.Where(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true).ToList();
+            var nhomBaiViet = db_.NhomBaiViets.Where(a => a.trangThai == true).ToList();
 
+            ViewBag.tyGia = tyGia;
+            ViewBag.nhomBaiViet = nhomBaiViet;
             var recordsTotal = query.Count();
             var totalPages = (int)Math.Ceiling((double)recordsTotal / itemPerPage);
 
@@ -295,23 +300,34 @@ namespace ToolsApp.Controllers
             DateTime currentDate = DateTime.Now.Date;
             DateTime threeDaysAgo = currentDate.AddDays(-2);
             var logData = db_.LogHistorys
-                .Where(a => a.IdBaiViet == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate)
-                .OrderByDescending(a => a.ngayTao)
-                .ThenByDescending(a => a.Id)
-                 .Select(a => new LogHistoryViewModel
-                 {
-                     Id = a.Id,
-                     idUser = a.idUser,
-                     moTa = a.moTa,
-                     hoVaTen = User.hoVaTen,
-                     tenTaiKhoan = User.tenTaiKhoan,
-                     moTaChiTiet = a.moTaChiTiet,
-                     ngayTao = a.ngayTao,
-                     nguoiTao = a.nguoiTao,
-                     IdBaiViet = a.IdBaiViet,
-                     ipUserHostAddress = a.ipUserHostAddress
-                 })
-                .ToList();
+        .Join(
+            db_.Users,
+            log => log.idUser,
+            user => user.Id,
+            (log, user) => new
+            {
+                Log = log,
+                User = user
+            })
+        .Where(a => a.Log.IdBaiViet == id &&
+                    DbFunctions.TruncateTime(a.Log.ngayTao) >= threeDaysAgo &&
+                    DbFunctions.TruncateTime(a.Log.ngayTao) <= currentDate)
+            .OrderByDescending(a => a.Log.ngayTao)
+            .ThenByDescending(a => a.Log.Id)
+            .Select(a => new LogHistoryViewModel
+            {
+                Id = a.Log.Id,
+                idUser = a.Log.idUser,
+                moTa = a.Log.moTa,
+                hoVaTen = a.User.hoVaTen,
+                tenTaiKhoan = a.User.tenTaiKhoan,
+                moTaChiTiet = a.Log.moTaChiTiet,
+                ngayTao = a.Log.ngayTao,
+                nguoiTao = a.Log.nguoiTao,
+                IdBaiViet = a.Log.IdBaiViet,
+                ipUserHostAddress = a.Log.ipUserHostAddress
+            })
+            .ToList();
 
             if (logData.Count == 0)
             {
@@ -338,28 +354,6 @@ namespace ToolsApp.Controllers
                 ipUserHostAddress = userIpAddress,
                 ngayTao = DateTime.Now,
                 moTa = "Click lấy số nhà",
-                moTaChiTiet = $"Người dùng ${User.tenTaiKhoan} click vào lấy số nhà vào lúc {DateTime.Now}",
-                hieuLuc = true,
-                IdBaiViet = id
-            };
-            db_.LogHistorys.Add(log);
-            db_.SaveChanges();
-            return Json(new { success = true});
-        }
-        [HttpPost]
-        public JsonResult getPhoneNumber(int id)
-        {
-            string userIpAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(userIpAddress))
-            {
-                userIpAddress = Request.ServerVariables["REMOTE_ADDR"];
-            }
-            var log = new LogHistory
-            {
-                idUser = User.UserId,
-                ipUserHostAddress = userIpAddress,
-                ngayTao = DateTime.Now,
-                moTa = "Click lấy số chủ nhà",
                 moTaChiTiet = $"Người dùng ${User.tenTaiKhoan} click vào lấy số nhà vào lúc {DateTime.Now}",
                 hieuLuc = true,
                 IdBaiViet = id

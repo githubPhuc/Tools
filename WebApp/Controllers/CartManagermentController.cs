@@ -158,7 +158,11 @@ namespace ToolsApp.Controllers
             var nhomBaiViets = db_.NhomBaiViets.Where(a => a.trangThai == true).ToList();
             var ketCaus = db_.KetCaus.Where(a => a.trangThai == true).ToList();
             var tyGia = db_.Configs.Where(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true).ToList();
-            var IdTinhTrang = db_.Configs.FirstOrDefault(a => a.parentId == 16 && a.xacNhanXoa == false).Id;
+            var IdTinhTrang = db_.Configs.Where(a => a.parentId == 16 && a.xacNhanXoa == false)
+                                 .OrderBy(a => a.Id)
+                                 .Skip(1)
+                                 .FirstOrDefault()
+                                 ?.Id;
             ViewBag.tyGia = tyGia;
             ViewBag.ketCaus = ketCaus;
             ViewBag.nhomBaiViets = nhomBaiViets;
@@ -560,23 +564,34 @@ namespace ToolsApp.Controllers
             DateTime currentDate = DateTime.Now.Date;
             DateTime threeDaysAgo = currentDate.AddDays(-2);
             var logData = db_.LogHistorys
-                .Where(a => a.IdBaiViet == id && DbFunctions.TruncateTime(a.ngayTao) >= threeDaysAgo && DbFunctions.TruncateTime(a.ngayTao) <= currentDate)
-                .OrderByDescending(a => a.ngayTao)
-                .ThenByDescending(a => a.Id)
-                 .Select(a => new LogHistoryViewModel
-                 {
-                     Id = a.Id,
-                     idUser = a.idUser,
-                     moTa = a.moTa,
-                     hoVaTen = User.hoVaTen,
-                     tenTaiKhoan = User.tenTaiKhoan,
-                     moTaChiTiet = a.moTaChiTiet,
-                     ngayTao = a.ngayTao,
-                     nguoiTao = a.nguoiTao,
-                     IdBaiViet = a.IdBaiViet,
-                     ipUserHostAddress = a.ipUserHostAddress
-                 })
-                .ToList();
+        .Join(
+            db_.Users,
+            log => log.idUser,
+            user => user.Id,
+            (log, user) => new
+            {
+                Log = log,
+                User = user
+            })
+        .Where(a => a.Log.IdBaiViet == id &&
+                    DbFunctions.TruncateTime(a.Log.ngayTao) >= threeDaysAgo &&
+                    DbFunctions.TruncateTime(a.Log.ngayTao) <= currentDate)
+            .OrderByDescending(a => a.Log.ngayTao)
+            .ThenByDescending(a => a.Log.Id)
+            .Select(a => new LogHistoryViewModel
+            {
+                Id = a.Log.Id,
+                idUser = a.Log.idUser,
+                moTa = a.Log.moTa,
+                hoVaTen = a.User.hoVaTen,
+                tenTaiKhoan = a.User.tenTaiKhoan,
+                moTaChiTiet = a.Log.moTaChiTiet,
+                ngayTao = a.Log.ngayTao,
+                nguoiTao = a.Log.nguoiTao,
+                IdBaiViet = a.Log.IdBaiViet,
+                ipUserHostAddress = a.Log.ipUserHostAddress
+            })
+            .ToList();
 
             if (logData.Count == 0)
             {

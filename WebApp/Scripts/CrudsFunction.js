@@ -1,5 +1,8 @@
 ﻿//Convert html to text 
 function htmlToText(html) {
+    if (html === null || html === undefined) {
+        notify("Vui lòng thiết lập chữ ký trước")
+    }
     html = html.replace(/\n/g, "");
     html = html.replace(/\t/g, "");
     html = html.replace(/<\/td>/g, "\t");
@@ -11,6 +14,11 @@ function htmlToText(html) {
     html = html.replace(/<br>/g, "\n"); html = html.replace(/<br( )*\/>/g, "\n");
     var dom = (new DOMParser()).parseFromString('<!doctype html><body>' + html, 'text/html');
     return dom.body.textContent;
+}
+//bo so nha
+function removeHouseNumber(address) {
+    address = address.trim();
+    return address.replace(/^\d+[\d\/]*\s*/, '').trim();
 }
 //Copy to clipboard
 function copyToClipboard(text) {

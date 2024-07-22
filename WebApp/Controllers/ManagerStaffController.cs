@@ -113,6 +113,12 @@ namespace ToolsApp.Controllers
         }
         public JsonResult _ChangeRoleFun(int Id, int capDoTaiKhoan)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var user = db_.Users.FirstOrDefault(a => a.Id == Id);
             if (user == null)
             {
@@ -126,6 +132,12 @@ namespace ToolsApp.Controllers
         }
         public JsonResult _Lock_User(int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5 )
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var user = db_.Users.FirstOrDefault(p => p.Id == Id);
             if (user == null)
             {
@@ -140,6 +152,12 @@ namespace ToolsApp.Controllers
         }
         public JsonResult _UnLock_User(int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var user = db_.Users.FirstOrDefault(p => p.Id == Id);
             if (user == null)
             {
@@ -154,6 +172,12 @@ namespace ToolsApp.Controllers
         }
         public JsonResult _Delete(int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var user = db_.Users.FirstOrDefault(p => p.Id == Id);
             if (user == null)
             {
@@ -166,50 +190,7 @@ namespace ToolsApp.Controllers
             db_.SaveChanges();
             return Json(new { status = 1, title = "", text = "Xóa người dùng thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult EditUser(RegisterViewModel model, int Id)
-        {
-            var item = db_.Users.FirstOrDefault(p => p.Id == Id);
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (string.IsNullOrEmpty(model.hoVaTen))
-                    {
-                        return Json(new { status = -1, title = "", text = "Chưa nhập Họ và tên.", obj = "" }, JsonRequestBehavior.AllowGet);
-
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(model.email.Trim()))
-                        {
-                            return Json(new { status = -1, title = "", text = "Email không được để trống.", obj = "" }, JsonRequestBehavior.AllowGet);
-
-                        }
-
-                    }
-                    item.hoVaTen = model.hoVaTen;
-                    item.tenTaiKhoan = model.tenTaiKhoan;
-                    item.email = model.email;
-                    item.soDienThoai = model.soDienThoai;
-                    item.ngayCapNhat = DateTime.Now;
-                    item.nguoiCapNhat = User.UserId;
-                    db_.Entry(item).State = EntityState.Modified;
-                    db_.SaveChanges();
-                    return Json(new { status = 1, title = "", text = "Cập nhật thành công.", obj = "" }, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { status = -1, title = "", text = ex.Message, obj = "" }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            else
-            {
-                return Json(new { status = -1, title = "", text = "Error: " + UtilsLocal.ModelStateError(ModelState), obj = "" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-    
-
+       
     }
 
 }

@@ -664,6 +664,7 @@
 
             return parseFloat(value.toFixed(10));
         }
+
     function Share(idBaiViet) {
           $.ajax({
             url: '@Url.Action("Share")',
@@ -674,7 +675,7 @@
                     var res = response.data;
                     var giaBan = formatDecimal(res.gia)
                     var context = `- ${res.nhomBaiViet} đường ${res.viTri}, giá ${giaBan} ${res.donVi}\n`
-                        + `- Vị trí: ${res.viTri} đường ${res.diaChi}\n`
+                        + `- Vị trí: ${res.viTri} đường ${removeHouseNumber(res.diaChi)}\n`
                         + `- Diện tích: ${res.dienTich.chieuNgang}m x ${res.dienTich.chieuDai}m\n`
                         + `- Kết cấu: ${res.ketCau}\n`
                         + `- Giá: ${res.gia} ${res.donVi}\n`

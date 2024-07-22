@@ -4,7 +4,8 @@
     var data = ViewBag.danhSachBaiViet as List<ToolsApp.EntityFramework.BaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
     var tinhTrangs = ViewBag.tinhTrang as List<ToolsApp.EntityFramework.Config>;
-
+    var tyGia = ViewBag.tyGia as List<ToolsApp.EntityFramework.Config>;
+    var nhomBaiViet = ViewBag.nhomBaiViet as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var idNhomBaiViet = ViewData["id"] != null ? ViewData["id"] : "null";
     var page = ViewBag.page != null ? ViewBag.page : 1;
     var totalPages = ViewBag.totalPages != null ? ViewBag.totalPages : 1;
@@ -82,7 +83,6 @@
         </tr>
     </thead>
     <tbody>
-        @{ var STT = 1; }
         @{
             if (data != null)
             {
@@ -90,8 +90,8 @@
                 {
 
                     <tr>
-                        <td>
-                            @item.id
+                         <td>
+                                    @($"{100000 + item.id}")
                         </td>
 
                         <td>
@@ -139,8 +139,6 @@
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
-                                    <a class="showPhoneNumber" data-id="@item.id" href="javascript:void(0);">Lấy số </a>
-                                    <span class="displayValue displayN">@(item.sdtKh != null ? item.sdtKh : "")</span>
                                 </div>
                                 <div class="editable" data-id="@item.id">
                                     <i class="fas fa-mail-bulk"></i>
@@ -180,18 +178,18 @@
                         <td>
                             <div class="">
                                 <div class="editable" data-id="@item.id">
-                                    @if (item.idNhomBaiViet == 1 || item.idNhomBaiViet == 3)
-                                    {
-                                        <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
-                                        <span class="text-success font-weight-bold">tỷ</span>
+                                    @{
+                                        var idTyGia = nhomBaiViet.FirstOrDefault(a => a.id == item.idNhomBaiViet).idTyGia;
+                                        var donvi = tyGia.FirstOrDefault(a => a.Id == idTyGia).MoTa;
                                     }
-                                    else
-                                    {
 
-                                        <span class="displayValue text-success font-weight-bold">@item.giaBan</span>
-                                        <span class="text-success font-weight-bold">triệu</span>
-                                    }
+                                    <span class="displayValue text-success font-weight-bold">@item.giaBan </span>
+                                    <input type="text" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="giaBan" name="giaBan" value="@item.giaBan" class="quickEditGetList displayN" />
+
+                                    <span class="text-success font-weight-bold">@donvi</span>
+
                                 </div>
+
                             </div>
                             <hr />
                             <div class="editable" data-id="@item.id">
@@ -201,63 +199,73 @@
                         </td>
                         <td>
                             <div class="d-flex flex-column">
-                                <div class="d-flex justify-content-around flex-wrap">
-                                    <div class="editable" data-id="@item.id">
+                                <div class="row">
+                                    <div class="editable col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
                                         <span class="displayValue">@item.chieuNgang</span>
                                         <span>m</span>
 
                                     </div>
-                                    <div class="editable" data-id="@item.id">
+                                    <div class="editable col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-up-down"></i>
                                         <span class="displayValue">@item.chieuDai</span>
-                                        <span>m</span>
+                                       <span>m</span>
 
                                     </div>
-                                    <div class="">
-                                        <div class="editable d-inline" data-id="@item.id">
+                                    <div class="col-md-3">
+                                        <div class="editable d-inline " data-id="@item.id">
                                             <i class="fa-solid fa-compass"></i>
                                             <span class="displayValue"> @item.huong</span>
+                                            
                                         </div>
 
                                     </div>
-                                    <div class="">
+                                    <div class="col-md-3">
 
                                         @if (item.KetCau != null)
                                         {
 
-                                            <div class="editable d-inline" data-id="@item.id">
+                                            <div class="editable" data-id="@item.id">
                                                 <i class="fa-solid fa-city"></i>
                                                 <span class="displayValue"> @item.KetCau.tenKetCau</span>
+                                               
                                             </div>
-                                            <div class="editable" data-id="@item.id">
-                                                <i class="fa-solid fa-building"></i>
-                                                <i class="displayValue">@item.motaKetCau</i> -
-                                                <span>Số phòng</span> :<span>1-2 phòng</span>
-                                            </div>
+
                                         }
                                     </div>
+                                </div>
+                                <div class="d-flex justify-content-center flex-wrap">
+                                    <span class="editable" data-id="@item.id">
+                                        <i class="fa-solid fa-building"></i>
+                                        <span>Mô tả</span> -
+                                        <i class="displayValue">@item.motaKetCau</i>
+                                    </span>
+                                    <span class="editable" data-id="@item.id">
+                                        <i class="fa-solid fa-industry"></i>
+                                        <span>Số phòng</span>
+                                        <i class="displayValue">@item.soPhong</i>
+                                    </span>
                                 </div>
                                 <div class="d-flex justify-content-around mt-1">
                                     <div class="editable" data-id="@item.id">
                                         <span>DT đất:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichDat  m<sup>2</sup>
+                                            @item.dienTichDat
                                         </i>
+                                     
                                     </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT sử dụng:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichSuDung  m<sup>2</sup>
+                                            @item.dienTichSuDung
                                         </i>
-                                    </div>
+                                      </div>
                                     <div class="editable" data-id="@item.id">
                                         <span>DT xây dựng:</span>
                                         <i class="font-weight-bold displayValue">
-                                            @item.dienTichSuDung  m<sup>2</sup>
-                                           
+                                            @item.dienTichXayDung
                                         </i>
-                                    </div>
+                                     /div>
                                 </div>
                             </div>
                         </td>
@@ -279,7 +287,6 @@
                         </td>
                     </tr>
 
-                    STT++;
                 }
             }
 
@@ -367,23 +374,7 @@
                 parent.find('.displayValue').text("Chưa có địa chỉ");
             }
             });
-          $(document).on('click', '.showPhoneNumber', function () {
-            var parent = $(this).closest('.editable');
-            var displayValue = parent.find('.displayValue');
-            var idBaiViet = $(this).data('id');
-            $.ajax({
-                    url: '@Url.Action("getPhoneNumber")',
-                    type: 'POST',
-                    data: { id: idBaiViet},
-                    success: function (data) {
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Failed to clear session:', error);
-                    }
-            });
-              $(this).hide()
-              displayValue.show()
-        });
+ 
         //chinh sửa nhanh
         $('.call-button').on('click', function () {
             $(this).closest('.call-container').find('.call-confirm').toggle();
