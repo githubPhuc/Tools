@@ -680,7 +680,15 @@
                         + `- Giá: ${res.gia} ${res.donVi}\n`
                         + `${htmlToText(res.chuKy)}`;
                     console.log(context)
-                    copyToClipboard(context);
+                    const textarea = document.createElement('textarea');
+                    textarea.value = context;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+
+                    alert('Đã sao chép nội dung chia sẻ vào clipboard');
+                    
                 } else {
                     console.error("Failed to retrieve data: " + response.message);
                 }

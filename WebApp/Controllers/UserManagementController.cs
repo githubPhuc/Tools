@@ -29,10 +29,14 @@ namespace ToolsApp.Areas.Admin.Controllers
         {
             UsernameSearch = UsernameSearch?.Trim();
             EmailSearch = EmailSearch?.Trim();
+              
             var List = db_.Users.Where(p =>
             (UsernameSearch == "" || UsernameSearch == null || p.tenTaiKhoan.ToUpper().Contains(UsernameSearch.ToUpper())) &&
             (EmailSearch == "" || EmailSearch == null || p.email.ToUpper().Contains(EmailSearch.ToUpper()))).ToList();
-            var lst = List.Select(p => p.tenTaiKhoan).ToList();
+            if (User.tenTaiKhoan.ToUpper() != "admin".ToUpper())
+            {
+                List = List.Where(a=>a.tenTaiKhoan != "admin").ToList();
+            }
             ViewBag.List = List;
             return PartialView(new UserViewModel());
         }
@@ -42,11 +46,15 @@ namespace ToolsApp.Areas.Admin.Controllers
             ViewBag.dataAccountType = dataAccountType;
             return PartialView();
         }
-        public ActionResult _Edit(int Id)
+        public ActionResult _Edit(int id)
         {
-            var model = db_.Users.FirstOrDefault(p => p.Id == Id);
+            var model = db_.Users.FirstOrDefault(p => p.Id == id);
             #region Load page
             var pages = db_.Pages.ToList();
+            if(User.tenTaiKhoan != "admin")
+            {
+                pages = pages.Where(a=>a.Id!=2 && a.Id!=1 ).ToList();
+            }    
             ViewBag.pages = pages;
             #endregion                                    
 
@@ -64,6 +72,7 @@ namespace ToolsApp.Areas.Admin.Controllers
 
             try
             {
+                
                 if (string.IsNullOrEmpty(tenTaiKhoan))
                 {
                     return Json(new { status = -1, title = "", text = "Tên tài khoản không được để trống", obj = "" }, JsonRequestBehavior.AllowGet);
@@ -84,6 +93,7 @@ namespace ToolsApp.Areas.Admin.Controllers
                     return Json(new { status = -1, title = "", text = "Vui lòng chọn loại tài khoản", obj = "" }, JsonRequestBehavior.AllowGet);
                 }
                 var checkUser = db_.Users.Where(a => a.tenTaiKhoan == tenTaiKhoan).FirstOrDefault();
+                matKhau =  ToolsApp.Utilities.UtilsLocal.mahoaS(matKhau);
                 if (checkUser != null)
                 {
                     return Json(new { status = -1, title = "", text = "Tên tài khoản đã tồn tại!!", obj = "" }, JsonRequestBehavior.AllowGet);
@@ -242,6 +252,7 @@ namespace ToolsApp.Areas.Admin.Controllers
                 }
                 else
                 {
+                    model.matKhau = ToolsApp.Utilities.UtilsLocal.mahoaS(model.matKhau);
                     item.matKhau = model.matKhau;
                     db_.Entry(item).State = EntityState.Modified;
                     db_.SaveChanges();

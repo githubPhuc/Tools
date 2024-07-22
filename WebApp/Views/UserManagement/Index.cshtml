@@ -224,14 +224,11 @@
             $("#btnSaveChangePassword").click(function () {
                  var formData = {
                      Id: $("#Id").val(),
-                     matKhauMoi: $("#matKhauMoi").val().trim(),
-                     xacNhanMatKhauMoi: $("#xacNhanMatKhauMoi").val().trim(),
+                     matKhau: $("#matKhauMoi").val().trim()
                 }
-                if (formData.matKhauMoi.length <= 6) {
-                    notify('Mật khẩu phải lớn hơn 6 ký tự.');
-                    return;
-                } else if (matKhauMoi !== xacNhanMatKhauMoi) {
-                    notify('Xác nhận mật khẩu không khớp với mật khẩu.');
+                console.log(formData);
+                if (formData.matKhau.length < 3) {
+                    notify('Mật khẩu phải lớn hơn 3 ký tự.');
                     return;
                 }
                  Action('@Url.Action("_ChangePasswordFun")', 'POST', formData, paramsLoadData)
