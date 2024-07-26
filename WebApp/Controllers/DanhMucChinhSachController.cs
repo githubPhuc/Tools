@@ -46,6 +46,7 @@ namespace ToolsApp.Controllers
                            trangThai =a.trangThai,
                            xacNhanXoa=a.xacNhanXoa,
                        }).ToListAsync();
+            ViewBag.User = await users.Where(a => a.tenTaiKhoan == User.tenTaiKhoan).FirstOrDefaultAsync();
             ViewBag.data = data;
             return PartialView();
         }

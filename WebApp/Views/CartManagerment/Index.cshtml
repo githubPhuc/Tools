@@ -165,18 +165,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2 border-left">
-                                            <label for="dienTichSearch">Chiều dài</label>
-                                            <div class="d-flex">
-
-                                                <div class="form-group">
-                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiTu" name="ChieuDaiTu" placeholder="Từ">
-                                                </div>
-                                                <div class="form-group ml-1">
-                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiDen" name="ChieuDaiDen" placeholder="Đến">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 border-left">
                                             <label for="dienTichSearch">Chiều ngang</label>
                                             <div class="d-flex">
 
@@ -188,6 +176,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-2 border-left">
+                                            <label for="dienTichSearch">Chiều dài</label>
+                                            <div class="d-flex">
+
+                                                <div class="form-group">
+                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiTu" name="ChieuDaiTu" placeholder="Từ">
+                                                </div>
+                                                <div class="form-group ml-1">
+                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiDen" name="ChieuDaiDen" placeholder="Đến">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-4 border-left">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -272,7 +273,7 @@
                     <div class="card-body pad">
                         <div class="row">
                             <div class="col-md-4">
-                                <a target="_blank" href="@Url.Action("Insert")" id="btnAdd" class="btn bg-gradient-success">
+                                <a href="#" id="btnAdd" class="btn bg-gradient-success">
                                     <i class="fa fa-plus"></i>&nbsp;Thêm
                                 </a>
                             </div>
@@ -397,24 +398,23 @@
             }
             $('#btnAdd').click(function (e) {
                 e.preventDefault();
+                var redirectUrl = '@Url.Action("Insert")';
+
+                // Perform the AJAX request
                 $.ajax({
                     url: '@Url.Action("ClearSession")',
                     type: 'POST',
                     success: function (data) {
                         console.log('Session cleared successfully');
-                        window.location.href = '@Url.Action("Insert")';
+                        // Open the URL in a new tab
+                        window.open(redirectUrl, '_blank');
                     },
                     error: function (xhr, status, error) {
-                        // Xử lý khi gọi AJAX thất bại (nếu cần)
                         console.error('Failed to clear session:', error);
                     }
                 });
-            })
+            });
         })
-    </script>
-    <script>
-
-
         var myModal = {
             $modal: $('#myModal'),
             $myModalContent: $("#myModalContent"),
@@ -609,9 +609,8 @@
             success: function (response) {
                 if (response.success) {
                     notify("Xóa thành công", "success")
-                    loadData(...paramsLoadData)
+                        loadList(null,1)
                 }
-
             },
             error: function (error) {
                 alert('Error saving note');

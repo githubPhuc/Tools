@@ -17,9 +17,22 @@
 
 /*Sidebar css*/
 .layout-fixed .main-sidebar {
-    width: 280px;
+
     scroll-margin-left: 16px;
     background-color: #edf2f9;
+}
+
+@media (max-width: 768px) {
+    .sidebar-collapse .main-sidebar, .sidebar-collapse .main-sidebar::before {
+        margin-left: -250px;
+    }
+    .content-wrapper {
+        margin-left: 0 !important;
+    }
+    .dataTable-custom tr {
+        text-align: center;
+    }
+
 }
 .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused, .sidebar-mini.sidebar-collapse .main-sidebar:hover {
     width: 280px;
@@ -74,9 +87,9 @@
 }
 /*legend header*/
 /*content body css*/
-.content-wrapper {
-    margin-left:280px !important;
-}
+/*.content-wrapper {
+    margin-left:124px !important;
+}*/
 html.loading {
     background: #333 url(images/ajax-load.gif) no-repeat 50% 50%;
     -webkit-transition: background-color 0;

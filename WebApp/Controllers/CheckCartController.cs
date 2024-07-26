@@ -138,7 +138,25 @@ namespace ToolsApp.Controllers
 
             return PartialView();
         }
-
+        public ActionResult Detail(int id)
+        {
+            var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
+            if (baiViet == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy bài viết" });
+            }
+            var hinhAnhList = db_.HinhAnhBaiViets
+                 .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+                 .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+                 .ToList();
+            var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+            {
+                Id = hbv.id,
+                UrlPath = Url.Content(hbv.urlPath).Replace("~", Request.Url.Scheme + "://" + Request.Url.Authority)
+            }).ToList();
+            ViewBag.urlPaths = urlPaths;
+            return View(baiViet);
+        }
         [HttpPost]
         public JsonResult ShowImages(int id)
         {
@@ -221,10 +239,10 @@ namespace ToolsApp.Controllers
             }
 
             var loaiBaiDang = db_.NhomBaiViets
-                .Where(b => b.id == baiViet.idNhomBaiViet)
-                .Select(b => b.tenNhom)
-                .FirstOrDefault();
-
+           .Where(b => b.id == baiViet.idNhomBaiViet)
+           .Select(b => new { b.idTyGia, b.tenNhom })
+           .FirstOrDefault();
+            var tyGia = db_.Configs.FirstOrDefault(a => a.parentId == 21 && a.xacNhanXoa == false && a.hieuLuc == true && a.Id == loaiBaiDang.idTyGia).MoTa;
             var userId = User.UserId;
             var chuKy = db_.Users
                 .Where(a => a.Id == userId)
@@ -232,29 +250,25 @@ namespace ToolsApp.Controllers
                 .FirstOrDefault();
             LogHistory log = new LogHistory
             {
+                IdBaiViet = Id,
                 idUser = User.UserId,
                 nguoiTao = User.UserId,
                 moTa = "Đã chọn chia sẽ bài ",
-                moTaChiTiet = $"Người dùng đã thực hiện hành động chia sẽ bài viết ${baiViet.diaChiTaiSan} vào lúc",
+                moTaChiTiet = $"Người dùng {User.tenTaiKhoan} đã thực hiện hành động chia sẽ bài viết {baiViet.diaChiTaiSan} vào lúc",
                 ngayTao = DateTime.Now
             };
             db_.LogHistorys.Add(log);
             db_.SaveChanges();
             var viTri = (bool)baiViet.viTri ? "Mặt tiền" : "Hẻm";
-            var donVi = "tỷ";
-            if (loaiBaiDang == "Nhà cho thuê" || loaiBaiDang == "Nhà cho thuê")
-            {
-                donVi = "triệu";
-            }
             return Json(new
             {
                 success = true,
                 data = new
                 {
-                    nhomBaiViet = loaiBaiDang,
-                    donVi = donVi,
+                    nhomBaiViet = loaiBaiDang.tenNhom,
+                    donVi = tyGia,
                     gia = baiViet.giaBan,
-                    ketCau = baiViet.motaKetCau,
+                    ketCau = baiViet.KetCau.tenKetCau,
                     dienTich = new { chieuNgang = baiViet.chieuNgang, chieuDai = baiViet.chieuDai },
                     viTri = viTri,
                     diaChi = baiViet.diaChiTaiSan,

@@ -8,6 +8,9 @@ using ToolsApp.Authentication;
 using ToolsApp.EntityFramework;
 using ToolsApp.Models;
 using System.IO;
+using System.Threading.Tasks;
+using FluentFTP;
+using System.Net;
 
 namespace ToolsApp.Controllers
 {
@@ -326,7 +329,7 @@ namespace ToolsApp.Controllers
                     nhomBaiViet = loaiBaiDang.tenNhom,
                     donVi = tyGia,
                     gia = baiViet.giaBan,
-                    ketCau = baiViet.motaKetCau,
+                    ketCau = baiViet.KetCau.tenKetCau,
                     dienTich = new { chieuNgang = baiViet.chieuNgang, chieuDai = baiViet.chieuDai },
                     viTri = viTri,
                     diaChi = baiViet.diaChiTaiSan,
@@ -334,7 +337,25 @@ namespace ToolsApp.Controllers
                 }
             });
         }
-
+        public ActionResult Detail(int id)
+        {
+            var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
+            if (baiViet == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy bài viết" });
+            }
+            var hinhAnhList = db_.HinhAnhBaiViets
+                 .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+                 .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+                 .ToList();
+            var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+            {
+                Id = hbv.id,
+                UrlPath = Url.Content(hbv.urlPath).Replace("~", Request.Url.Scheme + "://" + Request.Url.Authority)
+            }).ToList();
+            ViewBag.urlPaths = urlPaths;
+            return View(baiViet);
+        }
         [HttpPost]
         public JsonResult QuickUpdateBaiViet(FormCollection form, int id)
         {
@@ -410,8 +431,216 @@ namespace ToolsApp.Controllers
             Session.Remove("CurrentBaiViet");
             return Json(new { success = true });
         }
+        // Action để tìm và hiển thị bài viết
+        public ActionResult ProcessImageFolders()
+        {
+            // Đường dẫn tới thư mục chứa các thư mục con với hình ảnh
+            string rootFolderPath = @"C:\Users\PC\Downloads\moigioibds";
+
+            // Lấy danh sách các thư mục con
+            string[] folderPaths = Directory.GetDirectories(rootFolderPath);
+            var folderNames = folderPaths.Select(Path.GetFileName).ToList();
+
+            // Lấy danh sách bài viết từ cơ sở dữ liệu
+            var baiViets = db_.BaiViets.ToList();
+
+            foreach (var baiViet in baiViets)
+            {
+                if (folderNames.Contains(baiViet.tenBaiViet))
+                {
+                    // Đường dẫn tới thư mục của bài viết hiện tại
+                    string folderPath = Path.Combine(rootFolderPath, baiViet.tenBaiViet);
+                    if (Directory.Exists(folderPath))
+                    {
+                        // Lấy tất cả các tập tin hình ảnh trong thư mục
+                        string[] filePaths = Directory.GetFiles(folderPath);
+
+                        foreach (var filePath in filePaths)
+                        {
+                            var fileName = Path.GetFileName(filePath);
+                            var uploadsPath = Server.MapPath("~/Uploads/Realestate");
+                            var destinationPath = Path.Combine(uploadsPath, fileName);
+
+                            if (!Directory.Exists(uploadsPath))
+                            {
+                                Directory.CreateDirectory(uploadsPath);
+                            }
+
+                            // Sao chép tập tin từ thư mục gốc vào thư mục đích
+                            System.IO.File.Copy(filePath, destinationPath, true);
+
+                            var relativePath = $"~/Uploads/Realestate/{fileName}";
+
+                            var hinhAnh = new HinhAnh
+                            {
+                                urlPath = relativePath,
+                                ngayTao = DateTime.Now,
+                                nguoiTao = User.UserId,
+                                nguoiCapNhat = User.UserId,
+                                ngayCapNhat = DateTime.Now,
+                                trangThai = true
+                            };
+
+                            db_.HinhAnhs.Add(hinhAnh);
+                            db_.SaveChanges();
+
+                            var hinhAnhBaiViet = new HinhAnhBaiViet
+                            {
+                                idBaiViet = baiViet.id,
+                                idHinhAnh = hinhAnh.id,
+                                trangThai = true,
+                                ngayTao = DateTime.Now,
+                                nguoiTao = User.UserId,
+                                nguoiCapNhat = User.UserId,
+                                ngayCapNhat = DateTime.Now,
+                            };
+                            db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
+                            db_.SaveChanges();
+                        }
+                    }
+                }
+            }
+
+            return Json(new { success = true });
+        }
+
+        //[HttpPost]
+        //    public async Task<ActionResult>  AddFilesToBaiViet(IEnumerable<HttpPostedFileBase> files, int id)
+        //    {
+        //        if (files != null)
+        //        {
+        //            foreach (var file in files)
+        //            {
+        //                if (file != null && file.ContentLength > 0)
+        //                {
+
+        //                    var uploadsPath = Server.MapPath("~/Uploads/Realestate");
+        //                    var fileName = Path.GetFileName(file.FileName);
+        //                    var filePath = Path.Combine(uploadsPath, fileName);
+        //                    if (!Directory.Exists(uploadsPath))
+        //                    {
+        //                        Directory.CreateDirectory(uploadsPath);
+        //                    }
+
+        //                    file.SaveAs(filePath);
+        //                    var relativePath = $"~/Uploads/Realestate/{fileName}";
+
+        //                    var hinhAnh = new HinhAnh
+        //                    {
+        //                        urlPath = relativePath,
+        //                        ngayTao = DateTime.Now,
+        //                        nguoiTao = User.UserId,
+        //                        nguoiCapNhat = User.UserId,
+        //                        ngayCapNhat = DateTime.Now,
+        //                        trangThai = true
+        //                    };
+
+        //                    db_.HinhAnhs.Add(hinhAnh);
+        //                    db_.SaveChanges();
+
+        //                    var hinhAnhBaiViet = new HinhAnhBaiViet
+        //                    {
+        //                        idBaiViet = id,
+        //                        idHinhAnh = hinhAnh.id,
+        //                        trangThai = true,
+        //                        ngayTao = DateTime.Now,
+        //                        nguoiTao = User.UserId,
+        //                        nguoiCapNhat = User.UserId,
+        //                        ngayCapNhat = DateTime.Now,
+        //                    };
+        //                    db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
+        //                    db_.SaveChanges();
+        //                }
+        //            }
+        //        }
+
+        //        return Json(new { success = true });
+        //    }
+
+        //[HttpPost]
+        //public JsonResult RemoveImage(int Id)
+        //{
+        //    using (var transaction = db_.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            var hinhAnhBaiViet = db_.HinhAnhBaiViets.FirstOrDefault(a => a.id == Id);
+        //            if (hinhAnhBaiViet != null)
+        //            {
+        //                var idHinhAnh = hinhAnhBaiViet.idHinhAnh;
+        //                var hinhAnh = db_.HinhAnhs.FirstOrDefault(c => c.id == idHinhAnh);
+        //                var path = hinhAnh.urlPath;
+        //                db_.HinhAnhBaiViets.Remove(hinhAnhBaiViet);
+        //                if (hinhAnh != null)
+        //                {
+        //                    db_.HinhAnhs.Remove(hinhAnh);
+        //                }
+        //                db_.SaveChanges();
+        //                transaction.Commit();
+
+        //                string ftpServer = "ftp://103.90.227.185/";
+        //                string username = "Administrator";
+        //                string password = "!!@@Admin@@!!";
+        //                string filePathOnServer = hinhAnh.urlPath.Replace("http://ftp.hadophat.cloud/", "");
+        //                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpServer + filePathOnServer);
+        //                request.Credentials = new NetworkCredential(username, password);
+        //                request.Method = WebRequestMethods.Ftp.DeleteFile;
+
+        //                // Send the FTP request
+        //                try
+        //                {
+        //                    using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+        //                    {
+        //                        return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." }, JsonRequestBehavior.AllowGet);
+        //                    }
+        //                }
+        //                catch (WebException ex)
+        //                {
+        //                    return Json(new { success = false, message = "Xảy ra lỗi khi xóa file: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                return Json(new { success = false, message = "Không tìm thấy hình ảnh." }, JsonRequestBehavior.AllowGet);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            transaction.Rollback();
+        //            return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message }, JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+
+        //}
+
+        //[HttpPost]
+        //public JsonResult ShowImages(int id)
+        //{
+        //    var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
+        //    var hinhAnhList = db_.HinhAnhBaiViets
+        //       .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+        //       .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+        //       .ToList();
+        //    var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+        //    {
+        //        Id = hbv.id,
+        //        UrlPath = Url.Content(hbv.urlPath)
+        //    }).ToList();
+        //    LogHistory log = new LogHistory
+        //    {
+        //        IdBaiViet = id,
+        //        idUser = User.UserId,
+        //        nguoiTao = User.UserId,
+        //        moTa = "Click xem hình ảnh ",
+        //        ngayTao = DateTime.Now
+        //    };
+        //    db_.LogHistorys.Add(log);
+        //    db_.SaveChanges();
+        //    return Json(new { success = true, response = urlPaths });
+        //}
         [HttpPost]
-        public ActionResult AddFilesToBaiViet(IEnumerable<HttpPostedFileBase> files, int id)
+        public async Task<ActionResult> AddFilesToBaiViet(IEnumerable<HttpPostedFileBase> files, int id)
         {
             if (files != null)
             {
@@ -419,48 +648,85 @@ namespace ToolsApp.Controllers
                 {
                     if (file != null && file.ContentLength > 0)
                     {
-                        var uploadsPath = Server.MapPath("~/Uploads/Realestate");
-                        var fileName = Path.GetFileName(file.FileName);
-                        var filePath = Path.Combine(uploadsPath, fileName);
-                        if (!Directory.Exists(uploadsPath))
+                        string uniqueFileName = Guid.NewGuid().ToString();
+                        string fileExtension = Path.GetExtension(file.FileName);
+                        string fileName = uniqueFileName + fileExtension;
+                        string remotePath = "Image/Realestate/";
+                        string url = "http://ftp.hadophat.cloud/Image/Realestate/" + fileName;
+
+
+                        string ftpServer = "103.90.227.185";
+                        string username = "Administrator";
+                        string password = "!!@@Admin@@!!";
+
+
+                        using (FtpClient client = new FtpClient(ftpServer, new System.Net.NetworkCredential(username, password)))
                         {
-                            Directory.CreateDirectory(uploadsPath);
+                            try
+                            {
+                                client.Connect();
+                                if (!client.DirectoryExists(remotePath))
+                                {
+                                    client.CreateDirectory(remotePath);
+                                }
+                                string tempFilePath = Path.GetTempFileName();
+                                using (FileStream tempFileStream = new FileStream(tempFilePath, FileMode.Create))
+                                {
+                                    file.InputStream.CopyTo(tempFileStream);
+                                }
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    file.InputStream.CopyTo(stream);
+                                    stream.Seek(0, SeekOrigin.Begin);
+                                    client.UploadFile(tempFilePath, remotePath + fileName);
+                                }
+                                var hinhAnh = new HinhAnh
+                                {
+                                    urlPath = url,
+                                    ngayTao = DateTime.Now,
+                                    nguoiTao = User.UserId,
+                                    nguoiCapNhat = User.UserId,
+                                    ngayCapNhat = DateTime.Now,
+                                    trangThai = true
+                                };
+
+                                db_.HinhAnhs.Add(hinhAnh);
+                                db_.SaveChanges();
+                                var hinhAnhBaiViet = new HinhAnhBaiViet
+                                {
+                                    idBaiViet = id,
+                                    idHinhAnh = hinhAnh.id,
+                                    trangThai = true,
+                                    ngayTao = DateTime.Now,
+                                    nguoiTao = User.UserId,
+                                    nguoiCapNhat = User.UserId,
+                                    ngayCapNhat = DateTime.Now,
+                                };
+                                db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
+                                db_.SaveChanges();
+                                return Json(new { success = true });
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                return Json(new
+                                {
+                                    status = -1,
+                                    Message = "File upload to FTP server failed: " + ex.Message
+                                });
+                            }
+                            finally
+                            {
+                                client.Disconnect();
+                            }
                         }
-
-                        file.SaveAs(filePath);
-                        var relativePath = $"~/Uploads/Realestate/{fileName}";
-
-                        var hinhAnh = new HinhAnh
-                        {
-                            urlPath = relativePath,
-                            ngayTao = DateTime.Now,
-                            nguoiTao = User.UserId,
-                            nguoiCapNhat = User.UserId,
-                            ngayCapNhat = DateTime.Now,
-                            trangThai = true
-                        };
-
-                        db_.HinhAnhs.Add(hinhAnh);
-                        db_.SaveChanges();
-
-                        var hinhAnhBaiViet = new HinhAnhBaiViet
-                        {
-                            idBaiViet = id,
-                            idHinhAnh = hinhAnh.id,
-                            trangThai = true,
-                            ngayTao = DateTime.Now,
-                            nguoiTao = User.UserId,
-                            nguoiCapNhat = User.UserId,
-                            ngayCapNhat = DateTime.Now,
-                        };
-                        db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
-                        db_.SaveChanges();
                     }
                 }
             }
 
             return Json(new { success = true });
         }
+
         [HttpPost]
         public JsonResult RemoveImage(int Id)
         {
@@ -482,20 +748,27 @@ namespace ToolsApp.Controllers
                         db_.SaveChanges();
                         transaction.Commit();
 
+                        string ftpServer = "ftp://103.90.227.185/";
+                        string username = "Administrator";
+                        string password = "!!@@Admin@@!!";
+                        string filePathOnServer = hinhAnh.urlPath.Replace("http://ftp.hadophat.cloud/", "");
+                        FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpServer + filePathOnServer);
+                        request.Credentials = new NetworkCredential(username, password);
+                        request.Method = WebRequestMethods.Ftp.DeleteFile;
+
+                        // Send the FTP request
                         try
                         {
-                            string absolutePath = System.Web.Hosting.HostingEnvironment.MapPath(path);
-                            if (System.IO.File.Exists(absolutePath))
+                            using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
                             {
-                                System.IO.File.Delete(absolutePath);
+                                return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." }, JsonRequestBehavior.AllowGet);
                             }
-
-                            return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." }, JsonRequestBehavior.AllowGet);
                         }
-                        catch (Exception ex)
+                        catch (WebException ex)
                         {
                             return Json(new { success = false, message = "Xảy ra lỗi khi xóa file: " + ex.Message }, JsonRequestBehavior.AllowGet);
                         }
+
                     }
                     else
                     {
@@ -510,22 +783,8 @@ namespace ToolsApp.Controllers
             }
 
         }
-        [HttpPost]
-        public JsonResult Delete(int id)
-        {
-            var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
-            if (baiViet != null)
-            {
-                baiViet.trangThai = false;
-                baiViet.ngayXoa = DateTime.Now;
-                baiViet.nguoiXoa = User.UserId;
-                baiViet.xacNhanXoa = true;
-            }
-            db_.Entry(baiViet).State = EntityState.Modified;
-            db_.SaveChanges();
-            return Json(new { success = true, message = "Đã xóa bài viết thành công" }, JsonRequestBehavior.AllowGet);
 
-        }
+
         [HttpPost]
         public JsonResult GetUpdatedValues(int id)
         {

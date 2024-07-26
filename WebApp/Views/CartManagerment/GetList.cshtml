@@ -82,7 +82,7 @@
                 Ghi chú
             </th>
             <th>Khách hàng</th>
-            <th>Tình trạng</th>
+            <th style="width:100px">Tình trạng</th>
             <th>Địa chỉ</th>
             <th style="width:200px">Giá bán</th>
             <th style="width:350px">Thông tin nhà</th>
@@ -204,7 +204,7 @@
 
                         </td>
                         <td>
-                            <div class="d-flex flex-column">
+                            <div class="">
                                 <div class="row">
                                     <div class="editable col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
@@ -220,24 +220,7 @@
                                         <span>m</span>
 
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="editable d-inline " data-id="@item.id">
-                                            <i class="fa-solid fa-compass"></i>
-                                            <span class="displayValue"> @item.huong</span>
-                                            <select class=" chosen-select quickEditGetList displayN quickSelect" id="huong" name="huong" aria-label=".form-select-md">
-                                                <option value="Bắc">Bắc</option>
-                                                <option value="Đông Bắc">Đông Bắc</option>
-                                                <option value="Đông">Đông</option>
-                                                <option value="Đông Nam">Đông Nam</option>
-                                                <option value="Nam">Nam</option>
-                                                <option value="Tây Nam">Tây Nam</option>
-                                                <option value="Tây">Tây</option>
-                                                <option value="Tây Bắc">Tây Bắc</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
 
                                         @if (item.KetCau != null)
                                         {
@@ -258,7 +241,7 @@
                                         }
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-center flex-wrap">
+                                @*<div class="d-flex justify-content-center flex-wrap">
                                     <span class="editable" data-id="@item.id">
                                         <i class="fa-solid fa-building"></i>
                                         <span>Mô tả</span> -
@@ -271,8 +254,8 @@
                                         <i class="displayValue">@item.soPhong</i>
                                         <input type="number" id="soPhong" min=1 step=1 onkeypress="return event.charCode != 45" name="soPhong" value="@item.soPhong" class="quickEditGetList displayN" />
                                     </span>
-                                </div>
-                                <div class="d-flex justify-content-around mt-1">
+                                </div>*@
+                                @*<div class="d-flex justify-content-around mt-1">
                                     <div class="editable" data-id="@item.id">
                                         <span>DT đất:</span>
                                         <i class="font-weight-bold displayValue">
@@ -295,13 +278,16 @@
                                         </i>
                                         <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" id="dienTichXayDung" name="dienTichXayDung" value="@item.dienTichXayDung" class="quickEditGetList displayN" /> m<sup>2</sup>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </td>
                         <td>
                             <div class="text-center d-flex flex-wrap">
                                 <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-info">
                                     <i class="fas fa-share"></i> Share
+                                </a>
+                                <a href='@Url.Action("Detail", new { id = item.id })' target="_blank" class="btn btn-custom btn-success">
+                                    <i class="fa-solid fa-circle-info"></i> Chi tiết
                                 </a>
                                 <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-primary">
                                     <i class="fas fa-image"></i> Ảnh

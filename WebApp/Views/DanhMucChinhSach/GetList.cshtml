@@ -2,9 +2,9 @@
 @{
     ViewBag.Title = "GetList";
     var data = ViewBag.data as List<ToolsApp.Models.ChinhSachModels>;
+    var User = ViewBag.User as ToolsApp.EntityFramework.User;
 }
 <style>
- 
 </style>
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
@@ -24,24 +24,30 @@
                 foreach (var item in data)
                 {
                     <tr>
-                                <td style="max-width:80px!important">
-                                     <a href="@Url.Action("View", new { id = item.id })" class="btn btn-info btn-custom">
-                                        <i class="far fa-eye"></i> Xem
-                                    </a>
-                                    <a onclick="Edit('@item.id')" class="btn btn-secondary  btn-custom">
-                                        <i class="fas fa-edit"></i> Sửa
-                                    </a>
+                        <td style="max-width:80px!important">
+                            <a href="@Url.Action("View", new { id = item.id })" class="btn btn-info btn-custom">
+                                <i class="far fa-eye"></i> Xem
+                            </a>
+                            @if (User.capDoTaiKhoan != 5)
+                            {
+                                <a onclick="Edit('@item.id')" class="btn btn-secondary  btn-custom">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </a>
+                            }
 
-
-                                </td>
+                        </td>
                         <td>@item.id</td>
                         <td>@item.tieuDe</td>
                         <td>@item.tenNguoiTao</td>
                         <td>@item.ngayTao.Value.ToString("dd/MM/yyyy")</td>
                         <td class="text-end">
-                            <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
-                                <i class="far fa-trash-alt"></i> Xóa
-                            </a>
+                            @if (User.capDoTaiKhoan != 5)
+                            {
+                                <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
+                                    <i class="far fa-trash-alt"></i> Xóa
+                                </a>
+                            }
+
 
                         </td>
                     </tr>
@@ -52,9 +58,3 @@
 
     </tbody>
 </table>
-
-<script>
-    function view(id) {
-          
-    }
-</script>

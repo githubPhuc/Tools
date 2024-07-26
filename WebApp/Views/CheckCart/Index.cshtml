@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Quản lý rổ hàng";
+    ViewBag.Title = "Kiểm tra rổ hàng";
     var user = ViewBag.user as ToolsApp.EntityFramework.User;
     var nhomBaiViets = ViewBag.nhomBaiViets as List<ToolsApp.EntityFramework.NhomBaiViet>;
     var ketCaus = ViewBag.ketCaus as List<ToolsApp.EntityFramework.KetCau>;
@@ -166,18 +166,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2 border-left">
-                                            <label for="dienTichSearch">Chiều dài</label>
-                                            <div class="d-flex">
-
-                                                <div class="form-group">
-                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiTu" name="ChieuDaiTu" placeholder="Từ">
-                                                </div>
-                                                <div class="form-group ml-1">
-                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiDen" name="ChieuDaiDen" placeholder="Đến">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 border-left">
                                             <label for="dienTichSearch">Chiều ngang</label>
                                             <div class="d-flex">
 
@@ -189,6 +177,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-2 border-left">
+                                            <label for="dienTichSearch">Chiều dài</label>
+                                            <div class="d-flex">
+
+                                                <div class="form-group">
+                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiTu" name="ChieuDaiTu" placeholder="Từ">
+                                                </div>
+                                                <div class="form-group ml-1">
+                                                    <input type="number" min=0.01 step=0.01 onkeypress="return event.charCode != 45" class="form-control" id="chieuDaiDen" name="ChieuDaiDen" placeholder="Đến">
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-4 border-left">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -606,5 +607,6 @@
         function ShowLog(id) {
             loadModal('Lịch sử bài viết', '@Url.Action("ShowLog")', myModal, { Id: id})
         };
+
     </script>
 }

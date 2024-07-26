@@ -67,7 +67,7 @@
         cursor: pointer;
     }
 </style>
-<table id="myTable" class="table table-bordered table-striped">
+<table id="myTable" class="table dataTable-custom table-bordered table-striped">
     <thead>
         <tr>
             <th>Mã</th>
@@ -75,8 +75,8 @@
                 Ghi chú
             </th>
             <th>Khách hàng</th>
-            <th>Tình trạng</th>
             <th>Địa chỉ</th>
+            <th style="width:100px">Tình trạng</th>
             <th style="width:200px">Giá bán</th>
             <th style="width:350px">Thông tin nhà</th>
             <th></th>
@@ -89,7 +89,7 @@
                 foreach (var item in data)
                 {
 
-                    <tr>
+                    <tr class="tr-response-mb">
                          <td>
                                     @($"{100000 + item.id}")
                         </td>
@@ -148,18 +148,6 @@
 
                         </td>
                         <td>
-                            <div class="editable d-inline" data-id="@item.id">
-                                <span class="text-white font-weight-bold rounded displayValue p-1" style="background-color:@(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "#6c757d"); font-size:12px">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
-                                <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
-                                    @foreach (var item1 in tinhTrangs)
-                                    {
-                                        <option value="@item1.Id" @(item.tinhTrang == item1.Id ? "selected" : "")>@item1.MoTa</option>
-                                    }
-                                </select>
-                            </div>
-
-                        </td>
-                        <td>
                             <div class="editable" data-id="@item.id" data-house-number="@GetHouseNumber(item.diaChiTaiSan)" data-street-name="@GetStreetName(item.diaChiTaiSan)">
                                 <i class="fa-solid fa-house"></i>
                                 <a class="showHomeNumber" data-id="@item.id" href="javascript:void(0);">Số nhà</a>
@@ -174,6 +162,18 @@
                                 <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.moTaViTri) ? "-" : item.moTaViTri)</span>
 
                             </div>
+                        </td>
+                        <td>
+                            <div class="editable d-inline" data-id="@item.id">
+                                <span class="text-white font-weight-bold rounded displayValue p-1" style="background-color:@(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "#6c757d"); font-size:12px">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
+                                <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
+                                    @foreach (var item1 in tinhTrangs)
+                                    {
+                                        <option value="@item1.Id" @(item.tinhTrang == item1.Id ? "selected" : "")>@item1.MoTa</option>
+                                    }
+                                </select>
+                            </div>
+
                         </td>
                         <td>
                             <div class="">
@@ -198,7 +198,7 @@
 
                         </td>
                         <td>
-                            <div class="d-flex flex-column">
+                            <div class="">
                                 <div class="row">
                                     <div class="editable col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
@@ -212,15 +212,7 @@
                                        <span>m</span>
 
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="editable d-inline " data-id="@item.id">
-                                            <i class="fa-solid fa-compass"></i>
-                                            <span class="displayValue"> @item.huong</span>
-                                            
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
 
                                         @if (item.KetCau != null)
                                         {
@@ -234,47 +226,16 @@
                                         }
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-center flex-wrap">
-                                    <span class="editable" data-id="@item.id">
-                                        <i class="fa-solid fa-building"></i>
-                                        <span>Mô tả</span> -
-                                        <i class="displayValue">@item.motaKetCau</i>
-                                    </span>
-                                    <span class="editable" data-id="@item.id">
-                                        <i class="fa-solid fa-industry"></i>
-                                        <span>Số phòng</span>
-                                        <i class="displayValue">@item.soPhong</i>
-                                    </span>
-                                </div>
-                                <div class="d-flex justify-content-around mt-1">
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT đất:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichDat
-                                        </i>
-                                     
-                                    </div>
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT sử dụng:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichSuDung
-                                        </i>
-                                      </div>
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT xây dựng:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichXayDung
-                                        </i>
-                                     /div>
-                                </div>
+                            
                             </div>
                         </td>
                         <td>
-                            <div class="text-center d-flex flex-wrap">
-
-
+                            <div class="d-flex justify-content-center flex-wrap">
                                 <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-info">
                                     <i class="fas fa-share"></i> Share
+                                </a>
+                                <a href='@Url.Action("Detail", new { id = item.id })' target="_blank" class="btn btn-custom btn-success">
+                                    <i class="fa-solid fa-circle-info"></i> Chi tiết
                                 </a>
                                 <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-primary">
                                     <i class="fas fa-image"></i> Ảnh
@@ -282,7 +243,6 @@
                                 <a onclick="ShowLog('@item.id')" class="btn btn-custom btn-warning">
                                     <i class="fa-solid fa-rectangle-list"></i> Log
                                 </a>
-
                             </div>
                         </td>
                     </tr>
