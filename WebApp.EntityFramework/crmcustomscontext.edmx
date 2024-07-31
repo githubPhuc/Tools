@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CRM_CustomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CRM_CustomsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BaiViet">
           <Key>
             <PropertyRef Name="id" />
@@ -174,6 +174,18 @@
           <Property Name="nguoiXoa" Type="int" />
           <Property Name="xacNhanXoa" Type="bit" />
           <Property Name="congThucTinhLuong" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="MapLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="keyMap" Type="nvarchar(max)" />
+          <Property Name="valueMap" Type="nvarchar(max)" />
+          <Property Name="typeMap" Type="nvarchar(max)" />
+          <Property Name="status" Type="bit" />
+          <Property Name="Controller" Type="nvarchar(max)" />
+          <Property Name="parentId" Type="int" />
         </EntityType>
         <EntityType Name="Menus">
           <Key>
@@ -516,6 +528,7 @@
         </Association>
         <Function Name="insert_loghistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUser" Type="int" Mode="In" />
+          <Parameter Name="IdBaiViet" Type="int" Mode="In" />
           <Parameter Name="ipUserHostAddress" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="moTa" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="moTaChiTiet" Type="nvarchar(max)" Mode="In" />
@@ -529,6 +542,7 @@
           <EntitySet Name="KetCau" EntityType="Self.KetCau" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LogHistorys" EntityType="Self.LogHistorys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Luong" EntityType="Self.Luong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MapLog" EntityType="Self.MapLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhomBaiViet" EntityType="Self.NhomBaiViet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
@@ -601,8 +615,7 @@
             <End Role="UserLuong" EntitySet="UserLuong" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CRM_CustomsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1229,11 +1242,25 @@
           </AssociationSet>
           <FunctionImport Name="insert_loghistory">
             <Parameter Name="idUser" Mode="In" Type="Int32" />
+            <Parameter Name="IdBaiViet" Mode="In" Type="Int32" />
             <Parameter Name="ipUserHostAddress" Mode="In" Type="String" />
             <Parameter Name="moTa" Mode="In" Type="String" />
             <Parameter Name="moTaChiTiet" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="MapLogs" EntityType="CRM_CustomsModel.MapLog" />
         </EntityContainer>
+        <EntityType Name="MapLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="keyMap" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="valueMap" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="typeMap" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="Controller" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="parentId" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1573,6 +1600,19 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="insert_loghistory" FunctionName="CRM_CustomsModel.Store.insert_loghistory" />
+          <EntitySetMapping Name="MapLogs">
+            <EntityTypeMapping TypeName="CRM_CustomsModel.MapLog">
+              <MappingFragment StoreEntitySet="MapLog">
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="typeMap" ColumnName="typeMap" />
+                <ScalarProperty Name="valueMap" ColumnName="valueMap" />
+                <ScalarProperty Name="keyMap" ColumnName="keyMap" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

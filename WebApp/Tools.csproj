@@ -3369,6 +3369,10 @@
     <Content Include="Scripts\tinymce\themes\silver\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Uploads\banner-la-gi.jpg" />
+    <Content Include="Uploads\logoHDP-removebg-preview.png" />
+    <Content Include="Uploads\Picture1.png" />
+    <Content Include="Uploads\WIN_20230205_15_07_56_Pro.jpg" />
     <Content Include="Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -3510,6 +3514,8 @@
     <Content Include="Views\CartManagerment\Detail.cshtml" />
     <Content Include="Scripts\tinymce\langs\README.md" />
     <Content Include="Scripts\tinymce\license.md" />
+    <Content Include="Uploads\Phân quyền_9ada13b6-7a3f-4f19-8025-6e6bf76f4de4.docx" />
+    <Content Include="Uploads\Phân quyền_dc711746-1e9a-4ea0-8ac5-654512c95273.docx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3520,7 +3526,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApp.EntityFramework\Tools.EntityFramework.csproj">

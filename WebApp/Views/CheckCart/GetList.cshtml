@@ -44,15 +44,18 @@
         padding: 0 2px
     }
 
-    .editable:hover::after {
-        display: block;
+    .editable {
+        cursor: pointer;
     }
+
+        .editable:hover::after {
+            display: block;
+        }
 
     .btn-custom {
         padding: 3px !important;
         margin-top: 4px;
         margin-left: 4px
-    
     }
 
     .func-menu a {
@@ -79,6 +82,7 @@
             <th style="width:100px">Tình trạng</th>
             <th style="width:200px">Giá bán</th>
             <th style="width:350px">Thông tin nhà</th>
+            <th>Ngày tạo</th>
             <th></th>
         </tr>
     </thead>
@@ -90,8 +94,8 @@
                 {
 
                     <tr class="tr-response-mb">
-                         <td>
-                                    @($"{100000 + item.id}")
+                        <td>
+                            @($"{100000 + item.id}")
                         </td>
 
                         <td>
@@ -133,14 +137,14 @@
                         </td>
                         <td>
                             <div class="d-flex flex-column">
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-user"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.tenKh) ? "-" : item.tenKh)</span>
                                 </div>
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
                                 </div>
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-mail-bulk"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.emailKh) ? "-" : item.emailKh)</span>
                                 </div>
@@ -158,7 +162,7 @@
                                     @GetHouseNumber(item.diaChiTaiSan)
                                 </span>
                             </div>
-                            <div class="editable" data-id="@item.id">
+                            <div class="" data-id="@item.id">
                                 <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.moTaViTri) ? "-" : item.moTaViTri)</span>
 
                             </div>
@@ -177,7 +181,7 @@
                         </td>
                         <td>
                             <div class="">
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     @{
                                         var idTyGia = nhomBaiViet.FirstOrDefault(a => a.id == item.idNhomBaiViet).idTyGia;
                                         var donvi = tyGia.FirstOrDefault(a => a.Id == idTyGia).MoTa;
@@ -192,7 +196,7 @@
 
                             </div>
                             <hr />
-                            <div class="editable" data-id="@item.id">
+                            <div class="" data-id="@item.id">
                                 <i class="displayValue">@(string.IsNullOrWhiteSpace(item.moTaGia) ? "-" : item.moTaGia)</i>
                             </div>
 
@@ -200,16 +204,16 @@
                         <td>
                             <div class="">
                                 <div class="row">
-                                    <div class="editable col-md-3" data-id="@item.id">
+                                    <div class=" col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
                                         <span class="displayValue">@item.chieuNgang</span>
                                         <span>m</span>
 
                                     </div>
-                                    <div class="editable col-md-3" data-id="@item.id">
+                                    <div class=" col-md-3" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-up-down"></i>
                                         <span class="displayValue">@item.chieuDai</span>
-                                       <span>m</span>
+                                        <span>m</span>
 
                                     </div>
                                     <div class="col-md-6">
@@ -220,15 +224,23 @@
                                             <div class="editable" data-id="@item.id">
                                                 <i class="fa-solid fa-city"></i>
                                                 <span class="displayValue"> @item.KetCau.tenKetCau</span>
-                                               
+                                                <select class="chosen-select quickEditGetList displayN quickSelect" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
+                                                    @foreach (var kc in ketCaus)
+                                                    {
+                                                        <option value="@kc.id" @(item.idKetCau == kc.id ? "selected" : "")> @kc.tenKetCau</option>
+                                                    }
+
+                                                    }
+                                                </select>
                                             </div>
 
                                         }
                                     </div>
                                 </div>
-                            
+
                             </div>
                         </td>
+                        <td>@item.ngayTao</td>
                         <td>
                             <div class="d-flex justify-content-center flex-wrap">
                                 <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-info">
@@ -323,7 +335,10 @@
                         console.error('Failed to clear session:', error);
                     }
             });
-            $(this).hide()
+                $(this).hide()
+                console.log(houseNumber)
+                console.log(streetName)
+
             if (houseNumber && streetName) {
                 parent.find('.displayValue').text(houseNumber + " " + streetName);
             } else if (!houseNumber && streetName) {
@@ -334,7 +349,7 @@
                 parent.find('.displayValue').text("Chưa có địa chỉ");
             }
             });
- 
+
         //chinh sửa nhanh
         $('.call-button').on('click', function () {
             $(this).closest('.call-container').find('.call-confirm').toggle();
@@ -366,6 +381,57 @@
                 });
             })
         }
+             $(document).on('dblclick', '.editable', function () {
+                var $this = $(this);
+                var $displayValue = $this.find('.displayValue');
+                var $quickEditGetList = $this.find('.quickEditGetList');
+                $displayValue.hide();
+                $quickEditGetList.show()
+                $quickEditGetList.focus()
+            });
+            $(document).on('blur', '.quickEditGetList', function () {
+                console.log("calling")
+                var $this = $(this);
+                var $editable = $this.closest('.editable');
+                var idBaiViet = $editable.data('id');
+                var $displayValue = $this.siblings('.displayValue');
+                var newValue = $this.val();
+                var inputName = $this.attr('name');
+                var data = {
+                    id: idBaiViet,
+                };
+                data[inputName] = newValue; //
+                $.ajax({
+                    url: '@Url.Action("QuickUpdateBaiViet")',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        if (response.success == true) {
+                            if ($this.is('select')) {
+                                notify("Cập nhật thành công", "success")
+                                var selectedText = $this.find('option:selected').text();
+                                $displayValue.text(selectedText);
+                            } else {
+                                notify("Cập nhật thành công", "success")
+                                $displayValue.text(newValue);
+                            }
+                        }
 
-  
+                    },
+                    error: function (error) {
+                        // Handle the error response
+                        notify('Có lỗi xảy ra');
+                    },
+                    complete: function () {
+                        $this.hide();
+                        $displayValue.show();
+                    }
+                });
+            });
+            $(document).on('keydown', '.quickEditGetList', function (event) {
+                if (event.key === 'Enter') {
+                    $(this).blur();
+                }
+            });
+
 </script>

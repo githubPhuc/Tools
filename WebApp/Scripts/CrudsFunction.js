@@ -17,6 +17,10 @@ function htmlToText(html) {
 }
 //bo so nha
 function removeHouseNumber(address) {
+    if (address == null || address == "") {
+        notify("Tài sản này chưa có địa chỉ!")
+        return;
+    }
     address = address.trim();
     return address.replace(/^\d+[\d\/]*\s*/, '').trim();
 }

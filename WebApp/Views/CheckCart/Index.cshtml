@@ -341,7 +341,8 @@
             var citis = document.getElementById("idThanhPho");
             var districts = document.getElementById("idQuanHuyen");
             var wards = document.getElementById("idPhuongXa");
-           
+
+
             var Parameter = {
                 url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
                 method: "GET",
@@ -354,7 +355,7 @@
 
             function renderCity(data) {
                 for (const x of data) {
-                    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+                    citis.options[citis.options.length] = new Option(x.Name, x.Name);
 
                 }
                 citis.onchange = function () {

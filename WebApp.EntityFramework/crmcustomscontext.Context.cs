@@ -42,12 +42,17 @@ namespace ToolsApp.EntityFramework
         public virtual DbSet<UserAuthorization> UserAuthorizations { get; set; }
         public virtual DbSet<UserLuong> UserLuongs { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<MapLog> MapLogs { get; set; }
     
-        public virtual int insert_loghistory(Nullable<int> idUser, string ipUserHostAddress, string moTa, string moTaChiTiet)
+        public virtual int insert_loghistory(Nullable<int> idUser, Nullable<int> idBaiViet, string ipUserHostAddress, string moTa, string moTaChiTiet)
         {
             var idUserParameter = idUser.HasValue ?
                 new ObjectParameter("idUser", idUser) :
                 new ObjectParameter("idUser", typeof(int));
+    
+            var idBaiVietParameter = idBaiViet.HasValue ?
+                new ObjectParameter("IdBaiViet", idBaiViet) :
+                new ObjectParameter("IdBaiViet", typeof(int));
     
             var ipUserHostAddressParameter = ipUserHostAddress != null ?
                 new ObjectParameter("ipUserHostAddress", ipUserHostAddress) :
@@ -61,7 +66,7 @@ namespace ToolsApp.EntityFramework
                 new ObjectParameter("moTaChiTiet", moTaChiTiet) :
                 new ObjectParameter("moTaChiTiet", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_loghistory", idUserParameter, ipUserHostAddressParameter, moTaParameter, moTaChiTietParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_loghistory", idUserParameter, idBaiVietParameter, ipUserHostAddressParameter, moTaParameter, moTaChiTietParameter);
         }
     }
 }

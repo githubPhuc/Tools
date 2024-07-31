@@ -36,6 +36,7 @@
         <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Pages" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_UserAuthorizations_Users" ManuallyRouted="false" />
         <AssociationConnector Association="CRM_CustomsModel.FK_UserLuong_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CRM_CustomsModel.MapLog" Width="1.5" PointX="8.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

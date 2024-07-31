@@ -96,6 +96,9 @@
     <Compile Include="Luong.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
+    <Compile Include="MapLog.cs">
+      <DependentUpon>crmcustomscontext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <DependentUpon>crmcustomscontext.tt</DependentUpon>
     </Compile>
