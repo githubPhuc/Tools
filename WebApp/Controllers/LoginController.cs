@@ -60,6 +60,7 @@ namespace ToolsApp.Controllers
                         serializeModel.soDienThoai = user.soDienThoai;
                         serializeModel.anhDaiDien = user.anhDaiDien;
                         serializeModel.ipUserHostAddress = userIpAddress;
+                        serializeModel.dangThuViec = user.dangThuViec??true;
 
                         try
                         {

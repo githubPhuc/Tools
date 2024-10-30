@@ -43,6 +43,10 @@ namespace ToolsApp
                             newUser.tenTaiKhoan = serializeModel.tenTaiKhoan;
                             newUser.hoVaTen = serializeModel.hoVaTen;
                             newUser.email = serializeModel.email;
+                            newUser.dangThuViec = serializeModel.dangThuViec;
+                            newUser.anhDaiDien = serializeModel.anhDaiDien;
+                            newUser.soDienThoai = serializeModel.soDienThoai;
+                            newUser.ipUserHostAddress = serializeModel.ipUserHostAddress;
                             HttpContext.Current.User = newUser;
                         }                        
                     }

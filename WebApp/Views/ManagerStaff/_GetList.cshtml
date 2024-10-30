@@ -12,6 +12,7 @@
             <th>Tên nhân viên</th>
             <th>Email</th>
             <th>Số điện thoại</th>
+            <th>Hình thức làm việc</th>
             <th>Trạng thái</th>
             <th>Quyền</th>
             <th>Hồ sơ nhân viên</th>
@@ -27,6 +28,21 @@
                 <td>@item.email</td>
                 <td>@item.soDienThoai</td>
                 <td>
+                    @if (item.dangThuViec == false)
+                    {
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-circle" style="color: green;"></i>
+                            <span class="ml-1">Chính thức</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-circle" style="color: red;"></i>
+                            <span class="ml-1">Thử việc</span>
+                        </div>
+                    }
+                <td>
                     @if (item.hieuLuc == true)
                     {
                         <div class="d-flex align-items-center">
@@ -41,6 +57,7 @@
                             <span class="ml-1">Đã khóa</span>
                         </div>
                     }
+                </td>
                 </td>
                 <td>@(dataAccountType.FirstOrDefault(t => t.Id == item.capDoTaiKhoan)?.MoTa ?? "Chưa cập nhật quyền")</td>
                 <td>

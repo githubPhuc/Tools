@@ -127,13 +127,23 @@ namespace ToolsApp.Controllers
 
             ViewBag.tyGia = tyGia;
             ViewBag.nhomBaiViet = nhomBaiViet;
-            var recordsTotal = query.Count();
-            var totalPages = (int)Math.Ceiling((double)recordsTotal / itemPerPage);
 
-            var data = query.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToList();
-
-            ViewBag.danhSachBaiViet = data;
-            ViewBag.totalPages = totalPages;
+            if (User.dangThuViec == true)
+            {
+                var recordsTotal = 100;
+                var totalPages = (int)Math.Ceiling((double)Math.Min(recordsTotal, 100) / itemPerPage);
+                var data = query.Take(100).Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToList();
+                ViewBag.danhSachBaiViet = data;
+                ViewBag.totalPages = totalPages;
+            }
+            else
+            {
+                var recordsTotal = query.Count();
+                var totalPages = (int)Math.Ceiling((double)recordsTotal / itemPerPage);
+                var data = query.Skip(itemPerPage * (page - 1)).Take(itemPerPage).ToList();
+                ViewBag.danhSachBaiViet = data;
+                ViewBag.totalPages = totalPages;
+            }
             ViewBag.page = page;
 
             return PartialView();

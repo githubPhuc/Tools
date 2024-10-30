@@ -28,6 +28,7 @@ namespace ToolsApp.Authentication
         public string email { get; set; }
         public int capDoTaiKhoan { get; set; }
         public string ipUserHostAddress { get; set; }
+        public bool dangThuViec { get; set; }
     }
 
     public class CustomPrincipalSerializeModel
@@ -40,5 +41,6 @@ namespace ToolsApp.Authentication
         public string email { get; set; }
         public int capDoTaiKhoan { get; set; }
         public string ipUserHostAddress { get; set; }
+        public bool dangThuViec { get; set; }
     }
 }

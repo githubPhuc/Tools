@@ -116,6 +116,7 @@ namespace ToolsApp.Areas.Admin.Controllers
                         ngayXoa = DateTime.Now,
                         nguoiXoa = User.UserId,
                         xacNhanXoa = false,
+                        dangThuViec = true,
                     };
                     db_.Users.Add(data);
                     db_.SaveChanges();
