@@ -39,6 +39,10 @@ namespace ToolsApp.Controllers
                             (string.IsNullOrEmpty(UsernameSearch) || a.tenTaiKhoan.ToUpper().Contains(UsernameSearch.ToUpper())) &&
                             (string.IsNullOrEmpty(FullnameSearch) || (a.hoVaTen).ToUpper().Contains(FullnameSearch.ToUpper())) && a.xacNhanXoa == false
                         ).ToList();
+            if (User.tenTaiKhoan.ToUpper() != "admin".ToUpper())
+            {
+                list = list.Where(a => a.tenTaiKhoan != "admin").ToList();
+            }
             ViewBag.list = list;
             var dataUser = db_.Users.Where(a => a.tenTaiKhoan == User.tenTaiKhoan).FirstOrDefault();
             var dataAccountType =  db_.Configs.Where(a => a.parentId == 1).ToList();
