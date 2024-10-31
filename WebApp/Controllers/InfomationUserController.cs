@@ -75,6 +75,12 @@ namespace ToolsApp.Controllers
         [HttpPost]
         public JsonResult saveChuKy(string content, int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var user = db_.Users.FirstOrDefault(a => a.Id == Id);
             if (user == null) return Json(new { success = false });
             user.chuKyUser = content;
@@ -125,6 +131,12 @@ namespace ToolsApp.Controllers
         {
             try
             {
+                var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+                if (ParenUser.capDoTaiKhoan == 5)
+                {
+                    return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+                }
                 var user = db_.Users.FirstOrDefault(a => a.Id == Id);
                 if (user == null)
                 {
@@ -176,6 +188,12 @@ namespace ToolsApp.Controllers
         [AllowAnonymous]
         public JsonResult _SaveInfo(NhanVienUserViewModel model, int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var item = db_.Users.FirstOrDefault(a => a.Id == Id);
             try
             {
@@ -201,7 +219,13 @@ namespace ToolsApp.Controllers
         [HttpPost]
         public JsonResult _SaveInfoContact(NhanVienUserViewModel model, int Id)
         {
-             var item = db_.Users.FirstOrDefault(a => a.Id == Id);
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+            var item = db_.Users.FirstOrDefault(a => a.Id == Id);
              item.email = model.Email;
              item.soDienThoai = model.SoDienThoai;
              item.soDienThoaiKhac = model.SoDienThoaiKhac;
@@ -215,6 +239,12 @@ namespace ToolsApp.Controllers
         [AllowAnonymous]
         public JsonResult _SaveInfoPersonal(NhanVienUserViewModel model, int Id)
         {
+            var ParenUser = db_.Users.FirstOrDefault(a => a.Id == User.UserId);
+            if (ParenUser.capDoTaiKhoan == 5)
+            {
+                return Json(new { status = -1, title = "", text = "Bạn không có quyền truy cập chức năng này.", obj = "" }, JsonRequestBehavior.AllowGet);
+
+            }
             var item = db_.Users.FirstOrDefault(a => a.Id == Id);
             try
             {
