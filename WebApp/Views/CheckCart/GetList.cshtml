@@ -44,15 +44,18 @@
         padding: 0 2px
     }
 
-    .editable:hover::after {
-        display: block;
+    .editable {
+        cursor: pointer;
     }
+
+        .editable:hover::after {
+            display: block;
+        }
 
     .btn-custom {
         padding: 3px !important;
         margin-top: 4px;
         margin-left: 4px
-    
     }
 
     .func-menu a {
@@ -67,19 +70,21 @@
         cursor: pointer;
     }
 </style>
-<table id="myTable" class="table table-bordered table-striped">
+<table id="myTable" class="table dataTable-custom table-bordered table-striped">
     <thead>
         <tr>
-            <th>Mã</th>
-            <th>
+            <th style="width:30px">Mã</th>
+
+            <th style="width:150px">
                 Ghi chú
             </th>
-            <th>Khách hàng</th>
-            <th>Tình trạng</th>
-            <th>Địa chỉ</th>
-            <th style="width:200px">Giá bán</th>
-            <th style="width:350px">Thông tin nhà</th>
-            <th></th>
+            <th style="width:100px">Khách hàng</th>
+            <th style="width:100px">Tình trạng</th>
+            <th style="width:200px">Địa chỉ</th>
+            <th style="width:100px">Giá bán</th>
+            <th style="width:250px">Thông tin nhà</th>
+            <th>Ngày tạo</th>
+            <th style="width:250px">Công cụ</th>
         </tr>
     </thead>
     <tbody>
@@ -89,9 +94,9 @@
                 foreach (var item in data)
                 {
 
-                    <tr>
-                         <td>
-                                    @($"{100000 + item.id}")
+                    <tr class="tr-response-mb">
+                        <td>
+                            @($"{100000 + item.id}")
                         </td>
 
                         <td>
@@ -133,29 +138,17 @@
                         </td>
                         <td>
                             <div class="d-flex flex-column">
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-user"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.tenKh) ? "-" : item.tenKh)</span>
                                 </div>
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-phone"></i>
                                 </div>
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     <i class="fas fa-mail-bulk"></i>
                                     <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.emailKh) ? "-" : item.emailKh)</span>
                                 </div>
-                            </div>
-
-                        </td>
-                        <td>
-                            <div class="editable d-inline" data-id="@item.id">
-                                <span class="text-white font-weight-bold rounded displayValue p-1" style="background-color:@(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "#6c757d"); font-size:12px">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
-                                <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
-                                    @foreach (var item1 in tinhTrangs)
-                                    {
-                                        <option value="@item1.Id" @(item.tinhTrang == item1.Id ? "selected" : "")>@item1.MoTa</option>
-                                    }
-                                </select>
                             </div>
 
                         </td>
@@ -170,14 +163,26 @@
                                     @GetHouseNumber(item.diaChiTaiSan)
                                 </span>
                             </div>
-                            <div class="editable" data-id="@item.id">
+                            <div class="" data-id="@item.id">
                                 <span class="displayValue"> @(string.IsNullOrWhiteSpace(item.moTaViTri) ? "-" : item.moTaViTri)</span>
 
                             </div>
                         </td>
                         <td>
+                            <div class="editable d-inline" data-id="@item.id">
+                                <span class="text-white font-weight-bold rounded displayValue p-1" style="background-color:@(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.moTaChiTiet ?? "#6c757d"); font-size:12px">   @(tinhTrangs.FirstOrDefault(t => t.Id == item.tinhTrang)?.MoTa ?? "Chưa cập nhật")</span>
+                                <select class=" chosen-select quickEditGetList displayN quickSelect" name="tinhTrang" aria-label=".form-select-md">
+                                    @foreach (var item1 in tinhTrangs)
+                                    {
+                                        <option value="@item1.Id" @(item.tinhTrang == item1.Id ? "selected" : "")>@item1.MoTa</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </td>
+                        <td>
                             <div class="">
-                                <div class="editable" data-id="@item.id">
+                                <div class="" data-id="@item.id">
                                     @{
                                         var idTyGia = nhomBaiViet.FirstOrDefault(a => a.id == item.idNhomBaiViet).idTyGia;
                                         var donvi = tyGia.FirstOrDefault(a => a.Id == idTyGia).MoTa;
@@ -192,35 +197,27 @@
 
                             </div>
                             <hr />
-                            <div class="editable" data-id="@item.id">
+                            <div class="" data-id="@item.id">
                                 <i class="displayValue">@(string.IsNullOrWhiteSpace(item.moTaGia) ? "-" : item.moTaGia)</i>
                             </div>
 
                         </td>
                         <td>
-                            <div class="d-flex flex-column">
+                            <div class="">
                                 <div class="row">
-                                    <div class="editable col-md-3" data-id="@item.id">
+                                    <div class=" col-md-6 text-center" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-left-right"></i>
                                         <span class="displayValue">@item.chieuNgang</span>
                                         <span>m</span>
 
                                     </div>
-                                    <div class="editable col-md-3" data-id="@item.id">
+                                    <div class=" col-md-6 text-center" data-id="@item.id">
                                         <i class="fa-solid fa-arrows-up-down"></i>
                                         <span class="displayValue">@item.chieuDai</span>
-                                       <span>m</span>
+                                        <span>m</span>
 
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="editable d-inline " data-id="@item.id">
-                                            <i class="fa-solid fa-compass"></i>
-                                            <span class="displayValue"> @item.huong</span>
-                                            
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-12 text-center mt-1">
 
                                         @if (item.KetCau != null)
                                         {
@@ -228,61 +225,40 @@
                                             <div class="editable" data-id="@item.id">
                                                 <i class="fa-solid fa-city"></i>
                                                 <span class="displayValue"> @item.KetCau.tenKetCau</span>
-                                               
+                                                <select class="chosen-select quickEditGetList displayN quickSelect" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
+                                                    @foreach (var kc in ketCaus)
+                                                    {
+                                                        <option value="@kc.id" @(item.idKetCau == kc.id ? "selected" : "")> @kc.tenKetCau</option>
+                                                    }
+
+                                                    }
+                                                </select>
                                             </div>
 
                                         }
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-center flex-wrap">
-                                    <span class="editable" data-id="@item.id">
-                                        <i class="fa-solid fa-building"></i>
-                                        <span>Mô tả</span> -
-                                        <i class="displayValue">@item.motaKetCau</i>
-                                    </span>
-                                    <span class="editable" data-id="@item.id">
-                                        <i class="fa-solid fa-industry"></i>
-                                        <span>Số phòng</span>
-                                        <i class="displayValue">@item.soPhong</i>
-                                    </span>
-                                </div>
-                                <div class="d-flex justify-content-around mt-1">
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT đất:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichDat
-                                        </i>
-                                     
-                                    </div>
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT sử dụng:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichSuDung
-                                        </i>
-                                      </div>
-                                    <div class="editable" data-id="@item.id">
-                                        <span>DT xây dựng:</span>
-                                        <i class="font-weight-bold displayValue">
-                                            @item.dienTichXayDung
-                                        </i>
-                                     /div>
-                                </div>
+
                             </div>
                         </td>
+                        <td>@item.ngayTao</td>
                         <td>
-                            <div class="text-center d-flex flex-wrap">
-
-
+                            <div class="d-flex justify-content-center flex-wrap">
                                 <a onclick="Share('@item.id')" class="btn btn-custom text-white btn-info">
                                     <i class="fas fa-share"></i> Share
+                                </a>
+                                <a href='@Url.Action("Detail", new { id = item.id })' target="_blank" class="btn btn-custom btn-success">
+                                    <i class="fa-solid fa-circle-info"></i> Chi tiết
                                 </a>
                                 <a onclick="ShowImages('@item.id')" class="btn btn-custom btn-primary">
                                     <i class="fas fa-image"></i> Ảnh
                                 </a>
+                                <a onclick="DownloadImages('@item.id')" class="btn btn-custom btn-light" style="border:1px solid #ccc">
+                                    <i class="fa-solid fa-download"></i> Lưu ảnh
+                                </a>
                                 <a onclick="ShowLog('@item.id')" class="btn btn-custom btn-warning">
                                     <i class="fa-solid fa-rectangle-list"></i> Log
                                 </a>
-
                             </div>
                         </td>
                     </tr>
@@ -363,7 +339,10 @@
                         console.error('Failed to clear session:', error);
                     }
             });
-            $(this).hide()
+                $(this).hide()
+                console.log(houseNumber)
+                console.log(streetName)
+
             if (houseNumber && streetName) {
                 parent.find('.displayValue').text(houseNumber + " " + streetName);
             } else if (!houseNumber && streetName) {
@@ -374,7 +353,7 @@
                 parent.find('.displayValue').text("Chưa có địa chỉ");
             }
             });
- 
+
         //chinh sửa nhanh
         $('.call-button').on('click', function () {
             $(this).closest('.call-container').find('.call-confirm').toggle();
@@ -406,6 +385,57 @@
                 });
             })
         }
+             $(document).on('dblclick', '.editable', function () {
+                var $this = $(this);
+                var $displayValue = $this.find('.displayValue');
+                var $quickEditGetList = $this.find('.quickEditGetList');
+                $displayValue.hide();
+                $quickEditGetList.show()
+                $quickEditGetList.focus()
+            });
+            $(document).on('blur', '.quickEditGetList', function () {
+                console.log("calling")
+                var $this = $(this);
+                var $editable = $this.closest('.editable');
+                var idBaiViet = $editable.data('id');
+                var $displayValue = $this.siblings('.displayValue');
+                var newValue = $this.val();
+                var inputName = $this.attr('name');
+                var data = {
+                    id: idBaiViet,
+                };
+                data[inputName] = newValue; //
+                $.ajax({
+                    url: '@Url.Action("QuickUpdateBaiViet")',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        if (response.success == true) {
+                            if ($this.is('select')) {
+                                notify("Cập nhật thành công", "success")
+                                var selectedText = $this.find('option:selected').text();
+                                $displayValue.text(selectedText);
+                            } else {
+                                notify("Cập nhật thành công", "success")
+                                $displayValue.text(newValue);
+                            }
+                        }
 
-  
+                    },
+                    error: function (error) {
+                        // Handle the error response
+                        notify('Có lỗi xảy ra');
+                    },
+                    complete: function () {
+                        $this.hide();
+                        $displayValue.show();
+                    }
+                });
+            });
+            $(document).on('keydown', '.quickEditGetList', function (event) {
+                if (event.key === 'Enter') {
+                    $(this).blur();
+                }
+            });
+
 </script>

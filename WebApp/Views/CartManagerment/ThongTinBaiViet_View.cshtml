@@ -14,7 +14,7 @@
                     <div class="col-sm-12">
                         <div class="row">
                             <div class="col-lg-10">
-                                <h4 class="mb-4 ">Thông tin tài sản @Model.id</h4>
+                                <h4 class="mb-4 ">Thông tin tài sản    @($"{100000 + @Model.id}")</h4>
                             </div>
                             <div class="col-lg-2">
                                 <div class="quickEdit d-flex align-items-center">
@@ -38,23 +38,32 @@
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-success">Địa chỉ tài sản</h6>
                             </div>
-                            <div class="col-md-10 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
                                 <input value="@Model.diaChiTaiSan" data-id="@Model.id" class="form-control quickEdit" type="text" id="diaChiTaiSan" name="diaChiTaiSan">
-                                <hr />
+
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <select class=" form-control chosen-select" id="khuVucTimKiem" name="khuVucTimKiem" aria-label=".form-select-md">
+                                    <option value="hcm">Khu vực - TP Hồ Chí Minh</option>
+                                    <option value="">Khu vực - Khác</option>
+                            </select>
+
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-success">Địa chỉ đầy đủ</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
                                 <select class=" form-control chosen-select quickEdit" data-id="@Model.id" style="width: 100%" id="diaChiDayDu" name="diaChiDayDu" aria-label=".form-select-md">
-                                    <option value="@Model.diaChiDayDu" >@Model.diaChiDayDu</option>
+                                    <option value="@Model.diaChiDayDu">@Model.diaChiDayDu</option>
 
                                 </select>
-                                <hr />
+
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="col-sm-2">
                                 <h6 class="mb-0 text-danger">Chiều ngang</h6>
@@ -71,7 +80,7 @@
                                 <h6 class="mb-0 text-danger">Chiều dài</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="@Model.chieuDai" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id"  id="chieuDai" name="chieuDai">
+                                <input value="@Model.chieuDai" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" id="chieuDai" name="chieuDai">
                                 <hr>
                             </div>
                         </div>
@@ -81,7 +90,7 @@
                                 <h6 class="mb-0 text-danger">Diện tích đất</h6>
                             </div>
                             <div class="col-md-10 col-sm-12">
-                                <input value="@Model.dienTichDat" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichDat" name="dienTichDat">
+                                <input value="@Model.dienTichDat" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="dienTichDat" name="dienTichDat">
                                 <hr>
                             </div>
 
@@ -116,7 +125,7 @@
                                 <div class="row">
                                     <div class="col-lg-4 d-flex flex-column">
                                         <i class="">Giá</i>
-                                        <input value="@Model.giaBan" class="form-control quickEdit"  min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
+                                        <input value="@Model.giaBan" class="form-control quickEdit" min=0.01 step=0.01 onkeypress="return event.charCode != 45" data-id="@Model.id" type="number" id="giaBan" name="giaBan">
                                         <span id="donGiaLabel" class=" text-danger font-weight-bold mt-2">
                                         </span>
                                     </div>
@@ -303,7 +312,17 @@
 
         //Map auto fill
         $('#diaChiTaiSan').on('blur', function () {
-            var address = $(this).val();
+            var khuVucTimKiem = $("#khuVucTimKiem").val(); 
+            var diaChiTaiSan = $(this).val(); 
+            var address = `${diaChiTaiSan}, ${khuVucTimKiem}`;
+            if (address) {
+                geocodeAddress(address);
+            }
+        });
+        $('#khuVucTimKiem').on('change', function () {
+            var khuVucTimKiem = $(this).val();
+            var diaChiTaiSan = $('#diaChiTaiSan').val();
+            var address = `${diaChiTaiSan}, ${khuVucTimKiem}`;
             if (address) {
                 geocodeAddress(address);
             }
@@ -409,7 +428,7 @@
         })
 
         //quickUpdate select2
-            $("select").on('change', function () {
+        $("select:not(#khuVucTimKiem)").on('change', function () {
                 var $this = $(this);
                 var idBaiViet = $this.data('id');
                 var newValue = $this.val();

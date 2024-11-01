@@ -21,22 +21,22 @@
             {
                 foreach (var item in data)
                 {
-                    <tr>
-                                <td>
-                                    <a onclick="Edit('@item.id')" class="btn btn-secondary btn-custom">
-                                        <i class="fas fa-edit"></i> Sửa
-                                    </a>
-                                    <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
-                                        <i class="far fa-trash-alt"></i> Xóa
-                                    </a>
-                                </td>
-                        <td>@item.id</td>
-                        <td>@item.tenNhom</td>
-                        <td>@item.MoTa</td>
-                        <td>@item.tenTyGia</td>
-                        <td>@item.tenNguoiTao</td>
-                        <td>@item.ngayTao.Value.ToString("dd/MM/yyyy")</td>
-                    </tr>
+                <tr>
+                    <td>
+                        <a onclick="Edit('@item.id')" class="btn btn-secondary btn-custom">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <a onclick="Delete('@item.id')" class="btn btn-danger btn-custom">
+                            <i class="far fa-trash-alt"></i> Xóa
+                        </a>
+                    </td>
+                    <td><span class="bg-info p-2 rounded">N-@item.id</span></td>
+                    <td>@item.tenNhom</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.tenTyGia</td>
+                    <td>@item.tenNguoiTao</td>
+                    <td>@item.ngayTao.Value.ToString("dd/MM/yyyy")</td>
+                </tr>
                 }
             }
 

@@ -1,0 +1,417 @@
+﻿@model ToolsApp.EntityFramework.BaiViet
+@{
+    ViewBag.Title = "Thông tin chi tiết";
+    ViewBag.hinhAnhList = ViewBag.urlPaths as List<ToolsApp.Models.HinhAnhBaiVietDto>;
+}
+
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-md-12 mt-4 table-body-HinhAnh table-responsive">
+                <style>
+                    .upload_dropZone {
+                        color: #0f3c4b;
+                        background-color: var(--colorPrimaryPale, #c8dadf);
+                        outline: 2px dashed var(--colorPrimaryHalf, #c1ddef);
+                        outline-offset: -12px;
+                        transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out, background-color 0.2s ease-out;
+                    }
+
+                        .upload_dropZone.highlight {
+                            outline-offset: -4px;
+                            outline-color: var(--colorPrimaryNormal, #0576bd);
+                            background-color: var(--colorPrimaryEighth, #c8dadf);
+                        }
+
+                    .upload_svg {
+                        fill: var(--colorPrimaryNormal, #0576bd);
+                    }
+
+                    .btn-upload {
+                        color: #fff;
+                        background-color: var(--colorPrimaryNormal);
+                    }
+
+                        .btn-upload:hover,
+                        .btn-upload:focus {
+                            color: #fff;
+                            background-color: var(--colorPrimaryGlare);
+                        }
+
+                    .upload_img {
+                        max-width: 450px;
+                        height: 300px;
+                        object-fit: contain;
+                    }
+
+                    .btn-del-img {
+                        font-weight: bold;
+                        background: #dc3545;
+                        opacity: 0.8;
+                        color: #fff;
+                        border-radius: 50%;
+                        padding: 3px 11px;
+                    }
+
+                        .btn-del-img:hover {
+                            cursor: pointer;
+                            opacity: 1;
+                        }
+
+                    .anhNha {
+                        cursor: pointer;
+                    }
+                </style>
+                <form>
+                    <fieldset class="upload_dropZone text-center mb-3 p-4">
+                        <svg class="upload_svg" width="60" height="60" aria-hidden="true">
+                            <use href="#icon-imageUpload"></use>
+                        </svg>
+
+                     
+                        <div class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0">
+                            @if (ViewBag.urlPaths != null)
+                            {
+                                foreach (var p in ViewBag.urlPaths)
+                                {
+                                    var extension = System.IO.Path.GetExtension(p.UrlPath).ToLower();
+                                    <div class="anhNha d-flex flex-column">
+                                        @if (extension == ".pdf")
+                                        {
+                                            <a href="@Url.Content(p.UrlPath.ToString())" target="_blank" class="pdf-link">
+                                                <img src="~/Content/images/pdfImage.png" alt="" />
+                                                <span class="pdf-placeholder">PDF File</span>
+                                            </a>
+
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Content(p.UrlPath)" data-fancybox="gallery">
+                                                <img class="upload_img p-1" loading="lazy" src="@Url.Content(p.UrlPath)" alt="Ảnh bài viết" />
+                                            </a>
+                                        }
+                                      
+
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </fieldset>
+
+                </form>
+                <svg style="display:none">
+                    <defs>
+                        <symbol id="icon-imageUpload" clip-rule="evenodd" viewBox="0 0 96 96">
+                            <path d="M47 6a21 21 0 0 0-12.3 3.8c-2.7 2.1-4.4 5-4.7 7.1-5.8 1.2-10.3 5.6-10.3 10.6 0 6 5.8 11 13 11h12.6V22.7l-7.1 6.8c-.4.3-.9.5-1.4.5-1 0-2-.8-2-1.7 0-.4.3-.9.6-1.2l10.3-8.8c.3-.4.8-.6 1.3-.6.6 0 1 .2 1.4.6l10.2 8.8c.4.3.6.8.6 1.2 0 1-.9 1.7-2 1.7-.5 0-1-.2-1.3-.5l-7.2-6.8v15.6h14.4c6.1 0 11.2-4.1 11.2-9.4 0-5-4-8.8-9.5-9.4C63.8 11.8 56 5.8 47 6Zm-1.7 42.7V38.4h3.4v10.3c0 .8-.7 1.5-1.7 1.5s-1.7-.7-1.7-1.5Z M27 49c-4 0-7 2-7 6v29c0 3 3 6 6 6h42c3 0 6-3 6-6V55c0-4-3-6-7-6H28Zm41 3c1 0 3 1 3 3v19l-13-6a2 2 0 0 0-2 0L44 79l-10-5a2 2 0 0 0-2 0l-9 7V55c0-2 2-3 4-3h41Z M40 62c0 2-2 4-5 4s-5-2-5-4 2-4 5-4 5 2 5 4Z" />
+                        </symbol>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-4 table-body-ThongTinBaiViet table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body info">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                <h4 class="mb-4 ">Thông tin tài sản    @($"{100000 + @Model.id}")</h4>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <div class=" d-flex align-items-center">
+                                                    <h6 class="mr-2 cm-tw-underline">Nhóm</h6>
+                                                    <select class=" form-control chosen-select"  style="width: 100%" id="idNhomBaiViet" name="idNhomBaiViet" aria-label=".form-select-md">
+                                                            <option value="">@Model.NhomBaiViet.tenNhom</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Địa chỉ tài sản</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.diaChiTaiSan"  class="form-control " type="text" id="diaChiTaiSan" name="diaChiTaiSan">
+                                                <hr />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Địa chỉ đầy đủ</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <select class=" form-control chosen-select "  style="width: 100%" id="diaChiDayDu" name="diaChiDayDu" aria-label=".form-select-md">
+                                                    <option value="@Model.diaChiDayDu">@Model.diaChiDayDu</option>
+
+                                                </select>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Chiều ngang</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.chieuNgang" class="form-control "  min=0.01 step=0.01 onkeypress="return event.charCode != 45" type="number" id="chieuNgang" name="chieuNgang">
+                                                <hr>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Chiều dài</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.chieuDai" class="form-control " min=0.01 step=0.01 onkeypress="return event.charCode != 45"  id="chieuDai" name="chieuDai">
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Diện tích đất</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.dienTichDat" class="form-control " min=0.01 step=0.01 onkeypress="return event.charCode != 45"  type="number" id="dienTichDat" name="dienTichDat">
+                                                <hr>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Diện tích xây dựng</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.dienTichXayDung" class="form-control "  min=0.01 step=0.01 onkeypress="return event.charCode != 45" type="number" id="dienTichXayDung" name="dienTichXayDung">
+                                                <hr>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Diện tích sử dụng</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <input value="@Model.dienTichSuDung" class="form-control " min=0.01 step=0.01 onkeypress="return event.charCode != 45"type="number" id="dienTichSuDung" name="dienTichSuDung">
+
+                                                <hr>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-danger">Giá bán</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-lg-4 d-flex flex-column">
+                                                        <i class="">Giá</i>
+                                                        <input value="@Model.giaBan" class="form-control" min=0.01 step=0.01 onkeypress="return event.charCode != 45"  type="number" id="giaBan" name="giaBan">
+                                                        <span id="donGiaLabel" class=" text-danger font-weight-bold mt-2">
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <i>Ghi chú giá bán</i>
+                                                        <textarea class="form-control" name="moTaGia" >@Model.moTaGia</textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Vị trí</h6>
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <div class="d-flex">
+                                                    <div class="form-check ">
+                                                        <input class="form-check-input " type="radio" id="viTriMatTien" disabled name="viTri"  value="true" @(Model.viTri.HasValue && Model.viTri.Value ? "checked" : "")>
+                                                        <label class="form-check-label" for="viTriMatTien">Mặt tiền</label>
+                                                    </div>
+                                                    <div class="form-check ml-3">
+                                                        <input class="form-check-inpu " type="radio" id="viTriHem" disabled name="viTri"  value="false" @(Model.viTri.HasValue && !Model.viTri.Value ? "checked" : "")>
+                                                        <label class="form-check-label" for="viTriHem">Hẻm</label>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0">Mô tả vị trí</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <textarea rows="2" class="form-control "  id="moTaViTri" name="moTaViTri">@Model.moTaViTri</textarea>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Kết cấu</h6>
+                                            </div>
+                                            <div class="col-sm-10 ">
+                                                <select class="form-control chosen-select" style="width: 100%" id="idKetCau" name="idKetCau" aria-label=".form-select-md">
+                                                        <option value="">@Model.KetCau.tenKetCau</option>
+                                                </select>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Số phòng</h6>
+                                            </div>
+                                            <div class="col-sm-10 ">
+                                                <input value="@Model.soPhong" class="form-control " min=1 step=1 onkeypress="return event.charCode != 45"  type="number" id="soPhong" name="soPhong">
+                                                <hr>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 ">Mô tả kết cấu</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <textarea rows="2" cols="50" value="" class="form-control "  id="motaKetCau" name="motaKetCau">@Model.motaKetCau</textarea>
+                                                <hr />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <h6 class="mb-0 text-success">Hướng</h6>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12">
+                                                <select class="form-control chosen-select" style="width: 100%" id="huong" name="huong" aria-label=".form-select-md">
+                                                    <option value="@Model.huong">
+                                                        @Model.huong
+                                                    </option>
+                                                    
+                                                </select>
+                                                <hr>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-2"></div>
+                                            <div class="col-sm-10">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h6 class="mb-0 text-center font-weight-bold">Thông tin thêm</h6>
+                                                        <hr />
+                                                        <div class="row text-center">
+                                                            <div class="col-lg-4">
+                                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> đất</p>
+                                                                <i class="font-weight-bold" id="giaM2Dat"> @String.Format("{0:0,0 đ}", @Model.giaM2Dat)</i>
+
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> xây dựng</p>
+                                                                <i class="font-weight-bold" id="giaM2XayDung"> @String.Format("{0:0,0 đ}", @Model.giaM2XayDung)</i>
+
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <p class="font-weight-bold text-danger">Giá m<sup>2</sup> sử dụng</p>
+                                                                <i class="font-weight-bold" id="giaM2SuDung"> @String.Format("{0:0,0 đ}", @Model.giaM2SuDung)</i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body info">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="mb-4 ">Thông tin khách hàng</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6>Thông tin liên hệ</h6>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input value="@Model.tenKh" class="form-control "  placeholder="Tên khách hàng" type="text" id="tenKh" name="tenKh">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input value="@Model.sdtKh" placeholder="Số điện thoại" class="form-control "  type="number" id="sdtKh" name="sdtKh">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input value="@Model.diachiKh" class="form-control "  placeholder="Địa chỉ" type="text" id="diachiKh" name="diachiKh">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input value="@Model.emailKh"  class="form-control " type="email" placeholder="Email" id="emailKh" name="emailKh">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <h6>Thông tin cá nhân</h6>
+                                            <div class="col-md-12 col-sm-12">
+                                                <input value="@Model.CCCDKh"  placeholder="Nhập số CCCD / Chứng minh thư" class="form-control " type="text" id="CCCDKh" name="CCCDKh">
+                                            </div>
+
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mt-4 table-body-ThongTinKhachHang table-responsive">
+
+        </div>
+
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("select").each(function () {
+                $(this).select2()
+            })
+            $("input, select , textarea").each(function () {
+                $(this).prop("disabled", true);
+                $(this).css("background-color", "#fff");
+            });
+        })
+  
+    </script>
+    }
+    

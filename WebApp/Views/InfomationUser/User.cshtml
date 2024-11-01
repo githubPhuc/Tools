@@ -445,12 +445,12 @@
                 notify("Email chưa hợp lệ");
                 return;
             }
-                ActionFunc('@Url.Action("_SaveInfoContact")', 'POST', formData, "", function (response) {
-                    if (response) {
+           ActionFunc('@Url.Action("_SaveInfoContact")', 'POST', formData, "", function (response) {
+               if (response.status == 1) {
                         loadThongTinLienHe();
                     }
                     else {
-                        notify("Lỗi khi gửi request")
+                notify(response.text)
                     }
                 })
                 handleShowHide('contact');
@@ -463,15 +463,31 @@
                 SoTaiKhoan: $('#soTaiKhoan').val().trim(),
                 TenTaiKhoanNganHang: $('#tenTaiKhoanNganHang').val().trim(),
             }
-            ActionFunc('@Url.Action("_SaveInfoPersonal")', 'POST', formData, "", function (response) {
-                if (response) {
-                    console.log(response)
+            $.ajax({
+                url: '@Url.Action("_SaveInfoContact")',
+                timeout: 2000000,
+                type: "POST",
+                data: formData,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                beforeSend: function (xhr) {
+                    $(".divLoading").addClass("loading");
+                },
+            }).done(function (data) {
+                if (data.status == 1) {
                     loadThongTinCaNhan();
                 }
                 else {
-                    notify("Lỗi khi gửi request")
+                    notify(data.text)
                 }
-            })
+
+                $(".divLoading").removeClass("loading");
+
+            }).fail(function (message) {
+                $(".divLoading").removeClass("loading");
+            });
+
             handleShowHide('personal')
         }
     </script>

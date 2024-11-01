@@ -172,6 +172,7 @@ function ActionFunc(action, type, formData, token, callback) {
             if (callback) {
              callback(data, null);
             }
+            $(".divLoading").removeClass("loading");
         }).fail(function (message) {
             $(".divLoading").removeClass("loading");
         });
