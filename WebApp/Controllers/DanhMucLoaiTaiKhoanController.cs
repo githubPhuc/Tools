@@ -24,7 +24,7 @@ namespace ToolsApp.Controllers
         }
         public async Task<ActionResult> GetList(string MoTaSearch)
         {
-            var data = db_.Configs.Where(a=>a.parentId == appGlobal.IdDanhMucLoaiTaiKhoan && a.xacNhanXoa ==false &&(string.IsNullOrEmpty(MoTaSearch) ==true || a.MoTa.ToUpper().Contains(MoTaSearch.ToUpper()))).ToList();
+            var data =await db_.Configs.Where(a=>a.parentId == appGlobal.IdDanhMucLoaiTaiKhoan && a.xacNhanXoa ==false &&(string.IsNullOrEmpty(MoTaSearch) ==true || a.MoTa.ToUpper().Contains(MoTaSearch.ToUpper()))).ToListAsync();
             ViewBag.data = data;
             return PartialView();
         }

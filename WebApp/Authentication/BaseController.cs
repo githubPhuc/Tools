@@ -17,7 +17,6 @@ namespace ToolsApp.Authentication
             }
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
-            bool UserHasPermission = false;
             string actionName = context.ActionDescriptor.ActionName;
             string controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
             string httpMethod = context.HttpContext.Request.HttpMethod;

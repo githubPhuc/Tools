@@ -429,8 +429,10 @@ namespace ToolsApp.Controllers
                 {
                     if (file != null && file.ContentLength > 0)
                     {
-                        var uploadsPath = Server.MapPath("~/Uploads/Realestate");
-                        var fileName = Path.GetFileName(file.FileName);
+                        var uploadsPath = Server.MapPath("~/Uploads");
+                        string uniqueFileName = Guid.NewGuid().ToString();
+                        string fileExtension = Path.GetExtension(file.FileName);
+                        string fileName = uniqueFileName + fileExtension;
                         var filePath = Path.Combine(uploadsPath, fileName);
                         if (!Directory.Exists(uploadsPath))
                         {
@@ -438,7 +440,7 @@ namespace ToolsApp.Controllers
                         }
 
                         file.SaveAs(filePath);
-                        var relativePath = $"~/Uploads/Realestate/{fileName}";
+                        var relativePath = $"~/Uploads/{fileName}";
 
                         var hinhAnh = new HinhAnh
                         {
@@ -468,7 +470,6 @@ namespace ToolsApp.Controllers
                     }
                 }
             }
-
             return Json(new { success = true });
         }
         [HttpPost]
