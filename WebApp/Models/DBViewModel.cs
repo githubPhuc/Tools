@@ -436,6 +436,12 @@ namespace ToolsApp.Models
         public int Id { get; set; }
         public string UrlPath { get; set; }
     }
+    public class HinhAnhBaiViet_GetClound_Dto
+    {
+        public int Id { get; set; }
+        public string UrlPath { get; set; }
+        public string fileExtension { get; set; }
+    }
     public class TyGiaViewModel
     {
         public int Id { get; set; }

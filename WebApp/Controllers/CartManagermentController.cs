@@ -8,6 +8,8 @@ using ToolsApp.Authentication;
 using ToolsApp.EntityFramework;
 using ToolsApp.Models;
 using System.IO;
+using ToolsApp.Utilities;
+using System.Threading.Tasks;
 
 namespace ToolsApp.Controllers
 {
@@ -161,6 +163,42 @@ namespace ToolsApp.Controllers
             return View();
 
         }
+        public async Task<ActionResult> Detail(int id)
+        {
+            var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
+            if (baiViet == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy bài viết" });
+            }
+            string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+            string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+            string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+            string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+            var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
+
+            var hinhAnhList = db_.HinhAnhBaiViets
+               .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+               .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+               .ToList();
+            var tasks = hinhAnhList.Select(async hbv => new HinhAnhBaiViet_GetClound_Dto
+            {
+                Id = hbv.id,
+                fileExtension = Path.GetExtension(hbv.urlPath).TrimStart('.'),
+                UrlPath = await r2Uploader.GetFileAsync(hbv.urlPath)
+            }).ToList();
+            var urlPaths = await Task.WhenAll(tasks);
+            //var hinhAnhList = db_.HinhAnhBaiViets
+            //     .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+            //     .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+            //     .ToList();
+            //var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+            //{
+            //    Id = hbv.id,
+            //    UrlPath = Url.Content(hbv.urlPath).Replace("~", Request.Url.Scheme + "://" + Request.Url.Authority)
+            //}).ToList();
+            ViewBag.urlPaths = urlPaths;
+            return View(baiViet);
+        }
 
         public ActionResult ThongTinBaiViet_View(int? id)
         {
@@ -239,7 +277,7 @@ namespace ToolsApp.Controllers
 
             return PartialView(baiViet);
         }
-        public ActionResult hinhAnh_View(int? id)
+        public async Task<ActionResult> hinhAnh_View(int? id)
         {
             BaiViet baiViet;
             if (id.HasValue)
@@ -260,31 +298,50 @@ namespace ToolsApp.Controllers
                 }
 
             }
-            var urlPaths = db_.HinhAnhBaiViets
-                 .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
-                 .Select(hbv => new HinhAnhBaiVietDto
-                 {
-                     Id = hbv.id,
-                     UrlPath = hbv.HinhAnh.urlPath
-                 })
-                 .ToList();
+            string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+            string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+            string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+            string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+            var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
+
+            var hinhAnhList = db_.HinhAnhBaiViets
+               .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
+               .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
+               .ToList();
+            var tasks = hinhAnhList.Select(async hbv => new HinhAnhBaiViet_GetClound_Dto
+            {
+                Id = hbv.id,
+                fileExtension = Path.GetExtension(hbv.urlPath).TrimStart('.'),
+                UrlPath = await r2Uploader.GetFileAsync(hbv.urlPath)
+            }).ToList();
+            var urlPaths = await Task.WhenAll(tasks);
+
             ViewBag.urlPaths = urlPaths;
 
             return PartialView(baiViet);
         }
         [HttpPost]
-        public JsonResult ShowImages(int id)
+        public async Task<JsonResult> ShowImages(int id)
         {
+            string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+            string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+            string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+            string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+            var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
+
             var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
             var hinhAnhList = db_.HinhAnhBaiViets
                .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
                .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
                .ToList();
-            var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+            var tasks = hinhAnhList.Select(async hbv => new HinhAnhBaiViet_GetClound_Dto
             {
                 Id = hbv.id,
-                UrlPath = Url.Content(hbv.urlPath).Replace("~", Request.Url.Scheme + "://" + Request.Url.Authority)
+                fileExtension = Path.GetExtension(hbv.urlPath).TrimStart('.'),
+                UrlPath = await r2Uploader.GetFileAsync(hbv.urlPath)
             }).ToList();
+            var urlPaths = await Task.WhenAll(tasks);
+            
             LogHistory log = new LogHistory
             {
                 IdBaiViet = id,
@@ -421,14 +478,20 @@ namespace ToolsApp.Controllers
             return Json(new { success = true });
         }
         [HttpPost]
-        public ActionResult AddFilesToBaiViet(IEnumerable<HttpPostedFileBase> files, int id)
+        public async Task<ActionResult> AddFilesToBaiViet(IEnumerable<HttpPostedFileBase> files, int id)
         {
             if (files != null)
             {
+                string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+                string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+                string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+                string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+                var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
                 foreach (var file in files)
                 {
                     if (file != null && file.ContentLength > 0)
                     {
+                        #region Created info file
                         var uploadsPath = Server.MapPath("~/Uploads");
                         string uniqueFileName = Guid.NewGuid().ToString();
                         string fileExtension = Path.GetExtension(file.FileName);
@@ -438,42 +501,44 @@ namespace ToolsApp.Controllers
                         {
                             Directory.CreateDirectory(uploadsPath);
                         }
-
+                        string r2ObjectName = "Uploads/" + fileName;
                         file.SaveAs(filePath);
-                        var relativePath = $"~/Uploads/{fileName}";
-
-                        var hinhAnh = new HinhAnh
+                        #endregion
+                        var result = await r2Uploader.UploadFileAsync(filePath, r2ObjectName);
+                        if(result)
                         {
-                            urlPath = relativePath,
-                            ngayTao = DateTime.Now,
-                            nguoiTao = User.UserId,
-                            nguoiCapNhat = User.UserId,
-                            ngayCapNhat = DateTime.Now,
-                            trangThai = true
-                        };
-
-                        db_.HinhAnhs.Add(hinhAnh);
-                        db_.SaveChanges();
-
-                        var hinhAnhBaiViet = new HinhAnhBaiViet
-                        {
-                            idBaiViet = id,
-                            idHinhAnh = hinhAnh.id,
-                            trangThai = true,
-                            ngayTao = DateTime.Now,
-                            nguoiTao = User.UserId,
-                            nguoiCapNhat = User.UserId,
-                            ngayCapNhat = DateTime.Now,
-                        };
-                        db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
-                        db_.SaveChanges();
+                            //var relativePath = $"/Uploads/{fileName}";
+                            var hinhAnh = new HinhAnh
+                            {
+                                urlPath = r2ObjectName,
+                                ngayTao = DateTime.Now,
+                                nguoiTao = User.UserId,
+                                nguoiCapNhat = User.UserId,
+                                ngayCapNhat = DateTime.Now,
+                                trangThai = true
+                            };
+                            db_.HinhAnhs.Add(hinhAnh);
+                            db_.SaveChanges();
+                            var hinhAnhBaiViet = new HinhAnhBaiViet
+                            {
+                                idBaiViet = id,
+                                idHinhAnh = hinhAnh.id,
+                                trangThai = true,
+                                ngayTao = DateTime.Now,
+                                nguoiTao = User.UserId,
+                                nguoiCapNhat = User.UserId,
+                                ngayCapNhat = DateTime.Now,
+                            };
+                            db_.HinhAnhBaiViets.Add(hinhAnhBaiViet);
+                            db_.SaveChanges();
+                        }    
                     }
                 }
             }
             return Json(new { success = true });
         }
         [HttpPost]
-        public JsonResult RemoveImage(int Id)
+        public async Task<JsonResult> RemoveImage(int Id)
         {
             using (var transaction = db_.Database.BeginTransaction())
             {
@@ -484,28 +549,41 @@ namespace ToolsApp.Controllers
                     {
                         var idHinhAnh = hinhAnhBaiViet.idHinhAnh;
                         var hinhAnh = db_.HinhAnhs.FirstOrDefault(c => c.id == idHinhAnh);
-                        var path = hinhAnh.urlPath;
-                        db_.HinhAnhBaiViets.Remove(hinhAnhBaiViet);
-                        if (hinhAnh != null)
+                        if(hinhAnh!=null)
                         {
-                            db_.HinhAnhs.Remove(hinhAnh);
-                        }
-                        db_.SaveChanges();
-                        transaction.Commit();
-
-                        try
-                        {
-                            string absolutePath = System.Web.Hosting.HostingEnvironment.MapPath(path);
-                            if (System.IO.File.Exists(absolutePath))
+                            var path = hinhAnh.urlPath;
+                            try
                             {
-                                System.IO.File.Delete(absolutePath);
+                                string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+                                string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+                                string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+                                string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+                                var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
+                                bool result = await r2Uploader.DeleteFileAsync(path);
+                                if (result)
+                                {
+                                    db_.HinhAnhBaiViets.Remove(hinhAnhBaiViet);
+                                    if (hinhAnh != null)
+                                    {
+                                        db_.HinhAnhs.Remove(hinhAnh);
+                                    }
+                                    db_.SaveChanges();
+                                    transaction.Commit();
+                                    return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." }, JsonRequestBehavior.AllowGet);
+                                }
+                                else
+                                {
+                                    return Json(new { success = false, message = "Hình ảnh đã được xóa không thành công thành công." }, JsonRequestBehavior.AllowGet);
+                                }
                             }
-
-                            return Json(new { success = true, message = "Hình ảnh đã được xóa thành công." }, JsonRequestBehavior.AllowGet);
+                            catch (Exception ex)
+                            {
+                                return Json(new { success = false, message = "Xảy ra lỗi khi xóa file: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                            }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            return Json(new { success = false, message = "Xảy ra lỗi khi xóa file: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                            return Json(new { success = false, message = "Không tìm thấy hình ảnh." }, JsonRequestBehavior.AllowGet);
                         }
                     }
                     else

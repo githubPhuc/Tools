@@ -13,8 +13,6 @@ namespace ToolsApp.Controllers
 {
     public class LoginController : BaseController
     {
-
-
         crmcustomscontext db = new crmcustomscontext();
         // GET: Login
         [AllowAnonymous]

@@ -74,11 +74,11 @@
             {
               foreach (var p in ViewBag.urlPaths)
             {
-                 var extension = System.IO.Path.GetExtension(p.UrlPath).ToLower();
+                 var extension = "."+p.fileExtension;
             <div class="anhNha d-flex flex-column">
                 @if (extension == ".pdf")
                 {
-                    <a href="@Url.Content(p.UrlPath.ToString())" target="_blank" class="pdf-link">
+                    <a href="@p.UrlPath.ToString()" target="_blank" class="pdf-link">
                         <img src="~/Content/images/pdfImage.png" alt="" />
                         <span class="pdf-placeholder">PDF File</span>
                     </a>
@@ -86,8 +86,8 @@
                 }
                 else
                 {
-                    <a href="@Url.Content(p.UrlPath)" data-fancybox="gallery">
-                        <img class="upload_img p-1" loading="lazy" src="@Url.Content(p.UrlPath)" alt="Ảnh bài viết" />
+                    <a href="@p.UrlPath.ToString()" data-fancybox="gallery">
+                        <img class="upload_img p-1" loading="lazy" src="@p.UrlPath.ToString()" alt="Ảnh bài viết" />
                     </a>
                 }
                 <div>

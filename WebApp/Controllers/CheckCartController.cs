@@ -8,6 +8,8 @@ using ToolsApp.Authentication;
 using ToolsApp.EntityFramework;
 using ToolsApp.Models;
 using System.IO;
+using ToolsApp.Utilities;
+using System.Threading.Tasks;
 
 namespace ToolsApp.Controllers
 {
@@ -150,21 +152,37 @@ namespace ToolsApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult ShowImages(int id)
+        public async Task<JsonResult> ShowImages(int id)
         {
+            string myBucketName = ToolsApp.Utilities.AppParameters.myBucketName;
+            string myAccessKeyId = ToolsApp.Utilities.AppParameters.myAccessKeyId;
+            string mySecretAccessKey = ToolsApp.Utilities.AppParameters.mySecretAccessKey;
+            string myServiceUrl = ToolsApp.Utilities.AppParameters.myServiceUrl;
+            var r2Uploader = new SystemCloudflareR2(myBucketName, myAccessKeyId, mySecretAccessKey, myServiceUrl);
+
             var baiViet = db_.BaiViets.FirstOrDefault(a => a.id == id);
             var hinhAnhList = db_.HinhAnhBaiViets
                .Where(hbv => hbv.idBaiViet == baiViet.id && hbv.trangThai == true)
                .Select(hbv => new { hbv.id, hbv.HinhAnh.urlPath })
                .ToList();
-
-            // Chuyển đổi đường dẫn tương đối thành đường dẫn tuyệt đối
-            var urlPaths = hinhAnhList.Select(hbv => new HinhAnhBaiVietDto
+            var tasks = hinhAnhList.Select(async hbv => new HinhAnhBaiViet_GetClound_Dto
             {
                 Id = hbv.id,
-                UrlPath = Url.Content(hbv.urlPath).Replace("~", Request.Url.Scheme + "://" + Request.Url.Authority)
+                fileExtension = Path.GetExtension(hbv.urlPath).TrimStart('.'),
+                UrlPath = await r2Uploader.GetFileAsync(hbv.urlPath)
             }).ToList();
+            var urlPaths = await Task.WhenAll(tasks);
 
+            LogHistory log = new LogHistory
+            {
+                IdBaiViet = id,
+                idUser = User.UserId,
+                nguoiTao = User.UserId,
+                moTa = "Click xem hình ảnh ",
+                ngayTao = DateTime.Now
+            };
+            db_.LogHistorys.Add(log);
+            db_.SaveChanges();
             return Json(new { success = true, response = urlPaths });
         }
         [HttpPost]
